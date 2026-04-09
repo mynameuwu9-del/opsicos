@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Opsicos</title>
+    <meta name="description" content="Get in touch with Opsicos support team. Contact us for technical support, business inquiries, or general questions about our AI services.">
+    <meta name="keywords" content="contact, support, Opsicos, AI assistance, technical support, business inquiries">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Contact Us - Opsicos">
+    <meta property="og:description" content="Get in touch with Opsicos support team for technical support, business inquiries, or general questions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://opsicos.genaura.xyz/contact">
+    <meta property="og:image" content="https://opsicos.genaura.xyz/images/opsicos_circle.avif">
+    <meta property="og:site_name" content="Opsicos">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact Us - Opsicos">
+    <meta name="twitter:description" content="Get in touch with Opsicos support team for technical support, business inquiries, or general questions.">
+    <meta name="twitter:image" content="https://opsicos.genaura.xyz/images/opsicos_circle.avif">
+
+    <link rel="canonical" href="https://opsicos.genaura.xyz/contact">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/avif" href="/images/opsicos_circle.avif">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png">
+
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/android-chrome-512x512.png">
+
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#8B0000">
+    <meta name="msapplication-TileImage" content="/images/mstile-144x144.png">
+    <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#8B0000">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #222;
+            --bg-hover: #2a2a2a;
+            --text-primary: #fff;
+            --text-secondary: #999;
+            --accent: #8B0000;
+            --accent-hover: #660000;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Main Content */
+        main {
+            padding: 4rem 0;
+            flex: 1;
+        }
+
+        .contact-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .contact-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-info {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .contact-info h2 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .contact-method:hover {
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .contact-details h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .contact-details a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .contact-details a:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .contact-form h2 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+    </style>
+
+    <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+    <link rel="stylesheet" href="/css/theme-switcher.css">
+    <script src="/js/theme-loader.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">Opsicos</a>
+                <nav class="nav-links">
+                    <a href="/">Home</a>
+                    <a href="/features">Features</a>
+                    <a href="/docs">Documentation</a>
+                    <a href="/contact">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="contact-hero">
+                <h1>Contact Us</h1>
+                <p>Get in touch with our team for support, business inquiries, or any questions about Opsicos AI services.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Get in Touch</h2>
+                    
+                    <div class="contact-method">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h3>Email Support</h3>
+                            <p>For technical support and general inquiries</p>
+                            <a href="mailto:support.opsicos@genaura.xyz">support.opsicos@genaura.xyz</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-details">
+                            <h3>Business Inquiries</h3>
+                            <p>For partnerships and business opportunities</p>
+                            <a href="mailto:business.opsicos@genaura.xyz">business.opsicos@genaura.xyz</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">🔧</div>
+                        <div class="contact-details">
+                            <h3>Technical Support</h3>
+                            <p>For API issues and technical assistance</p>
+                            <a href="mailto:tech.opsicos@genaura.xyz">tech.opsicos@genaura.xyz</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-details">
+                            <h3>Discord Community</h3>
+                            <p>Join our community for real-time support</p>
+                            <a href="https://discord.gg/5YQZ8KApwh" target="_blank">Join Discord</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <h2>Send us a Message</h2>
+                    
+                    <div class="message success" id="successMessage">
+                        Thank you for your message! We'll get back to you within 24 hours.
+                    </div>
+                    
+                    <div class="message error" id="errorMessage">
+                        There was an error sending your message. Please try again or contact us directly via email.
+                    </div>
+
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="technical-support">Technical Support</option>
+                                <option value="billing">Billing & Account</option>
+                                <option value="business">Business Inquiry</option>
+                                <option value="feature-request">Feature Request</option>
+                                <option value="bug-report">Bug Report</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" placeholder="Please describe your inquiry in detail..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Opsicos. All rights reserved.</p>
+            <p>
+                <a href="/terms">Terms of Service</a> |
+                <a href="/privacy">Privacy Policy</a> |
+                <a href="/contact">Contact Us</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to determine target email based on subject
+        function getTargetEmail(subject) {
+            const emailRouting = {
+                'billing': 'support.opsicos@genaura.xyz',
+                'bug-report': 'support.opsicos@genaura.xyz',
+                'other': 'support.opsicos@genaura.xyz',
+                'technical-support': 'tech.opsicos@genaura.xyz',
+                'feature-request': 'tech.opsicos@genaura.xyz',
+                'business': 'business.opsicos@genaura.xyz'
+            };
+
+            return emailRouting[subject] || 'support.opsicos@genaura.xyz';
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.querySelector('.submit-btn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            try {
+                const formData = new FormData(this);
+
+                // Add target email based on subject selection
+                const subject = formData.get('subject');
+                const targetEmail = getTargetEmail(subject);
+                
+                // Get subject display name
+                const subjectNames = {
+                    'technical-support': 'Technical Support',
+                    'billing': 'Billing & Account',
+                    'business': 'Business Inquiry',
+                    'feature-request': 'Feature Request',
+                    'bug-report': 'Bug Report',
+                    'other': 'Other'
+                };
+
+                // Prepare data for Web3Forms
+                // IMPORTANT: This access key is linked to support.opsicos@genaura.xyz
+                // To get your own key: Visit https://web3forms.com/#start and enter your email
+                const web3FormsData = {
+                    access_key: 'c752082f-04c5-4f8a-8e0d-e7fbf7156d15', // Replace with your Web3Forms access key
+                    subject: `[Opsicos Contact] ${subjectNames[subject] || 'Contact Form'} - From ${formData.get('name')}`,
+                    from_name: formData.get('name'),
+                    email: formData.get('email'),
+                    message: `
+===== CONTACT FORM SUBMISSION =====
+Name: ${formData.get('name')}
+Email: ${formData.get('email')}
+Subject: ${subjectNames[subject] || subject}
+Routed To: ${targetEmail}
+===================================
+
+Message:
+${formData.get('message')}
+
+===================================
+Sent from: Opsicos Contact Form
+Date: ${new Date().toLocaleString()}
+                    `.trim(),
+                    // IMPORTANT: This will send to the appropriate email based on subject
+                    to: targetEmail,
+                    // Add CC to ensure delivery
+                    cc: 'support.opsicos@genaura.xyz',
+                    // Custom redirect after submission (optional)
+                    redirect: '',
+                    // Honeypot spam protection
+                    botcheck: ''
+                };
+
+                // Send via Web3Forms API
+                const web3Response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(web3FormsData)
+                });
+
+                const result = await web3Response.json();
+
+                if (result.success) {
+                    // Also log to your backend for record keeping
+                    fetch('/api/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: formData.get('name'),
+                            email: formData.get('email'),
+                            subject: formData.get('subject'),
+                            message: formData.get('message'),
+                            targetEmail: targetEmail,
+                            web3forms_sent: true
+                        })
+                    }).catch(err => console.log('Backend logging failed:', err));
+
+                    successMessage.style.display = 'block';
+                    this.reset();
+                } else {
+                    throw new Error(result.message || 'Failed to send message');
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                errorMessage.style.display = 'block';
+            } finally {
+                submitBtn.textContent = 'Send Message';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

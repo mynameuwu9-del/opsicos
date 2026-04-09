@@ -1,0 +1,33 @@
+{
+    "name": "Opsicos - Discord Bot Management Platform",
+    "short_name": "Opsicos",
+    "description": "Create and manage multiple Discord bots with AI integration, real-time monitoring, and enterprise-grade reliability.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#8B0000",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/images/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/images/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/images/opsicos_circle.avif",
+            "sizes": "any",
+            "type": "image/avif",
+            "purpose": "any"
+        }
+    ],
+    "categories": ["productivity", "utilities", "developer"],
+    "lang": "en-US",
+    "dir": "ltr"
+}

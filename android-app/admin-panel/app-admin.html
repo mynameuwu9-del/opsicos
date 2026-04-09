@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opsicos App Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .admin-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-header h1 {
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-header .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card h3 {
+            color: #666;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .stat-change {
+            font-size: 14px;
+            color: #4CAF50;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .stat-change.negative {
+            color: #f44336;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .upload-section {
+            border: 3px dashed #5865F2;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            background: #f8f9ff;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-section.dragover {
+            background: #e8ebff;
+            border-color: #4054d4;
+        }
+        
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #5865F2 0%, #7289DA 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+        }
+        
+        #upload-progress {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #5865F2, #7289DA);
+            transition: width 0.3s ease;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        thead {
+            background: #f8f9fa;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        
+        td {
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e3f2fd;
+            color: #1976d2;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .version-badge.current {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+        
+        .action-btn {
+            padding: 6px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        .action-btn.primary {
+            background: #5865F2;
+            color: white;
+        }
+        
+        .action-btn.danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .api-key-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .api-key-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .api-key-input:focus {
+            outline: none;
+            border-color: #5865F2;
+        }
+        
+        .users-table {
+            margin-top: 20px;
+        }
+        
+        .user-device {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .device-icon {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .activity-feed {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .api-key-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>
+                📱 Android App Admin Panel
+            </h1>
+            <div class="status">
+                <span class="status-dot" style="width: 10px; height: 10px; background: white; border-radius: 50%;"></span>
+                <span>System Online</span>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>📥 Total Downloads</h3>
+                <div class="stat-value" id="total-downloads">0</div>
+                <div class="stat-change">
+                    <span>↑ 0% from yesterday</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>👥 Active Users (24h)</h3>
+                <div class="stat-value" id="active-users">0</div>
+                <div class="stat-change">
+                    <span>↑ 0% from yesterday</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>📱 Current Version</h3>
+                <div class="stat-value" id="current-version">1.0.0</div>
+                <div class="stat-change">
+                    <span>Released today</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>🚀 API Calls Today</h3>
+                <div class="stat-value" id="api-calls">0</div>
+                <div class="stat-change">
+                    <span>↑ 0% from yesterday</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📦 Version Management</h2>
+            
+            <div class="upload-section" id="upload-zone">
+                <input type="file" id="apk-upload" accept=".apk" style="display: none;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="#5865F2" style="margin-bottom: 15px;">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
+                <h3 style="color: #333; margin-bottom: 10px;">Upload New APK</h3>
+                <p style="color: #666; margin-bottom: 20px;">Drag and drop your APK file here, or click to browse</p>
+                <button onclick="document.getElementById('apk-upload').click()" class="upload-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                    </svg>
+                    Choose APK File
+                </button>
+                <div id="upload-progress"></div>
+            </div>
+            
+            <h3 style="margin-top: 30px; margin-bottom: 15px;">📜 Version History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Version</th>
+                        <th>Release Date</th>
+                        <th>Size</th>
+                        <th>Downloads</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="version-history">
+                    <tr>
+                        <td>1.0.0</td>
+                        <td>Today</td>
+                        <td>8 MB</td>
+                        <td>0</td>
+                        <td><span class="version-badge current">Current</span></td>
+                        <td>
+                            <button class="action-btn primary">Set as Current</button>
+                            <button class="action-btn danger">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🔑 API Key Management</h2>
+            <p style="color: #666; margin-bottom: 20px;">This is your personal API key for the mobile app. Keep it secure!</p>
+            
+            <div class="api-key-section">
+                <input type="text" id="api-key" class="api-key-input" readonly 
+                       value="osk_personal_********************************">
+                <button onclick="toggleApiKey()" class="action-btn primary">
+                    <span id="toggle-text">Show</span>
+                </button>
+                <button onclick="copyApiKey()" class="action-btn primary">
+                    📋 Copy
+                </button>
+                <button onclick="regenerateApiKey()" class="action-btn danger">
+                    🔄 Regenerate
+                </button>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                <strong>⚠️ Warning:</strong> Regenerating the API key will invalidate the current key. The app will need to be updated with the new key.
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Usage Analytics</h2>
+            <div class="chart-container" id="usage-chart">
+                <canvas id="analytics-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🕐 Recent Activity</h2>
+            <div class="activity-feed" id="activity-feed">
+                <div class="activity-item">
+                    <div class="activity-icon" style="background: #e3f2fd;">
+                        📱
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">App Admin Panel Accessed</div>
+                        <div class="activity-time">Just now</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let apiKeyVisible = false;
+        let realApiKey = '';
+        
+        // Initialize drag and drop
+        const uploadZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('apk-upload');
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+        
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+        
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].name.endsWith('.apk')) {
+                handleFileUpload(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileUpload(file);
+            }
+        });
+        
+        async function handleFileUpload(file) {
+            const progressDiv = document.getElementById('upload-progress');
+            progressDiv.innerHTML = `
+                <div style="margin-top: 20px;">
+                    <p>Uploading ${file.name}...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            `;
+            
+            const formData = new FormData();
+            formData.append('apk', file);
+            
+            try {
+                // Simulate upload progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 10;
+                    document.querySelector('.progress-fill').style.width = progress + '%';
+                    if (progress >= 90) {
+                        clearInterval(progressInterval);
+                    }
+                }, 200);
+                
+                const response = await fetch('/api/mobile/admin/upload-apk', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                clearInterval(progressInterval);
+                document.querySelector('.progress-fill').style.width = '100%';
+                
+                if (response.ok) {
+                    progressDiv.innerHTML = '<div style="color: #4CAF50; margin-top: 20px;">✅ Upload successful! New version deployed.</div>';
+                    setTimeout(() => {
+                        progressDiv.innerHTML = '';
+                        loadStats();
+                    }, 3000);
+                } else {
+                    progressDiv.innerHTML = '<div style="color: #f44336; margin-top: 20px;">❌ Upload failed. Please try again.</div>';
+                }
+            } catch (error) {
+                progressDiv.innerHTML = '<div style="color: #f44336; margin-top: 20px;">❌ Error: ' + error.message + '</div>';
+            }
+        }
+        
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/mobile/admin/stats', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('mobileApiKey') || 'osk_personal_default'}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('total-downloads').textContent = data.totalDownloads || 0;
+                    document.getElementById('active-users').textContent = data.activeUsers || 0;
+                    document.getElementById('current-version').textContent = data.currentVersion || '1.0.0';
+                    document.getElementById('api-calls').textContent = data.apiCalls || 0;
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+        
+        async function loadApiKey() {
+            try {
+                const response = await fetch('/api/mobile/api-key', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('mobileApiKey') || 'osk_personal_default'}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    realApiKey = data.data.key;
+                    if (!apiKeyVisible) {
+                        document.getElementById('api-key').value = 'osk_personal_' + '*'.repeat(32);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load API key:', error);
+            }
+        }
+        
+        function toggleApiKey() {
+            apiKeyVisible = !apiKeyVisible;
+            const keyInput = document.getElementById('api-key');
+            const toggleText = document.getElementById('toggle-text');
+            
+            if (apiKeyVisible) {
+                keyInput.value = realApiKey || 'osk_personal_' + '*'.repeat(32);
+                toggleText.textContent = 'Hide';
+            } else {
+                keyInput.value = 'osk_personal_' + '*'.repeat(32);
+                toggleText.textContent = 'Show';
+            }
+        }
+        
+        function copyApiKey() {
+            const keyInput = document.getElementById('api-key');
+            const originalValue = keyInput.value;
+            
+            if (!apiKeyVisible && realApiKey) {
+                keyInput.value = realApiKey;
+            }
+            
+            keyInput.select();
+            document.execCommand('copy');
+            
+            if (!apiKeyVisible) {
+                keyInput.value = originalValue;
+            }
+            
+            // Show feedback
+            const btn = event.target.closest('button');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✅ Copied!';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        }
+        
+        async function regenerateApiKey() {
+            if (!confirm('Are you sure? This will invalidate the current API key and require updating the mobile app.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/mobile/admin/regenerate-key', { 
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${realApiKey || localStorage.getItem('mobileApiKey') || 'osk_personal_default'}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    realApiKey = data.newKey;
+                    
+                    if (apiKeyVisible) {
+                        document.getElementById('api-key').value = realApiKey;
+                    }
+                    
+                    localStorage.setItem('mobileApiKey', realApiKey);
+                    
+                    alert('API Key regenerated successfully! Make sure to update your mobile app.');
+                }
+            } catch (error) {
+                alert('Failed to regenerate API key: ' + error.message);
+            }
+        }
+        
+        // Initialize chart
+        function initChart() {
+            const ctx = document.getElementById('analytics-chart');
+            if (ctx && typeof Chart !== 'undefined') {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'API Calls',
+                            data: [120, 190, 300, 250, 420, 380, 450],
+                            borderColor: '#5865F2',
+                            backgroundColor: 'rgba(88, 101, 242, 0.1)',
+                            tension: 0.4
+                        }, {
+                            label: 'Active Users',
+                            data: [20, 35, 40, 38, 45, 42, 50],
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            loadApiKey();
+            initChart();
+            
+            // Refresh stats every 30 seconds
+            setInterval(loadStats, 30000);
+        });
+    </script>
+</body>
+</html>

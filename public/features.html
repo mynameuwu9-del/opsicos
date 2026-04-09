@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Features - Opsicos</title>
+  <link rel="canonical" href="https://opsicos.onrender.com/features">
+  <style>
+    :root {
+      --primary: #8B0000;
+      /* Deep Red */
+      --primary-dark: #660000;
+      /* Darker Red */
+      --secondary: #CCCCCC;
+      /* Light Gray */
+      --dark: #1a1a1a;
+      /* Very Dark Gray */
+      --darker: #000000;
+      /* Black */
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --success: #43B581;
+      --danger: #F04747;
+      --warning: #FAA61A;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--darker);
+      color: var(--text-primary);
+      padding: 1.5rem 0;
+      border-right: 1px solid var(--primary-dark);
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--primary-dark);
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-header h2 {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+    }
+
+    .sidebar-nav li {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background-color: var(--surface);
+      color: var(--text-primary);
+      border-left-color: var(--primary);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      background-color: var(--background);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--primary-dark);
+    }
+
+    .header h1 {
+      color: var(--text-primary);
+      font-size: 2rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+
+    .logout-btn {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .card {
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+      margin-bottom: 2rem;
+      border: 1px solid var(--primary-dark);
+    }
+
+    .card-header {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 1rem 1.5rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .bot-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .bot-feature-card {
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+      overflow: hidden;
+      border: 1px solid var(--primary-dark);
+    }
+
+    .bot-feature-header {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bot-avatar-small {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--primary-dark);
+    }
+
+    .bot-feature-body {
+      padding: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+
+    .form-group input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.5rem;
+      accent-color: var(--primary);
+    }
+
+    .form-group small {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      background-color: var(--dark);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .form-select option {
+      background-color: var(--dark);
+      color: var(--text-primary);
+      padding: 8px 12px;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      background-color: var(--secondary);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .feature-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .current-setting {
+      background-color: var(--dark);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--primary);
+    }
+
+    .current-setting strong {
+      color: var(--text-primary);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    .no-bots {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+
+    .no-bots h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .success-message {
+      background-color: rgba(67, 181, 129, 0.1);
+      color: var(--success);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--success);
+    }
+
+    .error-message {
+      background-color: rgba(240, 71, 71, 0.1);
+      color: var(--danger);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--danger);
+    }
+
+  </style>
+
+  <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-loader.js"></script>
+</head>
+
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>Opsicos</h2>
+        <p>Dashboard</p>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/dashboard">My Bots</a></li>
+        <li><a href="/docs">📚 Documentation</a></li>
+        <li><a href="/knowledge">Knowledge Management</a></li>
+        <li><a href="/stored-knowledge">Stored Knowledge</a></li>
+        <li><a href="/behavior">🎭 Bot Behavior</a></li>
+        <li><a href="/bot-smartness">🧠 Bot's Smartness</a></li>
+        <li><a href="/uptime-status">📊 Bot Uptime Status</a></li>
+        <li><a href="/features" class="active">🔧 Features</a></li>
+        <li><a href="/special-users">👥 Special Users</a></li>
+        <li><a href="/playground">🎮 Playground</a></li>
+        <li><a href="/settings">⚙️ Settings</a></li>
+        <li><a href="/terms">📋 Terms of Service</a></li>
+        <li><a href="/privacy">🔒 Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div class="header">
+        <h1>🔧 Bot Features</h1>
+        <div class="user-info">
+          <img id="userAvatar" src="" alt="User Avatar" class="user-avatar" style="display: none;">
+          <span id="userName">Loading...</span>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          Bot Configuration Options
+        </div>
+        <div class="card-body">
+          <p class="feature-description">
+            <strong>Message History:</strong> Configure how many previous messages your bots should remember for
+            context. This helps your bots maintain better conversations by understanding recent chat history.
+          </p>
+          <p class="feature-description">
+            <strong>Personality & Tone:</strong> Set your bot's personality and communication tone. These are optional -
+            leave them empty to rely on your Knowledge Management settings instead. If both are set, personality and
+            tone options will take priority over knowledge-based personality settings.
+          </p>
+          <p class="feature-description">
+            <strong>Reply to DMs:</strong> Control whether your bot can respond to direct messages. For privacy, your
+            bot will never initiate a conversation.
+          </p>
+          <p class="feature-description">
+            <strong>Response Language:</strong> Select the language your bot will use for all responses. The bot will
+            understand messages in any language but will always reply in the selected language only.
+          </p>
+          <p class="feature-description">
+            <strong>Sentence Length:</strong> Control how long your bot's responses should be. Choose between 1-4
+            sentences for concise replies, select "Long" for detailed responses (5+ sentences), or enable the new
+            <strong>Dynamic Length</strong> option to let the bot decide the ideal response length for each message.
+          </p>
+          <p class="feature-description">
+            <strong>Special Users:</strong> Manage special users who will receive priority recognition and personalized responses. <a href="/special-users" style="color: var(--primary); font-weight: bold;">Go to Special Users Management →</a>
+          </p>
+        </div>
+      </div>
+
+      <div id="loadingIndicator" class="loading">
+        <p>Loading your bots...</p>
+      </div>
+
+      <div id="noBotsMessage" class="no-bots" style="display: none;">
+        <h3>No Bots Found</h3>
+        <p>You don't have any bots yet. <a href="/dashboard" style="color: var(--primary);">Create one</a> to configure
+          features.</p>
+      </div>
+
+      <div id="botFeaturesContainer" class="bot-features-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+    let currentBots = [];
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function () {
+      checkAuth();
+    });
+
+    // Check authentication
+    function checkAuth() {
+      fetch('/auth/user', {
+        credentials: 'include'
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Not authenticated');
+          }
+          return response.json();
+        })
+        .then(user => {
+          currentUser = user;
+          document.getElementById('userName').textContent = user.name || user.username || 'User';
+
+          if (user.avatar) {
+            const userAvatar = document.getElementById('userAvatar');
+            userAvatar.src = user.avatar;
+            userAvatar.style.display = 'block';
+          }
+
+          // Load user's bots
+          loadBots();
+        })
+        .catch(error => {
+          console.error('Authentication error:', error);
+          alert('Please log in to access this page.');
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 3000);
+        });
+    }
+
+    // Load user's bots
+    async function loadBots() {
+      try {
+        const response = await fetch('/bots', {
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to load bots');
+        }
+
+        const bots = await response.json();
+        currentBots = bots;
+
+        document.getElementById('loadingIndicator').style.display = 'none';
+
+        if (bots.length === 0) {
+          document.getElementById('noBotsMessage').style.display = 'block';
+        } else {
+          renderBotFeatures(bots);
+        }
+      } catch (error) {
+        console.error('Error loading bots:', error);
+        document.getElementById('loadingIndicator').innerHTML = '<p style="color: var(--danger);">Error loading bots. Please refresh the page.</p>';
+      }
+    }
+
+    // Render bot feature cards
+    function renderBotFeatures(bots) {
+      const container = document.getElementById('botFeaturesContainer');
+      container.innerHTML = '';
+
+      bots.forEach(bot => {
+        const botAvatarUrl = bot.botAvatar || `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 6)}.png`;
+
+        const featureCard = document.createElement('div');
+        featureCard.className = 'bot-feature-card';
+        featureCard.innerHTML = `
+          <div class="bot-feature-header">
+            <img src="${botAvatarUrl}" alt="Bot Avatar" class="bot-avatar-small">
+            <h3>${bot.botName}</h3>
+          </div>
+          <div class="bot-feature-body">
+            <div class="current-setting">
+              <strong>Message History:</strong> ${bot.messageHistoryLimit || 50} messages<br>
+              <strong>Personality:</strong> ${bot.personality || 'None (uses Knowledge Management)'}<br>
+              <strong>Tone:</strong> ${bot.tone || 'None (uses Knowledge Management)'}<br>
+              <strong>Reply to DMs:</strong> ${bot.replyToDMs ? 'Enabled' : 'Disabled'}<br>
+              <strong>Response Language:</strong> ${bot.language ? bot.language.charAt(0).toUpperCase() + bot.language.slice(1) : 'English'}<br>
+              <strong>Sentence Length:</strong> ${bot.sentenceLengthDynamic ? 'Dynamic (auto-adjusted per message)' : bot.sentenceLength === 'long' ? 'Long (5+ sentences)' : bot.sentenceLength ? bot.sentenceLength + ' sentence' + (bot.sentenceLength === '1' ? '' : 's') : 'Long (5+ sentences)'}
+            </div>
+
+            <div class="form-group">
+              <label for="messageLimit-${bot._id}">Message History Limit</label>
+              <select id="messageLimit-${bot._id}" class="form-select">
+                <option value="20" ${(bot.messageHistoryLimit || 50) === 20 ? 'selected' : ''}>20 messages</option>
+                <option value="50" ${(bot.messageHistoryLimit || 50) === 50 ? 'selected' : ''}>50 messages</option>
+                <option value="80" ${(bot.messageHistoryLimit || 50) === 80 ? 'selected' : ''}>80 messages</option>
+                <option value="100" ${(bot.messageHistoryLimit || 50) === 100 ? 'selected' : ''}>100 messages</option>
+                <option value="150" ${(bot.messageHistoryLimit || 50) === 150 ? 'selected' : ''}>150 messages</option>
+                <option value="200" ${(bot.messageHistoryLimit || 50) === 200 ? 'selected' : ''}>200 messages (max)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="personality-${bot._id}">Personality (Optional)</label>
+              <select id="personality-${bot._id}" class="form-select">
+                <option value="" ${(bot.personality || '') === '' ? 'selected' : ''}>None (use Knowledge Management)</option>
+                <option value="friendly" ${(bot.personality || '') === 'friendly' ? 'selected' : ''}>Friendly</option>
+                <option value="professional" ${(bot.personality || '') === 'professional' ? 'selected' : ''}>Professional</option>
+                <option value="chill" ${(bot.personality || '') === 'chill' ? 'selected' : ''}>Chill</option>
+                <option value="enthusiastic" ${(bot.personality || '') === 'enthusiastic' ? 'selected' : ''}>Enthusiastic</option>
+                <option value="sarcastic" ${(bot.personality || '') === 'sarcastic' ? 'selected' : ''}>Sarcastic</option>
+                <option value="helpful" ${(bot.personality || '') === 'helpful' ? 'selected' : ''}>Helpful</option>
+                <option value="witty" ${(bot.personality || '') === 'witty' ? 'selected' : ''}>Witty</option>
+                <option value="serious" ${(bot.personality || '') === 'serious' ? 'selected' : ''}>Serious</option>
+                <option value="playful" ${(bot.personality || '') === 'playful' ? 'selected' : ''}>Playful</option>
+                <option value="rude" ${(bot.personality || '') === 'rude' ? 'selected' : ''}>Rude</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="tone-${bot._id}">Communication Tone (Optional)</label>
+              <select id="tone-${bot._id}" class="form-select">
+                <option value="" ${(bot.tone || '') === '' ? 'selected' : ''}>None (use Knowledge Management)</option>
+                <option value="casual" ${(bot.tone || '') === 'casual' ? 'selected' : ''}>Casual</option>
+                <option value="formal" ${(bot.tone || '') === 'formal' ? 'selected' : ''}>Formal</option>
+                <option value="confident" ${(bot.tone || '') === 'confident' ? 'selected' : ''}>Confident</option>
+                <option value="humble" ${(bot.tone || '') === 'humble' ? 'selected' : ''}>Humble</option>
+                <option value="energetic" ${(bot.tone || '') === 'energetic' ? 'selected' : ''}>Energetic</option>
+                <option value="calm" ${(bot.tone || '') === 'calm' ? 'selected' : ''}>Calm</option>
+                <option value="direct" ${(bot.tone || '') === 'direct' ? 'selected' : ''}>Direct</option>
+                <option value="diplomatic" ${(bot.tone || '') === 'diplomatic' ? 'selected' : ''}>Diplomatic</option>
+                <option value="quirky" ${(bot.tone || '') === 'quirky' ? 'selected' : ''}>Quirky</option>
+                <option value="authoritative" ${(bot.tone || '') === 'authoritative' ? 'selected' : ''}>Authoritative</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="language-${bot._id}">Response Language</label>
+              <select id="language-${bot._id}" class="form-select">
+                <option value="english" ${(bot.language || 'english') === 'english' ? 'selected' : ''}>English</option>
+                <option value="hindi" ${(bot.language || 'english') === 'hindi' ? 'selected' : ''}>Hindi</option>
+                <option value="french" ${(bot.language || 'english') === 'french' ? 'selected' : ''}>French</option>
+                <option value="spanish" ${(bot.language || 'english') === 'spanish' ? 'selected' : ''}>Spanish</option>
+                <option value="chinese" ${(bot.language || 'english') === 'chinese' ? 'selected' : ''}>Chinese</option>
+                <option value="russian" ${(bot.language || 'english') === 'russian' ? 'selected' : ''}>Russian</option>
+                <option value="japanese" ${(bot.language || 'english') === 'japanese' ? 'selected' : ''}>Japanese</option>
+                <option value="filipino" ${(bot.language || 'english') === 'filipino' ? 'selected' : ''}>Filipino</option>
+                <option value="bangla" ${(bot.language || 'english') === 'bangla' ? 'selected' : ''}>Bangla</option>
+                <option value="polish" ${(bot.language || 'english') === 'polish' ? 'selected' : ''}>Polish</option>
+              </select>
+              <small>Bot will understand any language but respond only in the selected language.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="sentenceLength-${bot._id}">Sentence Length</label>
+              <select id="sentenceLength-${bot._id}" class="form-select" ${bot.sentenceLengthDynamic ? 'disabled' : ''}>
+                <option value="1" ${(bot.sentenceLength || 'long') === '1' ? 'selected' : ''}>1 sentence</option>
+                <option value="2" ${(bot.sentenceLength || 'long') === '2' ? 'selected' : ''}>2 sentences</option>
+                <option value="3" ${(bot.sentenceLength || 'long') === '3' ? 'selected' : ''}>3 sentences</option>
+                <option value="4" ${(bot.sentenceLength || 'long') === '4' ? 'selected' : ''}>4 sentences</option>
+                <option value="long" ${(bot.sentenceLength || 'long') === 'long' ? 'selected' : ''}>Long (5+ sentences)</option>
+              </select>
+              <label for="sentenceLengthDynamic-${bot._id}" style="display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem;">
+                <input type="checkbox" id="sentenceLengthDynamic-${bot._id}" ${bot.sentenceLengthDynamic ? 'checked' : ''} onchange="handleSentenceLengthDynamicToggle('${bot._id}')">
+                Enable Dynamic Sentence Length (bot auto-decides per message)
+              </label>
+              <small id="sentenceLengthHelp-${bot._id}">${bot.sentenceLengthDynamic ? 'Bot will automatically decide how long to reply based on the user\'s question.' : 'Control the exact number of sentences for every reply.'}</small>
+            </div>
+
+            <div class="form-group">
+              <label for="replyToDMs-${bot._id}">
+                <input type="checkbox" id="replyToDMs-${bot._id}" name="replyToDMs" ${bot.replyToDMs ? 'checked' : ''}>
+                Reply to Direct Messages (DMs)
+              </label>
+              <small>If enabled, the bot will respond to users who DM it.</small>
+            </div>
+
+            <div id="message-${bot._id}" style="display: none;"></div>
+
+            <button class="btn" onclick="updateBotFeatures('${bot._id}')">
+              Save Settings
+            </button>
+          </div>
+        `;
+
+        container.appendChild(featureCard);
+      });
+    }
+
+    function handleSentenceLengthDynamicToggle(botId) {
+      const checkbox = document.getElementById(`sentenceLengthDynamic-${botId}`);
+      const select = document.getElementById(`sentenceLength-${botId}`);
+      const helper = document.getElementById(`sentenceLengthHelp-${botId}`);
+
+      if (!checkbox || !select) return;
+
+      const isDynamic = checkbox.checked;
+      select.disabled = isDynamic;
+
+      if (helper) {
+        helper.textContent = isDynamic
+          ? "Bot will automatically decide how long to reply based on the user's question."
+          : 'Control the exact number of sentences for every reply.';
+      }
+    }
+
+    // Update bot features (message history, personality, tone, language, sentence length)
+    async function updateBotFeatures(botId) {
+      const messageLimitElement = document.getElementById(`messageLimit-${botId}`);
+      const personalityElement = document.getElementById(`personality-${botId}`);
+      const toneElement = document.getElementById(`tone-${botId}`);
+      const languageElement = document.getElementById(`language-${botId}`);
+      const sentenceLengthElement = document.getElementById(`sentenceLength-${botId}`);
+      const sentenceLengthDynamicElement = document.getElementById(`sentenceLengthDynamic-${botId}`);
+      const replyToDMsElement = document.getElementById(`replyToDMs-${botId}`);
+      const messageElement = document.getElementById(`message-${botId}`);
+
+      const newLimit = parseInt(messageLimitElement.value);
+      const newPersonality = personalityElement.value;
+      const newTone = toneElement.value;
+      const newLanguage = languageElement.value;
+      const newSentenceLength = sentenceLengthElement.value;
+      const newSentenceLengthDynamic = sentenceLengthDynamicElement ? sentenceLengthDynamicElement.checked : false;
+      const newReplyToDMs = replyToDMsElement.checked;
+
+      try {
+        const response = await fetch(`/bots/${botId}/features`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            messageHistoryLimit: newLimit,
+            personality: newPersonality,
+            tone: newTone,
+            language: newLanguage,
+            sentenceLength: newSentenceLength,
+            sentenceLengthDynamic: newSentenceLengthDynamic,
+            replyToDMs: newReplyToDMs
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to update settings');
+        }
+
+        // Show success message
+        messageElement.className = 'success-message';
+        const personalityText = newPersonality || 'None (uses Knowledge Management)';
+        const toneText = newTone || 'None (uses Knowledge Management)';
+        const languageText = newLanguage ? newLanguage.charAt(0).toUpperCase() + newLanguage.slice(1) : 'English';
+        const replyToDMsText = newReplyToDMs ? 'Enabled' : 'Disabled';
+        messageElement.textContent = `✅ Bot features updated successfully`;
+        messageElement.style.display = 'block';
+
+        // Update current setting display
+        const sentenceLengthText = newSentenceLengthDynamic ? 'Dynamic (auto-adjusted per message)' : newSentenceLength === 'long' ? 'Long (5+ sentences)' : newSentenceLength + ' sentence' + (newSentenceLength === '1' ? '' : 's');
+        const currentSettingElement = messageLimitElement.closest('.bot-feature-body').querySelector('.current-setting');
+        currentSettingElement.innerHTML = `
+          <strong>Message History:</strong> ${newLimit} messages<br>
+          <strong>Personality:</strong> ${personalityText}<br>
+          <strong>Tone:</strong> ${toneText}<br>
+          <strong>Reply to DMs:</strong> ${replyToDMsText}<br>
+          <strong>Response Language:</strong> ${languageText}<br>
+          <strong>Sentence Length:</strong> ${sentenceLengthText}
+        `;
+
+        // Hide message after 3 seconds
+        setTimeout(() => {
+          messageElement.style.display = 'none';
+        }, 3000);
+
+      } catch (error) {
+        console.error('Error updating message history limit:', error);
+
+        // Show error message
+        messageElement.className = 'error-message';
+        messageElement.textContent = `❌ Error: ${error.message}`;
+        messageElement.style.display = 'block';
+
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          messageElement.style.display = 'none';
+        }, 5000);
+      }
+    }
+
+    // Logout function
+    function logout() {
+      window.location.href = '/auth/logout';
+    }
+  </script>
+  <script src="/js/language-translator.js"></script>
+</body>
+
+</html>

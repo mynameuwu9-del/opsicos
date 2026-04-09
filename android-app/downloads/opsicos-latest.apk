@@ -1,0 +1,13 @@
+APK PLACEHOLDER FILE
+
+This is a placeholder for the actual Android APK file.
+
+To build the real APK:
+1. Install Android Studio
+2. Open the android-app folder in Android Studio
+3. Build > Generate Signed Bundle/APK
+4. Select APK
+5. Follow the signing process
+6. Replace this file with the generated APK
+
+The APK will be approximately 8-10MB when built with optimizations.

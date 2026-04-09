@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Opsicos</title>
+  <link rel="canonical" href="https://opsicos.onrender.com/settings">
+  <style>
+    :root {
+      --primary: #8B0000; /* Deep Red */
+      --primary-dark: #660000; /* Darker Red */
+      --secondary: #CCCCCC; /* Light Gray */
+      --dark: #1a1a1a; /* Very Dark Gray */
+      --darker: #000000; /* Black */
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --success: #43B581;
+      --danger: #F04747;
+      --warning: #FAA61A;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+    }
+    
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    .sidebar {
+      width: 250px;
+      background-color: var(--darker);
+      color: var(--text-primary);
+      padding: 1.5rem 0;
+      border-right: 1px solid var(--primary-dark);
+    }
+    
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--primary-dark);
+      margin-bottom: 1.5rem;
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+    
+    .sidebar-nav {
+      list-style: none;
+    }
+    
+    .sidebar-nav li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background-color: var(--surface);
+      color: var(--text-primary);
+      border-left-color: var(--primary);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      background-color: var(--background);
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--primary-dark);
+    }
+    
+    .header h1 {
+      color: var(--text-primary);
+      font-size: 2rem;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+    
+    .logout-btn {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .card {
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+      margin-bottom: 2rem;
+      border: 1px solid var(--primary-dark);
+    }
+    
+    .card-header {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 1rem 1.5rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+
+    .form-group small {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      background-color: var(--dark);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
+    }
+
+    .form-control::placeholder {
+      color: var(--text-secondary);
+    }
+    
+    .btn {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    
+    .btn:disabled {
+      background-color: var(--secondary);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background-color: var(--dark);
+      color: var(--text-secondary);
+      border: 1px solid var(--primary-dark);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--surface);
+      color: var(--text-primary);
+      border-color: var(--primary);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #dc2626;
+    }
+
+    .btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background-color: #16a34a;
+    }
+    
+    .success-message {
+      background-color: rgba(67, 181, 129, 0.1);
+      color: var(--success);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--success);
+    }
+    
+    .error-message {
+      background-color: rgba(240, 71, 71, 0.1);
+      color: var(--danger);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--danger);
+    }
+
+    .webhook-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .webhook-status.active {
+      background-color: rgba(67, 181, 129, 0.1);
+      color: var(--success);
+      border-left: 3px solid var(--success);
+    }
+
+    .webhook-status.inactive {
+      background-color: rgba(240, 71, 71, 0.1);
+      color: var(--danger);
+      border-left: 3px solid var(--danger);
+    }
+
+    .webhook-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .instructions {
+      background-color: rgba(139, 0, 0, 0.1);
+      border: 1px solid var(--primary);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .instructions h4 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .instructions ol {
+      color: var(--text-secondary);
+      padding-left: 1.5rem;
+    }
+
+    .instructions li {
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .instructions code {
+      background-color: var(--dark);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+      color: var(--text-primary);
+    }
+
+    .webhook-events {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .event-item {
+      background-color: var(--dark);
+      padding: 0.75rem;
+      border-radius: 4px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .event-item h5 {
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .event-item p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+  </style>
+
+  <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-loader.js"></script>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2 id="sidebarTitle">Opsicos</h2>
+        <p id="sidebarSubtitle">Dashboard</p>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/dashboard" id="navMyBots">My Bots</a></li>
+        <li><a href="/knowledge" id="navKnowledge">Knowledge Management</a></li>
+        <li><a href="/stored-knowledge" id="navStoredKnowledge">Stored Knowledge</a></li>
+        <li><a href="/behavior" id="navBehavior">🎭 Bot Behavior</a></li>
+        <li><a href="/bot-smartness" id="navSmartness">🧠 Bot's Smartness</a></li>
+        <li><a href="/uptime-status" id="navUptime">📊 Bot Uptime Status</a></li>
+        <li><a href="/features" id="navFeatures">🔧 Features</a></li>
+        <li><a href="/special-users" id="navSpecialUsers">👥 Special Users</a></li>
+        <li><a href="/playground" id="navPlayground">🎮 Playground</a></li>
+        <li><a href="/settings" class="active" id="navSettings">⚙️ Settings</a></li>
+        <li><a href="/terms" id="navTerms">📋 Terms of Service</a></li>
+        <li><a href="/privacy" id="navPrivacy">🔒 Privacy Policy</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1 id="pageTitle">⚙️ Settings</h1>
+        <div class="user-info">
+          <img id="userAvatar" src="" alt="User Avatar" class="user-avatar" style="display: none;">
+          <span id="userName">Loading...</span>
+          <button class="logout-btn" id="logoutBtn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header" id="webhookTitle">
+          🔔 Bot Status Webhook Alerts
+        </div>
+        <div class="card-body">
+          <p id="webhookDescription" style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            Get real-time notifications about your bot status changes directly in your Discord server. Configure a webhook URL below to receive automated alerts when your bots go online, offline, or encounter issues.
+          </p>
+
+          <div class="instructions">
+            <h4 id="webhookGuideTitle">How to Create a Discord Webhook:</h4>
+            <ol>
+              <li id="step1">Go to your Discord server and select the channel where you want to receive alerts</li>
+              <li id="step2">Right-click the channel → <strong>Edit Channel</strong></li>
+              <li id="step3">Go to <strong>Integrations</strong> tab → Click <strong>Create Webhook</strong></li>
+              <li id="step4">Name your webhook (e.g., "Opsicos Bot Alerts")</li>
+              <li id="step5">Copy the <code>Webhook URL</code> and paste it below</li>
+              <li id="step6">Click <strong>Save Changes</strong> in Discord</li>
+            </ol>
+          </div>
+
+          <div id="webhookStatus" class="webhook-status inactive">
+            <span>🔴</span>
+            <strong id="webhookStatusLabel">Webhook Status:</strong> <span id="webhookStatusText">Not configured</span>
+          </div>
+
+          <div id="alertContainer"></div>
+
+          <div class="form-group">
+            <label for="webhookUrl" id="webhookUrlLabel">Discord Webhook URL</label>
+            <input
+              type="url"
+              id="webhookUrl"
+              class="form-control"
+              placeholder="https://discord.com/api/webhooks/..."
+            >
+            <small id="webhookUrlHelp">
+              Your webhook URL should start with: <code>https://discord.com/api/webhooks/</code>
+            </small>
+          </div>
+
+          <div class="webhook-actions">
+            <button class="btn" id="saveWebhookBtn" onclick="saveWebhook()">Save Webhook</button>
+            <button class="btn btn-secondary" id="testWebhookBtn" onclick="testWebhook()">Test Webhook</button>
+            <button class="btn btn-danger" id="removeWebhookBtn" onclick="deleteWebhook()">Remove Webhook</button>
+          </div>
+
+          <div style="margin-top: 2rem;">
+            <h4 id="alertEventsTitle" style="color: var(--text-primary); margin-bottom: 1rem;">Alert Events:</h4>
+            <div class="webhook-events">
+              <div class="event-item">
+                <h5 id="eventStarted">🟢 Bot Started</h5>
+                <p id="eventStartedDesc">When you manually start a bot</p>
+              </div>
+              <div class="event-item">
+                <h5 id="eventStopped">🔴 Bot Stopped</h5>
+                <p id="eventStoppedDesc">When you manually stop a bot</p>
+              </div>
+              <div class="event-item">
+                <h5 id="eventOnline">✅ Bot Online</h5>
+                <p id="eventOnlineDesc">When bot successfully connects to Discord</p>
+              </div>
+              <div class="event-item">
+                <h5 id="eventOffline">⚠️ Bot Offline</h5>
+                <p id="eventOfflineDesc">When bot disconnects or goes offline</p>
+              </div>
+              <div class="event-item">
+                <h5 id="eventError">❌ Bot Error</h5>
+                <p id="eventErrorDesc">When bot encounters an error or crashes</p>
+              </div>
+              <div class="event-item">
+                <h5 id="eventRestart">🔄 Bot Restart</h5>
+                <p id="eventRestartDesc">When bot automatically restarts after an issue</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Language Settings Card -->
+      <div class="card">
+        <div class="card-header" id="languageTitle">
+          🌐 Language Settings
+        </div>
+        <div class="card-body">
+          <p id="languageDescription" style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            Select your preferred language for the website interface. This will instantly translate all text on the page without requiring a refresh.
+          </p>
+          
+          <div class="form-group">
+            <label for="languageSelect" id="websiteLanguageLabel">Website Language</label>
+            <select id="languageSelect" class="form-control">
+              <option value="english">English</option>
+              <option value="french">Français (French)</option>
+              <option value="indian">हिन्दी (Hindi)</option>
+              <option value="urdu">اردو (Urdu)</option>
+              <option value="nepalese">नेपाली (Nepali)</option>
+              <option value="spanish">Español (Spanish)</option>
+              <option value="portuguese">Português (Portuguese)</option>
+              <option value="japanese">日本語 (Japanese)</option>
+              <option value="chinese">中文 (Chinese)</option>
+              <option value="italian">Italiano (Italian)</option>
+              <option value="polish">Polski (Polish)</option>
+              <option value="arabic">العربية (Arabic)</option>
+              <option value="srilankan">සිංහල (Sinhala)</option>
+              <option value="bangla">বাংলা (Bangla)</option>
+            </select>
+            <small id="languageHelp">
+              Choose your preferred language for the Opsicos interface. This setting only affects the website text, not your bot responses.
+            </small>
+          </div>
+          
+          <button class="btn" id="saveLanguageBtn" onclick="saveLanguage()">Save Language</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuth();
+    });
+
+    // Check authentication
+    function checkAuth() {
+      fetch('/auth/user', {
+        credentials: 'include'
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Not authenticated');
+        }
+        return response.json();
+      })
+      .then(user => {
+        currentUser = user;
+        document.getElementById('userName').textContent = user.name || user.username || 'User';
+        
+        if (user.avatar) {
+          const userAvatar = document.getElementById('userAvatar');
+          userAvatar.src = user.avatar;
+          userAvatar.style.display = 'block';
+        }
+        
+        // Load webhook settings
+        loadWebhookSettings();
+        
+        // Load language preference
+        loadLanguagePreference();
+      })
+      .catch(error => {
+        console.error('Authentication error:', error);
+        alert('Please log in to access this page.');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
+      });
+    }
+
+    // Load webhook settings
+    async function loadWebhookSettings() {
+      try {
+        const response = await fetch('/settings/webhook', {
+          credentials: 'include'
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.webhookUrl) {
+            document.getElementById('webhookUrl').value = data.webhookUrl;
+            updateWebhookStatus(true, 'Webhook configured and active');
+          }
+        }
+      } catch (error) {
+        console.error('Error loading webhook settings:', error);
+      }
+    }
+    
+    // Load language preference
+    async function loadLanguagePreference() {
+      // Don't load here - let the language translator handle it
+      // This prevents double-loading and flickering
+      return;
+    }
+
+    // Save webhook
+    async function saveWebhook() {
+      const webhookUrl = document.getElementById('webhookUrl').value.trim();
+      
+      if (!webhookUrl) {
+        showAlert('Please enter a webhook URL', 'error');
+        return;
+      }
+
+      if (!webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
+        showAlert('Invalid webhook URL. Please use a Discord webhook URL.', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/settings/webhook', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({ webhookUrl })
+        });
+
+        if (response.ok) {
+          showAlert('Webhook saved successfully! You will now receive bot status alerts.', 'success');
+          updateWebhookStatus(true, 'Webhook configured and active');
+        } else {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to save webhook');
+        }
+      } catch (error) {
+        console.error('Error saving webhook:', error);
+        showAlert(error.message, 'error');
+      }
+    }
+
+    // Test webhook
+    async function testWebhook() {
+      const webhookUrl = document.getElementById('webhookUrl').value.trim();
+      
+      if (!webhookUrl) {
+        showAlert('Please enter and save a webhook URL first', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/settings/webhook/test', {
+          method: 'POST',
+          credentials: 'include'
+        });
+
+        if (response.ok) {
+          showAlert('Test message sent! Check your Discord channel.', 'success');
+        } else {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to test webhook');
+        }
+      } catch (error) {
+        console.error('Error testing webhook:', error);
+        showAlert(error.message, 'error');
+      }
+    }
+
+    // Delete webhook
+    async function deleteWebhook() {
+      if (!confirm('Are you sure you want to remove the webhook? You will stop receiving bot status alerts.')) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/settings/webhook', {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+
+        if (response.ok) {
+          document.getElementById('webhookUrl').value = '';
+          showAlert('Webhook removed successfully', 'success');
+          updateWebhookStatus(false, 'Webhook not configured');
+        } else {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to remove webhook');
+        }
+      } catch (error) {
+        console.error('Error removing webhook:', error);
+        showAlert(error.message, 'error');
+      }
+    }
+
+    // Update webhook status display
+    function updateWebhookStatus(isActive, message) {
+      const statusDiv = document.getElementById('webhookStatus');
+      if (isActive) {
+        statusDiv.className = 'webhook-status active';
+        statusDiv.innerHTML = `<span>🟢</span><strong>Webhook Status:</strong> ${message}`;
+      } else {
+        statusDiv.className = 'webhook-status inactive';
+        statusDiv.innerHTML = `<span>🔴</span><strong>Webhook Status:</strong> ${message}`;
+      }
+    }
+
+    // Show alert message
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alertContainer');
+      const alert = document.createElement('div');
+      alert.className = `${type}-message`;
+      alert.textContent = message;
+      
+      alertContainer.innerHTML = '';
+      alertContainer.appendChild(alert);
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        alert.remove();
+      }, 5000);
+    }
+
+    // Save language preference
+    async function saveLanguage() {
+      if (window.languageTranslator) {
+        const success = await window.languageTranslator.saveAndApplyLanguage();
+        if (success) {
+          showAlert('Language saved successfully!', 'success');
+        } else {
+          showAlert('Failed to save language preference', 'error');
+        }
+      } else {
+        showAlert('Language translator not loaded', 'error');
+      }
+    }
+
+    // Logout function
+    function logout() {
+      window.location.href = '/auth/logout';
+    }
+  </script>
+  <script src="/js/language-translator.js"></script>
+  <script src="/js/ban-message.js"></script>
+</body>
+</html>

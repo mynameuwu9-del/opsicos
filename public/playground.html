@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opsicos Playground - Test Your Bots</title>
+  <link rel="canonical" href="https://opsicos.onrender.com/playground">
+  <style>
+    :root {
+      --primary: #8B0000; /* Deep Red */
+      --primary-dark: #660000; /* Darker Red */
+      --secondary: #CCCCCC; /* Light Gray */
+      --dark: #1a1a1a; /* Very Dark Gray */
+      --darker: #000000; /* Black */
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --success: #43B581;
+      --danger: #F04747;
+      --warning: #FAA61A;
+      --text: #ffffff;
+      --text-muted: #CCCCCC;
+      --border: #660000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+      min-height: 100vh;
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--darker);
+      color: var(--text-primary);
+      padding: 1.5rem 0;
+      border-right: 1px solid var(--primary-dark);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--primary-dark);
+    }
+
+    .sidebar-header h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-header p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.875rem;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      padding: 1rem 0;
+    }
+
+    .sidebar-nav li {
+      margin: 0;
+    }
+
+    .sidebar-nav a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar-nav a:hover {
+      background-color: var(--surface);
+      color: var(--text-primary);
+      border-left-color: var(--primary);
+    }
+
+    .sidebar-nav a.active {
+      background-color: var(--surface);
+      color: var(--primary);
+      border-left-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 2rem;
+      background: var(--background);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+
+    .logout-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .playground-container {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2rem;
+      height: calc(100vh - 200px);
+    }
+
+    .controls-panel {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      height: fit-content;
+    }
+
+    .control-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .control-group select {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.875rem;
+    }
+
+    .control-group select option {
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 12px;
+    }
+
+    .control-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .chat-container {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .chat-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 12px 12px 0 0;
+    }
+
+    .chat-header h3 {
+      color: var(--primary);
+      font-size: 1.125rem;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 80%;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message.bot {
+      align-self: flex-start;
+    }
+
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .message-content {
+      background: var(--surface);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .message.user .message-content {
+      background: var(--primary);
+      color: white;
+    }
+
+    .message-sender {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .message.user .message-sender {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Typing indicator styles */
+    .typing-indicator {
+      opacity: 0.8;
+    }
+
+    .typing-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--text-muted);
+      border-radius: 50%;
+      animation: typing-pulse 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0s;
+    }
+
+    @keyframes typing-pulse {
+      0%, 80%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+      40% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .chat-input-container {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 0 0 12px 12px;
+    }
+
+    .chat-input-form {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.875rem;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .send-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background-color 0.2s;
+    }
+
+    .send-btn:hover:not(:disabled) {
+      background: var(--primary-dark);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--danger);
+    }
+
+    .welcome-message {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+    }
+
+    .welcome-message h3 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+  </style>
+
+  <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-loader.js"></script>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>Opsicos</h2>
+        <p>Playground</p>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/dashboard">My Bots</a></li>
+        <li><a href="/docs">📚 Documentation</a></li>
+        <li><a href="/knowledge">Knowledge Management</a></li>
+        <li><a href="/stored-knowledge">Stored Knowledge</a></li>
+        <li><a href="/behavior">🎭 Bot Behavior</a></li>
+        <li><a href="/bot-smartness">🧠 Bot's Smartness</a></li>
+        <li><a href="/uptime-status">📊 Bot Uptime Status</a></li>
+        <li><a href="/features">🔧 Features</a></li>
+        <li><a href="/special-users">👥 Special Users</a></li>
+        <li><a href="/playground" class="active">🎮 Playground</a></li>
+        <li><a href="/settings">⚙️ Settings</a></li>
+        <li><a href="/terms">📋 Terms of Service</a></li>
+        <li><a href="/privacy">🔒 Privacy Policy</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1>🎮 Opsicos Playground</h1>
+        <div class="user-info">
+          <img id="userAvatar" src="" alt="User Avatar" class="user-avatar" style="display: none;">
+          <span id="userName">Loading...</span>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+      
+      <div class="playground-container">
+        <div class="controls-panel">
+          <div class="control-group">
+            <label for="botSelect">Select Bot</label>
+            <select id="botSelect">
+              <option value="">Loading bots...</option>
+            </select>
+          </div>
+          
+          <div class="control-group">
+            <label for="modelSelect">Select Model</label>
+            <select id="modelSelect">
+              <option value="">Loading models...</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="chat-container">
+          <div class="chat-header">
+            <h3 id="chatTitle">Select a bot to start testing</h3>
+          </div>
+          
+          <div class="chat-messages" id="chatMessages">
+            <div class="welcome-message">
+              <h3>Welcome to Opsicos Playground!</h3>
+              <p>Select a bot and model from the left panel to start testing your bot's responses.</p>
+              <p>This is a safe testing environment - your bot doesn't need to be online.</p>
+            </div>
+          </div>
+          
+          <div class="chat-input-container">
+            <form class="chat-input-form" id="chatForm">
+              <input 
+                type="text" 
+                class="chat-input" 
+                id="messageInput" 
+                placeholder="Type your message here..." 
+                disabled
+              >
+              <button type="submit" class="send-btn" id="sendBtn" disabled>Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+    let currentBots = [];
+    let selectedBot = null;
+    let selectedModel = 'provider-3/gpt-4o-mini';
+    let availableModels = [];
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuth();
+      setupEventListeners();
+      loadModels();
+    });
+
+    function setupEventListeners() {
+      document.getElementById('botSelect').addEventListener('change', handleBotSelection);
+      document.getElementById('modelSelect').addEventListener('change', handleModelSelection);
+      document.getElementById('chatForm').addEventListener('submit', handleMessageSend);
+    }
+
+    // Check authentication
+    function checkAuth() {
+      fetch('/auth/user', {
+        credentials: 'include'
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Not authenticated');
+        }
+        return response.json();
+      })
+      .then(user => {
+        currentUser = user;
+        document.getElementById('userName').textContent = user.name || user.username || 'User';
+        
+        if (user.avatar) {
+          const userAvatar = document.getElementById('userAvatar');
+          userAvatar.src = user.avatar;
+          userAvatar.style.display = 'block';
+        }
+        
+        loadBots();
+      })
+      .catch(error => {
+        console.error('Authentication error:', error);
+        alert('Please log in to access this page.');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
+      });
+    }
+
+    // Load available AI models
+    async function loadModels() {
+      try {
+        const response = await fetch('/api/models', {
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to load models');
+        }
+
+        const models = await response.json();
+        availableModels = models;
+
+        const modelSelect = document.getElementById('modelSelect');
+        modelSelect.innerHTML = '';
+
+        models.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name || model.id;
+          modelSelect.appendChild(option);
+        });
+
+        // Set default model
+        if (models.length > 0) {
+          selectedModel = models[0].id;
+          modelSelect.value = selectedModel;
+        }
+
+      } catch (error) {
+        console.error('Error loading models:', error);
+        const modelSelect = document.getElementById('modelSelect');
+        modelSelect.innerHTML = '<option value="">Error loading models</option>';
+      }
+    }
+
+    // Load user's bots
+    async function loadBots() {
+      try {
+        const response = await fetch('/bots', {
+          credentials: 'include'
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to load bots');
+        }
+
+        const bots = await response.json();
+        currentBots = bots;
+
+        const botSelect = document.getElementById('botSelect');
+        botSelect.innerHTML = '<option value="">Select a bot...</option>';
+
+        bots.forEach(bot => {
+          const option = document.createElement('option');
+          option.value = bot._id;
+          option.textContent = bot.botName;
+          botSelect.appendChild(option);
+        });
+
+      } catch (error) {
+        console.error('Error loading bots:', error);
+        const botSelect = document.getElementById('botSelect');
+        botSelect.innerHTML = '<option value="">Error loading bots</option>';
+      }
+    }
+
+    function handleBotSelection(event) {
+      const botId = event.target.value;
+      if (botId) {
+        selectedBot = currentBots.find(bot => bot._id === botId);
+        updateChatTitle();
+        enableChat();
+        clearChat();
+      } else {
+        selectedBot = null;
+        disableChat();
+        showWelcomeMessage();
+      }
+    }
+
+    function handleModelSelection(event) {
+      selectedModel = event.target.value;
+      updateChatTitle();
+    }
+
+    function updateChatTitle() {
+      const title = document.getElementById('chatTitle');
+      if (selectedBot) {
+        const modelName = availableModels.find(m => m.id === selectedModel)?.name || selectedModel;
+        title.textContent = `${selectedBot.botName} (${modelName})`;
+      } else {
+        title.textContent = 'Select a bot to start testing';
+      }
+    }
+
+    function enableChat() {
+      document.getElementById('messageInput').disabled = false;
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('messageInput').placeholder = 'Type your message here...';
+    }
+
+    function disableChat() {
+      document.getElementById('messageInput').disabled = true;
+      document.getElementById('sendBtn').disabled = true;
+      document.getElementById('messageInput').placeholder = 'Select a bot first...';
+    }
+
+    function clearChat() {
+      document.getElementById('chatMessages').innerHTML = '';
+    }
+
+    function showWelcomeMessage() {
+      document.getElementById('chatMessages').innerHTML = `
+        <div class="welcome-message">
+          <h3>Welcome to Opsicos Playground!</h3>
+          <p>Select a bot and model from the left panel to start testing your bot's responses.</p>
+          <p>This is a safe testing environment - your bot doesn't need to be online.</p>
+        </div>
+      `;
+    }
+
+    async function handleMessageSend(event) {
+      event.preventDefault();
+      
+      const messageInput = document.getElementById('messageInput');
+      const message = messageInput.value.trim();
+      
+      if (!message || !selectedBot) return;
+      
+      // Add user message to chat
+      addMessage('user', currentUser.name, message, currentUser.avatar);
+      messageInput.value = '';
+      
+      // Disable send button while processing
+      const sendBtn = document.getElementById('sendBtn');
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Sending...';
+
+      // Add typing indicator
+      const typingIndicator = addTypingIndicator(selectedBot.botName);
+
+      try {
+        // Send message to playground API
+        const response = await fetch('/api/playground/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            botId: selectedBot._id,
+            model: selectedModel,
+            message: message
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to get bot response');
+        }
+        
+        const data = await response.json();
+        
+        // Remove typing indicator
+        removeTypingIndicator(typingIndicator);
+
+        // Add bot response to chat
+        const botAvatar = selectedBot.botAvatar || `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 6)}.png`;
+        addMessage('bot', selectedBot.botName, data.response, botAvatar);
+
+      } catch (error) {
+        console.error('Error sending message:', error);
+        // Remove typing indicator on error
+        removeTypingIndicator(typingIndicator);
+        addMessage('bot', 'System', 'Sorry, there was an error processing your message. Please try again.', '');
+      } finally {
+        // Re-enable send button
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+      }
+    }
+
+    function addMessage(type, sender, content, avatar) {
+      const messagesContainer = document.getElementById('chatMessages');
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}`;
+
+      messageDiv.innerHTML = `
+        <img src="${avatar || `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 6)}.png`}"
+             alt="${sender}" class="message-avatar">
+        <div class="message-content">
+          <div class="message-sender">${sender}</div>
+          <div>${content}</div>
+        </div>
+      `;
+
+      messagesContainer.appendChild(messageDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function addTypingIndicator(botName) {
+      const messagesContainer = document.getElementById('chatMessages');
+
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot typing-indicator';
+      typingDiv.id = 'typing-indicator';
+
+      const botAvatar = selectedBot.botAvatar || `https://cdn.discordapp.com/embed/avatars/${Math.floor(Math.random() * 6)}.png`;
+
+      typingDiv.innerHTML = `
+        <img src="${botAvatar}" alt="${botName}" class="message-avatar">
+        <div class="message-content">
+          <div class="message-sender">${botName}</div>
+          <div class="typing-dots">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            ${botName} is sending message...
+          </div>
+        </div>
+      `;
+
+      messagesContainer.appendChild(typingDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      return typingDiv;
+    }
+
+    function removeTypingIndicator(typingElement) {
+      if (typingElement && typingElement.parentNode) {
+        typingElement.parentNode.removeChild(typingElement);
+      }
+    }
+
+    function logout() {
+      window.location.href = '/auth/logout';
+    }
+  </script>
+  <script src="/js/language-translator.js"></script>
+</body>
+</html>

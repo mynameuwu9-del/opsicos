@@ -1,0 +1,55 @@
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Explicitly allow all sitemap pages
+Allow: /
+Allow: /login
+Allow: /docs
+Allow: /terms
+Allow: /privacy
+Allow: /contact
+Allow: /aboutus
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /debug/
+Disallow: /logs/
+Disallow: /private/
+Disallow: /features
+Disallow: /playground
+Disallow: /knowledge
+Disallow: /bot-monitor
+Disallow: /system-monitor
+Disallow: /edit-bot/
+Disallow: /uptime-status
+Disallow: /*.json$
+Disallow: /*.log$
+
+# Sitemap location (updated to new filename)
+Sitemap: https://opsicos.onrender.com/sitemap_1.xml
+
+# Crawl delay (be respectful)
+Crawl-delay: 1

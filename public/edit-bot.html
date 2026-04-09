@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Bot - Opsicos</title>
+  <link rel="canonical" href="https://opsicos.genaura.xyz/edit-bot">
+
+  <style>
+    :root {
+      --primary: #8B0000; /* Deep Red */
+      --primary-dark: #660000; /* Darker Red */
+      --secondary: #CCCCCC; /* Light Gray */
+      --dark: #1a1a1a; /* Very Dark Gray */
+      --darker: #000000; /* Black */
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --success: #43B581;
+      --danger: #F04747;
+      --warning: #FAA61A;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    
+    .container {
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+      padding: 2rem;
+      width: 100%;
+      max-width: 1200px;
+      border: 1px solid var(--primary-dark);
+      margin: 2rem auto;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+    
+    .form-control, .form-select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      background-color: var(--dark);
+      color: var(--text-primary);
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .model-selection-container {
+      background-color: var(--darker);
+      border-radius: 8px;
+      border: 1px solid var(--primary-dark);
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .model-selection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .model-group {
+      background-color: var(--surface);
+      padding: 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--primary-dark);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .model-group:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+    }
+
+    .model-group h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--primary-dark);
+    }
+
+    .company-logo {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+      flex-shrink: 0;
+    }
+
+    .model-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .model-group label {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: background-color 0.2s ease, color 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .model-group label:hover {
+      background-color: var(--dark);
+      color: var(--text-primary);
+    }
+
+    .model-group input[type="radio"] {
+      margin-right: 0.75rem;
+      accent-color: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .model-group input[type="radio"]:checked + span {
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .model-selection-header {
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .model-count {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .form-group input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.5rem;
+      accent-color: var(--primary);
+    }
+
+    .form-group small {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+    }
+
+    .btn-secondary {
+      background-color: var(--dark);
+      border: 1px solid var(--primary-dark);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .checkbox-group {
+      background-color: var(--darker);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--primary-dark);
+      margin-top: 1rem;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .checkbox-group small {
+      margin-top: 0.5rem;
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Edit Bot</h1>
+    </div>
+    <form id="editBotForm">
+      <div class="form-group">
+        <label for="botName">Bot Name</label>
+        <input type="text" id="botName" class="form-control" placeholder="Enter bot name" required>
+      </div>
+      <div class="form-group">
+        <div class="model-selection-header">
+          <span>AI Model Selection</span>
+          <span class="model-count">35+ Models</span>
+        </div>
+        <div class="model-selection-container">
+          <div class="model-selection-grid">
+            <div class="model-group">
+              <h3><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg" class="company-logo" alt="OpenAI"> OpenAI</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-3/gpt-4o-mini" required><span>GPT-4o Mini</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-3/gpt-5-nano"><span>GPT-5 Nano</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/gpt-oss-20b"><span>GPT OSS 20B</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-3/gpt-4.1-nano"><span>GPT-4.1 Nano</span></label>
+              </div>
+            </div>
+            
+            <div class="model-group">
+              <h3><img src="https://deepseek.com/favicon.ico" class="company-logo" alt="DeepSeek"> DeepSeek</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-1/deepseek-v3.1"><span>DeepSeek V3.1</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/deepseek-v3.1-turbo"><span>DeepSeek V3.1 Turbo</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/deepseek-r1-distill-qwen-1.5b"><span>DeepSeek R1 Distill Qwen 1.5B</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/deepseek-tng-r1t2-chimera"><span>DeepSeek TNG R1T2 Chimera</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg" class="company-logo" alt="Google"> Google</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-3/gemini-2.5-flash-lite-preview-09-2025"><span>Gemini 2.5 Flash Lite Preview</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-6/gemma-3-27b-instruct"><span>Gemma 3 27B Instruct</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/gemma-3-4b-it"><span>Gemma 3 4B IT</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/gemma-2-9b-it"><span>Gemma 2 9B IT</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg" class="company-logo" alt="Meta"> Meta</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-3/llama-4-scout"><span>Llama 4 Scout</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/llama-4-scout-17b-16e-instruct"><span>Llama 4 Scout 17B 16E Instruct</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/llama-3.2-1b-instruct-fp-16"><span>Llama 3.2 1B Instruct FP-16</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/deephermes-3-llama-3-8b-preview"><span>DeepHermes 3 Llama 3 8B Preview</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/shisa-v2-llama3.3-70b"><span>Shisa V2 Llama3.3 70B</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://mistral.ai/images/logo_hubc88c4ece131b91c7cb753f40e9e1cc5_2589_256x0_resize_q97_h2_lanczos_3.webp" class="company-logo" alt="Mistral"> Mistral</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-6/mistral-nemo-12b-instruct"><span>Mistral Nemo 12B Instruct</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/mistralai-devstral-small-2505"><span>MistralAI Devstral Small 2505</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/chutesai-devstral-small-2505"><span>ChutesAI Devstral Small 2505</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/mistral-small-3.2-24b-instruct-2506"><span>Mistral Small 3.2 24B Instruct 2506</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/logo.jpeg" class="company-logo" alt="Qwen"> Qwen</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-3/qwen-2.5-72b"><span>Qwen 2.5 72B</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/qwen3-8b"><span>Qwen3 8B</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-6/qwen2.5-7b-instruct"><span>Qwen2.5 7B Instruct</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/qwen3-4b-thinking-2507"><span>Qwen3 4B Thinking 2507</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://avatars.githubusercontent.com/u/142705063?s=200&v=4" class="company-logo" alt="MoonShot AI"> MoonShot AI</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-1/kimi-k2-instruct"><span>Kimi K2 Instruct</span></label>
+                <label><input type="radio" name="selectedModel" value="provider-1/kimi-vl-a3b-thinking"><span>Kimi VL A3B Thinking</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://x.ai/favicon.ico" class="company-logo" alt="xAI"> xAI</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-5/grok-4-0709"><span>Grok 4 0709</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://open.bigmodel.cn/static/zhipuai.png" class="company-logo" alt="Zhipu AI"> Zhipu AI</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-1/glm-4.6"><span>GLM 4.6</span></label>
+                <label><input type="radio" name="selectedModel" value="glm-4.5v"><span>GLM 4.5V</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/anthropic.svg" class="company-logo" alt="Anthropic"> Anthropic</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="claude-3-7-sonnet-20250219"><span>Claude 3.7 Sonnet</span></label>
+              </div>
+            </div>
+
+            <div class="model-group">
+              <h3><img src="https://avatars.githubusercontent.com/u/132372032?s=200&v=4" class="company-logo" alt="InferenceNet"> InferenceNet</h3>
+              <div class="model-options">
+                <label><input type="radio" name="selectedModel" value="provider-6/cliptagger-12b"><span>ClipTagger 12B</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="checkbox-group">
+          <label for="replyToDMs">
+            <input type="checkbox" id="replyToDMs" name="replyToDMs">
+            <div>
+              <span>Reply to Direct Messages (DMs)</span>
+              <small>If enabled, the bot will respond to users who DM it. The bot will never initiate DMs.</small>
+            </div>
+          </label>
+        </div>
+      </div>
+      
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/dashboard'">← Back to Dashboard</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const botId = window.location.pathname.split('/').pop();
+    const editBotForm = document.getElementById('editBotForm');
+    const botNameInput = document.getElementById('botName');
+    const replyToDMsCheckbox = document.getElementById('replyToDMs');
+
+    // Fetch bot data and populate the form
+    fetch(`/bots/${botId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Bot not found or unauthorized');
+        }
+        return response.json();
+      })
+      .then(bot => {
+        botNameInput.value = bot.botName;
+        const selectedModelRadio = document.querySelector(`input[name="selectedModel"][value="${bot.selectedModel}"]`);
+        if (selectedModelRadio) {
+          selectedModelRadio.checked = true;
+        }
+        replyToDMsCheckbox.checked = bot.replyToDMs || false;
+      })
+      .catch(error => {
+        console.error('Error fetching bot data:', error);
+        alert('Error loading bot data. Please try again.');
+        window.location.href = '/dashboard'; // Redirect if bot not found or error
+      });
+
+    // Handle form submission for updating bot
+    editBotForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const updatedBotName = botNameInput.value;
+      const selectedModelElement = document.querySelector('input[name="selectedModel"]:checked');
+
+      if (!selectedModelElement) {
+        alert('Please select an AI model for your bot.');
+        return;
+      }
+
+      const updatedSelectedModel = selectedModelElement.value;
+      const updatedReplyToDMs = replyToDMsCheckbox.checked;
+
+      fetch(`/bots/${botId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          botName: updatedBotName,
+          selectedModel: updatedSelectedModel,
+          replyToDMs: updatedReplyToDMs
+        })
+      })
+      .then(async response => {
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to update bot');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('✅ Bot updated successfully!\n\n🔥 If your bot is running, the changes are already active - no restart needed!');
+        window.location.href = '/dashboard'; // Redirect back to dashboard
+      })
+      .catch(error => {
+        console.error('Error updating bot:', error);
+        alert(`Error updating bot: ${error.message}. Please try again.`);
+      });
+    });
+  </script>
+</body>
+</html>

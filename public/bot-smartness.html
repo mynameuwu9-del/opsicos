@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot's Smartness - Opsicos</title>
+  <link rel="canonical" href="https://opsicos.onrender.com/bot-smartness">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/avif" href="/images/opsicos_circle.avif">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png">
+
+  <!-- Android Chrome Icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/android-chrome-192x192.png">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#8B0000">
+
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-dark: #660000;
+      --secondary: #CCCCCC;
+      --dark: #1a1a1a;
+      --darker: #000000;
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --success: #43B581;
+      --danger: #F04747;
+      --warning: #FAA61A;
+      --info: #3B82F6;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+    }
+    
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    .sidebar {
+      width: 250px;
+      background-color: var(--darker);
+      color: var(--text-primary);
+      padding: 1.5rem 0;
+      border-right: 1px solid var(--primary-dark);
+    }
+    
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--primary-dark);
+      margin-bottom: 1.5rem;
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+    
+    .sidebar-nav {
+      list-style: none;
+    }
+    
+    .sidebar-nav li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background-color: var(--surface);
+      color: var(--text-primary);
+      border-left-color: var(--primary);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      background-color: var(--background);
+      overflow-y: auto;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--primary-dark);
+    }
+    
+    .header h1 {
+      color: var(--text-primary);
+      font-size: 2rem;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+    
+    .btn {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover:not(:disabled) {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    
+    .btn:disabled {
+      background-color: var(--secondary);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .btn-success {
+      background-color: var(--success);
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background-color: #389e6d;
+    }
+
+    .btn-secondary {
+      background-color: var(--dark);
+      color: var(--text-secondary);
+      border: 1px solid var(--primary-dark);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--surface);
+      color: var(--text-primary);
+    }
+
+    .btn-info {
+      background-color: var(--info);
+    }
+
+    .btn-info:hover:not(:disabled) {
+      background-color: #2563eb;
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background-color: #dc2626;
+    }
+    
+    .card {
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+      margin-bottom: 2rem;
+      border: 1px solid var(--primary-dark);
+    }
+    
+    .card-header {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 1rem 1.5rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+      border-radius: 8px 8px 0 0;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+
+    .form-group small {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+    
+    .form-control, .form-select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      background-color: var(--dark);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .form-control:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-weight: normal;
+    }
+
+    .slider-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .slider-value {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--dark);
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: none;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .button-group .btn {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .button-group .btn.active {
+      background-color: var(--primary);
+      border: 2px solid var(--text-primary);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-weight: normal;
+    }
+
+    .radio-group input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .expandable-section {
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    .expandable-header {
+      background-color: var(--dark);
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      transition: background-color 0.3s ease;
+    }
+
+    .expandable-header:hover {
+      background-color: var(--surface);
+    }
+
+    .expandable-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .expandable-content.show {
+      max-height: 600px;
+      padding: 1rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .action-buttons .btn {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+    }
+
+    .alert-success {
+      background-color: rgba(67, 181, 129, 0.1);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .alert-error {
+      background-color: rgba(240, 71, 71, 0.1);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .action-buttons .btn {
+        width: 100%;
+      }
+    }
+  </style>
+
+
+</head>
+<body data-page="bot-smartness">
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>Opsicos</h2>
+        <p>Dashboard</p>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/dashboard">My Bots</a></li>
+        <li><a href="/docs">📚 Documentation</a></li>
+        <li><a href="/knowledge">Knowledge Management</a></li>
+        <li><a href="/stored-knowledge">Stored Knowledge</a></li>
+        <li><a href="/behavior">🎭 Bot Behavior</a></li>
+        <li><a href="/bot-smartness" class="active">🧠 Bot's Smartness</a></li>
+        <li><a href="/uptime-status">📊 Bot Uptime Status</a></li>
+        <li><a href="/features">🔧 Features</a></li>
+        <li><a href="/playground">🎮 Playground</a></li>
+        <li><a href="/settings">⚙️ Settings</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1>🧠 Bot's Smartness Configuration</h1>
+        <div class="user-info">
+          <img src="" alt="User Avatar" class="user-avatar" id="userAvatar" style="display: none;">
+          <span id="username">Loading...</span>
+          <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🤖 Select Bot</div>
+        <div class="card-body">
+          <p class="card-description">Choose which bot you want to configure.</p>
+          <div class="form-group">
+            <label for="botSelect">Bot</label>
+            <select id="botSelect" class="form-select">
+              <option value="">Loading bots...</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="alertContainer"></div>
+      <div id="loadingIndicator" class="loading">Loading configuration...</div>
+
+      <div class="card" id="configSection" style="display: none;">
+        <div class="card-header">🎯 AI Intelligence Settings</div>
+        <div class="card-body">
+          <p class="card-description">Configure AI creativity and intelligence levels.</p>
+          
+          <div class="slider-container">
+            <div class="slider-header">
+              <label>Temperature</label>
+              <span class="slider-value" id="tempValue">1.0</span>
+            </div>
+            <input type="range" id="temperature" min="0" max="2" step="0.1" value="1.0" oninput="document.getElementById('tempValue').textContent = this.value">
+            <small>Lower = More focused | Higher = More creative</small>
+          </div>
+
+          <div class="form-group">
+            <label>Creativity Level</label>
+            <div class="button-group" id="creativityLevel">
+              <button class="btn btn-secondary" onclick="setCreativity('low')">Low</button>
+              <button class="btn btn-secondary active" onclick="setCreativity('medium')">Medium</button>
+              <button class="btn btn-secondary" onclick="setCreativity('high')">High</button>
+              <button class="btn btn-secondary" onclick="setCreativity('maximum')">Maximum</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="smartnessMode">Smartness Mode</label>
+            <select id="smartnessMode" class="form-select">
+              <option value="quick">Quick - Fast responses</option>
+              <option value="balanced" selected>Balanced - Speed + depth</option>
+              <option value="deep">Deep Thinking - Detailed</option>
+              <option value="expert">Expert - Maximum intelligence</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="humanBehaviorSection" style="display: none;">
+        <div class="card-header">👤 Human-Like Behavior</div>
+        <div class="card-body">
+          <div class="checkbox-group">
+            <input type="checkbox" id="useNicknames" checked>
+            <label for="useNicknames">Use Discord Nicknames</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="naturalFlow" checked>
+            <label for="naturalFlow">Natural Conversation Flow</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="typingSimulation">
+            <label for="typingSimulation">Typing Simulation</label>
+          </div>
+
+          <div class="expandable-section">
+            <div class="expandable-header" onclick="toggleSection('quirks')">
+              <span>✨ Personality Quirks</span>
+              <span id="quirksIcon">▼</span>
+            </div>
+            <div class="expandable-content" id="quirks">
+              <div class="checkbox-group">
+                <input type="checkbox" id="useEmojis" checked>
+                <label for="useEmojis">Use emojis naturally</label>
+              </div>
+              <div class="slider-container">
+                <div class="slider-header">
+                  <label>Emoji Frequency</label>
+                  <span class="slider-value" id="emojiFreqValue">30%</span>
+                </div>
+                <input type="range" id="emojiFrequency" min="0" max="100" step="5" value="30" oninput="document.getElementById('emojiFreqValue').textContent = this.value + '%'">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="playfulSection" style="display: none;">
+        <div class="card-header">🎉 Playful Interactions</div>
+        <div class="card-body">
+          <div class="checkbox-group">
+            <input type="checkbox" id="funPinging">
+            <label for="funPinging">Fun Pinging</label>
+          </div>
+          <div class="slider-container">
+            <div class="slider-header">
+              <label>Proactivity Level</label>
+              <span class="slider-value" id="proactivityValue">20%</span>
+            </div>
+            <input type="range" id="proactivityLevel" min="0" max="100" step="5" value="20" oninput="document.getElementById('proactivityValue').textContent = this.value + '%'">
+          </div>
+          <div 
+class="checkbox-group">
+            <input type="checkbox" id="randomReactions">
+            <label for="randomReactions">Random Reactions</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="rulesSection" style="display: none;">
+        <div class="card-header">📋 Behavioral Rules</div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Command Precision</label>
+            <div class="radio-group">
+              <label>
+                <input type="radio" name="commandPrecision" value="strict">
+                Strict
+              </label>
+              <label>
+                <input type="radio" name="commandPrecision" value="flexible" checked>
+                Flexible
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="customRules">Custom Rules (one per line)</label>
+            <textarea id="customRules" class="form-control" placeholder="Example:&#10;Always be respectful&#10;Never share personal information"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="autonomySection" style="display: none;">
+        <div class="card-header">🎭 Free Will & Autonomy</div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Decision Freedom</label>
+            <div class="button-group" id="decisionFreedom">
+              <button class="btn btn-secondary" onclick="setDecision('low')">Low</button>
+              <button class="btn btn-secondary active" onclick="setDecision('medium')">Medium</button>
+              <button class="btn btn-secondary" onclick="setDecision('high')">High</button>
+            </div>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="expressOpinions">
+            <label for="expressOpinions">Express Opinions</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="moodSimulation">
+            <label for="moodSimulation">Mood Simulation</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons" id="actionButtons" style="display: none;">
+        <button class="btn btn-success" onclick="saveSettings()">💾 Save Settings</button>
+        <button class="btn btn-secondary" onclick="resetToDefault()">🔄 Reset to Default</button>
+        <button class="btn btn-info" onclick="testConfiguration()">🧪 Test Configuration</button>
+      </div>
+
+      <div class="card" id="testResults" style="display: none;">
+        <div class="card-header">🧪 Test Results</div>
+        <div class="card-body">
+          <h3 style="color: var(--text-primary);">Sample Response:</h3>
+          <div id="sampleResponse" style="background: var(--dark); padding: 1rem; border-radius: 4px; margin: 1rem 0;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="/js/bot-smartness.js"></script>
+  <script src="/js/language-translator.js"></script>
+  <script src="/js/seo-meta.js"></script>
+</body>
+</html>

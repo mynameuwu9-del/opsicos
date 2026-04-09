@@ -1,0 +1,145 @@
+/* Theme Switcher Styles */
+.theme-switcher {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px 15px;
+  border-radius: 30px;
+  border: 2px solid var(--primary);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Dashboard specific positioning - center top */
+body[data-page="dashboard"] .theme-switcher {
+  top: 20px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+/* Container for theme switcher positioning */
+.theme-switcher-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+}
+
+.theme-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.theme-btn:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.theme-btn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 15px currentColor;
+}
+
+.theme-btn.active {
+  border-color: white;
+  box-shadow: 0 0 20px currentColor, inset 0 0 10px rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.theme-btn-red {
+  background: linear-gradient(135deg, #8B0000, #660000);
+  color: #8B0000;
+}
+
+.theme-btn-blue {
+  background: linear-gradient(135deg, #0066CC, #004499);
+  color: #0066CC;
+}
+
+.theme-btn-green {
+  background: linear-gradient(135deg, #00AA44, #007733);
+  color: #00AA44;
+}
+
+/* Theme color variables - Applied globally to all pages */
+:root[data-theme="red"],
+[data-theme="red"] {
+  --primary: #8B0000 !important;
+  --primary-dark: #660000 !important;
+  --primary-light: #AA0000 !important;
+  --primary-color: #8B0000 !important;
+  --secondary-color: #660000 !important;
+  --accent-color: #FF4444 !important;
+  --card-border: rgba(139, 0, 0, 0.3) !important;
+  --card-glow: rgba(139, 0, 0, 0.5) !important;
+}
+
+:root[data-theme="blue"],
+[data-theme="blue"] {
+  --primary: #0066CC !important;
+  --primary-dark: #004499 !important;
+  --primary-light: #0088FF !important;
+  --primary-color: #0066CC !important;
+  --secondary-color: #004499 !important;
+  --accent-color: #0088FF !important;
+  --card-border: rgba(0, 102, 204, 0.3) !important;
+  --card-glow: rgba(0, 102, 204, 0.5) !important;
+}
+
+:root[data-theme="green"],
+[data-theme="green"] {
+  --primary: #00AA44 !important;
+  --primary-dark: #007733 !important;
+  --primary-light: #00CC55 !important;
+  --primary-color: #00AA44 !important;
+  --secondary-color: #007733 !important;
+  --accent-color: #00CC55 !important;
+  --card-border: rgba(0, 170, 68, 0.3) !important;
+  --card-glow: rgba(0, 170, 68, 0.5) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .theme-switcher {
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  
+  body[data-page="dashboard"] .theme-switcher {
+    top: 10px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  
+  .theme-btn {
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
+  }
+}

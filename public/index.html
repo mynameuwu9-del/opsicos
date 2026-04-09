@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO Meta Tags -->
+  <title>Opsicos - Discord Bot Management Platform | AI Bots</title>
+  <meta name="description"
+    content="Create and manage Discord bots with AI integration and real-time monitoring. Deploy production-ready bots in minutes with Opsicos.">
+  <meta name="keywords"
+    content="discord bot, discord bot hosting, discord bot management, AI discord bot, discord bot creator, discord bot platform, discord bot service, multi bot management, discord automation, discord bot maker, discord bot builder, discord bot dashboard, discord bot monitoring, discord bot deployment, discord bot API, discord bot analytics, discord bot uptime, discord bot scaling">
+  <meta name="author" content="Opsicos">
+  <meta name="robots" content="index, follow">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://opsicos.onrender.com/">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Opsicos - Discord Bot Management Platform | AI Bots">
+  <meta property="og:description"
+    content="Create and manage Discord bots with AI integration and real-time monitoring. Deploy production-ready bots in minutes.">
+  <meta property="og:url" content="https://opsicos.onrender.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://opsicos.onrender.com/images/opsicos_circle.avif">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:type" content="image/avif">
+  <meta property="og:site_name" content="Opsicos">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Opsicos - Discord Bot Management Platform | AI Bots">
+  <meta name="twitter:description"
+    content="Create and manage Discord bots with AI integration and real-time monitoring. Deploy production-ready bots in minutes.">
+  <meta name="twitter:image" content="https://opsicos.onrender.com/images/opsicos_circle.avif">
+  <meta name="twitter:site" content="@opsicos">
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Opsicos",
+      "description": "Advanced Discord bot management platform with AI integration, real-time monitoring, and enterprise-grade reliability.",
+      "url": "https://opsicos.onrender.com",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free tier available"
+      },
+      "author": {
+          "@type": "Organization",
+          "name": "Opsicos"
+      },
+      "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "ratingCount": "150"
+      },
+      "featureList": [
+          "Multi-bot management",
+          "AI integration",
+          "Real-time monitoring",
+          "Auto-restart system",
+          "Production deployment",
+          "Analytics dashboard"
+      ]
+  }
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/avif" href="/images/opsicos_circle.avif">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png">
+
+  <!-- Android Chrome Icons -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/android-chrome-512x512.png">
+
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#8B0000">
+  <meta name="msapplication-TileImage" content="/images/mstile-144x144.png">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#8B0000">
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <style>
+    :root {
+      --primary: #8B0000;
+      /* Deep Red */
+      --primary-dark: #660000;
+      /* Darker Red */
+      --secondary: #CCCCCC;
+      /* Light Gray */
+      --dark: #1a1a1a;
+      /* Very Dark Gray */
+      --darker: #000000;
+      /* Black */
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --card-border: rgba(139, 0, 0, 0.3);
+      --card-glow: rgba(139, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+      overflow-x: hidden;
+    }
+
+    /* Floating particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 6s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.3;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Fade in animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .fade-in-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Stagger animation for cards */
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .stagger-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-item:nth-child(1) {
+      transition-delay: 0.1s;
+    }
+
+    .stagger-item:nth-child(2) {
+      transition-delay: 0.2s;
+    }
+
+    .stagger-item:nth-child(3) {
+      transition-delay: 0.3s;
+    }
+
+    .stagger-item:nth-child(4) {
+      transition-delay: 0.4s;
+    }
+
+    .stagger-item:nth-child(5) {
+      transition-delay: 0.5s;
+    }
+
+    .stagger-item:nth-child(6) {
+      transition-delay: 0.6s;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--darker) 100%);
+      color: var(--text-primary);
+      padding: 2rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    .logo-text {
+      position: relative;
+      z-index: 1;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+
+    header p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 0;
+      color: var(--text-primary);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--darker) 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      border-right: 3px solid var(--primary);
+      white-space: nowrap;
+      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-nav {
+      margin-top: 1rem;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .header-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .header-nav a:hover {
+      color: var(--primary);
+      background: rgba(139, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .header-nav a.highlight-nav {
+      background: linear-gradient(135deg, var(--primary), #ff6b6b);
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+      border: 1px solid var(--primary);
+    }
+
+    .header-nav a.highlight-nav:hover {
+      background: linear-gradient(135deg, #ff6b6b, var(--primary));
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.5);
+    }
+
+    .opsicos-logo {
+      width: 100px;
+      /* Adjust size as needed */
+      height: 100px;
+      /* Adjust size as needed */
+      margin-bottom: 1rem;
+      animation: rotateAndScale 4s infinite ease-in-out alternate;
+    }
+
+    @keyframes rotateAndScale {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+
+      50% {
+        transform: rotate(10deg) scale(1.05);
+      }
+
+      100% {
+        transform: rotate(0deg) scale(1);
+      }
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink-caret {
+
+      from,
+      to {
+        border-color: transparent;
+      }
+
+      50% {
+        border-color: var(--primary);
+      }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(139, 0, 0, 0.4);
+      animation: none;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+      }
+
+      50% {
+        box-shadow: 0 4px 25px rgba(139, 0, 0, 0.5);
+      }
+
+      100% {
+        box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+      }
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      animation: none;
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border-color: var(--primary);
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .documentation-section {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--dark) 100%);
+    }
+
+    .documentation-section h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      font-size: 2.5rem;
+    }
+
+    .documentation-section p {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .doc-card {
+      background: var(--surface);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .doc-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .doc-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 30px rgba(139, 0, 0, 0.3);
+    }
+
+    .doc-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .doc-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .doc-card h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .doc-card p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .doc-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .doc-link:hover {
+      color: var(--primary-dark);
+    }
+
+    .docs-cta {
+      text-align: center;
+    }
+
+    .features {
+      padding: 4rem 0;
+      background-color: var(--surface);
+    }
+
+    .features h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--primary);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, var(--darker) 0%, var(--surface) 100%);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      animation: rotate 20s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(139, 0, 0, 0.4), 0 0 30px var(--card-glow);
+      border-color: var(--primary);
+    }
+
+    .feature-card:hover::before {
+      opacity: 0.15;
+    }
+
+    .feature-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      animation: pulse 2s infinite;
+    }
+
+    .models {
+      padding: 4rem 0;
+      background-color: var(--darker);
+    }
+
+    .models h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--primary);
+    }
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .model-card {
+      background: linear-gradient(145deg, var(--surface), var(--darker));
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+    }
+
+    .model-card::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+      transition: all 0.6s ease;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    .model-card:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(139, 0, 0, 0.4), 0 0 25px var(--card-glow);
+      border-color: var(--primary);
+    }
+
+    .model-card:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    .model-card h3,
+    .model-card p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .model-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .model-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Why Choose Section */
+    .why-choose {
+      padding: 3rem 0;
+      background: var(--surface);
+      text-align: center;
+    }
+
+    .why-content {
+      max-width: 800px;
+      margin: 2rem auto 0;
+      text-align: left;
+    }
+
+    .why-content p {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    .external-resources {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(139, 0, 0, 0.1);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .external-resources a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .external-resources a:hover {
+      text-decoration: underline;
+    }
+
+    .cta {
+      padding: 4rem 0;
+      text-align: center;
+      background-color: var(--primary);
+      color: var(--text-primary);
+    }
+
+    .cta h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .cta .btn {
+      background-color: white;
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+    }
+
+    .cta .btn:hover {
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      background-color: var(--darker);
+      color: var(--text-secondary);
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Enhanced cards hover effect */
+    .glass-card {
+      background: rgba(26, 26, 26, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      background: rgba(26, 26, 26, 0.9);
+      border-color: var(--primary);
+      box-shadow: 0 0 30px var(--card-glow);
+    }
+
+    /* Stats section */
+    .stats-section {
+      padding: 3rem 0;
+      background: linear-gradient(135deg, var(--surface) 0%, var(--darker) 100%);
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      padding: 1.5rem;
+      background: var(--darker);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 25px rgba(139, 0, 0, 0.3);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .feature-grid,
+      .model-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .feature-card,
+      .model-card {
+        padding: 1.5rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+    }
+  </style>
+
+  <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-loader.js"></script>
+</head>
+
+<body>
+  <!-- Floating particles background -->
+  <div class="particles" id="particles"></div>
+
+  <header class="fade-in">
+    <div class="container header-content">
+      <img src="/images/opsicos_circle.avif" alt="Opsicos Logo" class="opsicos-logo">
+      <div class="logo-text">Opsicos</div>
+      <p>AI-Powered Discord Bots</p>
+      <nav class="header-nav">
+        <a href="/">Home</a>
+        <a href="/aboutus" class="highlight-nav">About Us</a>
+        <a href="/docs" class="highlight-nav">Documentation</a>
+        <a href="/login">Login</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero fade-in">
+    <div class="container">
+      <h1 class="text-5xl font-bold mb-4">Revolutionize Your Discord Experience</h1>
+      <p class="text-2xl mb-8">Create Your AI Discord Bot in Minutes with Opsicos</p>
+      <div class="hero-buttons">
+        <a href="/login" class="btn fade-in-right">Get Started Free</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features fade-in">
+    <div class="container">
+      <h2 class="fade-in">Powerful Features for Your Discord Bot</h2>
+      <div class="feature-grid">
+        <div class="feature-card stagger-item">
+          <h3><span class="feature-icon">⚡</span> Easy Setup</h3>
+          <p>Get started in minutes! Just add your <a href="https://discord.com/developers/applications" target="_blank"
+              rel="noopener">Discord bot token</a> and select from our premium AI models. No coding required.</p>
+        </div>
+        <div class="feature-card stagger-item">
+          <h3><span class="feature-icon">🤖</span> 15+ AI Models</h3>
+          <p>Access cutting-edge AI from <a href="https://openai.com" target="_blank" rel="noopener">OpenAI</a> (GPT-5),
+            <a href="https://ai.meta.com" target="_blank" rel="noopener">Meta</a> (Llama), and more providers.
+          </p>
+        </div>
+        <div class="feature-card stagger-item">
+          <h3><span class="feature-icon">🚀</span> Instant Deployment</h3>
+          <p>Deploy your bot to unlimited Discord servers with one click. Auto-scaling ensures 24/7 uptime.</p>
+        </div>
+        <div class="feature-card stagger-item">
+          <h3><span class="feature-icon">🎯</span> Custom Knowledge</h3>
+          <p>Train your bot with custom knowledge, personality, and behavior. Make it uniquely yours!</p>
+        </div>
+        <div class="feature-card stagger-item">
+          <h3><span class="feature-icon">🌍</span> Multi-Language</h3>
+          <p>Your bot understands all languages and can respond in 10+ languages including English, Hindi, Spanish,
+            Chinese.</p>
+        </div>
+        <div class="feature-card stagger-item">
+          <h3><span class="feature-icon">📊</span> Real-time Monitoring</h3>
+          <p>Track bot performance, uptime status, and server statistics from your personalized dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="models fade-in">
+    <div class="container">
+      <h2 class="fade-in">Premium AI Models Available</h2>
+      <div class="model-grid">
+        <div class="model-card stagger-item">
+          <h3>🔥 GPT-5 Nano</h3>
+          <p>OpenAI's most advanced model with superior reasoning, creativity, and knowledge capabilities.</p>
+        </div>
+
+
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section fade-in">
+    <div class="container">
+      <h2 class="fade-in">Trusted by Discord Communities</h2>
+      <div class="stats-grid">
+        <div class="stat-card stagger-item">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">AI Models</div>
+        </div>
+        <div class="stat-card stagger-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Uptime</div>
+        </div>
+        <div class="stat-card stagger-item">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Languages</div>
+        </div>
+        <div class="stat-card stagger-item">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Servers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Opsicos Section -->
+  <section class="why-choose fade-in">
+    <div class="container">
+      <h2 class="fade-in">Why Choose Opsicos for Discord Bot Management?</h2>
+      <div class="why-content">
+        <p class="fade-in-left">Opsicos revolutionizes Discord bot creation and deployment with our advanced platform.
+          Whether you're managing a gaming community, business server, or educational Discord, our AI-powered bots
+          enhance user engagement and automate server management tasks efficiently.</p>
+        <p class="fade-in-right">Our platform supports enterprise-grade reliability with automatic scaling,
+          comprehensive monitoring, and seamless integration across unlimited Discord servers. Create, deploy, and
+          monitor your Discord bots with confidence using Opsicos.</p>
+        <div class="external-resources fade-in">
+          <p><strong>Helpful Resources:</strong>
+            <a href="https://discord.com/developers/docs" target="_blank" rel="noopener">Discord API Docs</a> |
+            <a href="https://github.com/discord" target="_blank" rel="noopener">Discord GitHub</a> |
+            <a href="https://discord.com/safety" target="_blank" rel="noopener">Discord Safety</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta fade-in">
+    <div class="container">
+      <h2 class="fade-in">Ready to Create Your AI Discord Bot?</h2>
+      <p class="fade-in-left">Join the future of Discord automation. No credit card required.</p>
+      <a href="/login" class="btn fade-in-right">Start Free Now</a>
+    </div>
+  </section>
+
+  <footer class="fade-in">
+    <div class="container">
+      <p>&copy; 2025 Opsicos. All rights reserved.</p>
+      <p>
+        <a href="/aboutus">About</a> |
+        <a href="/docs">Docs</a> |
+        <a href="/terms">Terms of Service</a> |
+        <a href="/privacy">Privacy Policy</a> |
+        <a href="/contact">Support</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    document.addEventListener('DOMContentLoaded', () => {
+      const animatedElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .stagger-item');
+      animatedElements.forEach(el => observer.observe(el));
+
+      // Create floating particles
+      createParticles();
+
+      // Add loading effect to model cards
+      const modelCards = document.querySelectorAll('.model-card');
+      modelCards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.2}s`;
+      });
+    });
+
+    // Create floating particles background
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        // Random position and animation delay
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+
+        // Random size variation
+        const size = Math.random() * 3 + 1;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add parallax effect to header
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const header = document.querySelector('header');
+      if (header) {
+        header.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+    });
+
+    // Check if user is authenticated and redirect to dashboard
+    fetch('/auth/status')
+      .then(response => response.json())
+      .then(data => {
+        if (data.isAuthenticated) {
+          window.location.href = '/dashboard';
+        }
+      })
+      .catch(error => {
+        console.error('Error checking authentication status:', error);
+      });
+  </script>
+
+  <!-- Ban message handler -->
+  <script src="/js/ban-message.js"></script>
+
+  <!-- Theme Switcher -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-switcher.js"></script>
+</body>
+
+</html>

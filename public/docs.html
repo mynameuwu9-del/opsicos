@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Opsicos Documentation - No-Code Discord Bot Platform | User Guide</title>
+    <meta name="description" content="Complete user guide for Opsicos no-code Discord bot platform. Learn how to create and manage Discord bots without any coding knowledge through our easy-to-use dashboard.">
+    <meta name="keywords" content="discord bot, no-code discord bot, discord bot creator, discord bot platform, discord bot service, discord bot management, discord automation, discord bot tutorial, discord bot documentation, discord bot dashboard, easy discord bot">
+    <meta name="author" content="Opsicos">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://opsicos.onrender.com/docs">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Opsicos Documentation - Discord Bot Management Platform">
+    <meta property="og:description" content="Complete user guide for creating and managing Discord bots with no coding required through our easy-to-use platform.">
+    <meta property="og:url" content="https://opsicos.onrender.com/docs">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://opsicos.onrender.com/images/opsicos-docs-preview.png">
+    <meta property="og:site_name" content="Opsicos">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Opsicos Documentation - Discord Bot Management Platform">
+    <meta name="twitter:description" content="Complete user guide for creating and managing Discord bots with no coding required.">
+    <meta name="twitter:image" content="https://opsicos.onrender.com/images/opsicos-docs-preview.png">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Opsicos Discord Bot Management Documentation",
+        "description": "Complete user guide for Opsicos no-code Discord bot platform with setup guides and best practices.",
+        "author": {
+            "@type": "Organization",
+            "name": "Opsicos"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Opsicos",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://opsicos.onrender.com/images/opsicos_circle.avif"
+            }
+        },
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-01-11",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://opsicos.onrender.com/docs"
+        },
+        "articleSection": "Documentation",
+        "keywords": ["discord bot", "no-code bot", "bot management", "discord automation", "bot creator"]
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="icon" type="image/avif" href="/images/opsicos_circle.avif">
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png">
+
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/images/android-chrome-512x512.png">
+
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#8B0000">
+    <meta name="msapplication-TileImage" content="/images/mstile-144x144.png">
+    <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#8B0000">
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #8B0000;
+            --secondary-color: #660000;
+            --accent-color: #FF4444;
+            --dark-bg: #1a1a1a;
+            --darker-bg: #000000;
+            --text-light: #FFFFFF;
+            --text-muted: #CCCCCC;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: rgba(0, 0, 0, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+        }
+        
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .sidebar {
+            background: rgba(44, 47, 51, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(88, 101, 242, 0.2);
+            height: calc(100vh - 76px);
+            overflow-y: auto;
+            position: sticky;
+            top: 76px;
+        }
+        
+        .sidebar .nav-link {
+            color: var(--text-light);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin: 0.25rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: rgba(88, 101, 242, 0.2);
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        .content-area {
+            padding: 2rem;
+            max-width: 100%;
+        }
+        
+        .doc-section {
+            background: rgba(44, 47, 51, 0.6);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(88, 101, 242, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .doc-section h1,
+        .doc-section h2,
+        .doc-section h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .doc-section h1 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            color: #d4edda;
+        }
+        
+        .alert-info {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid var(--accent-color);
+            color: var(--text-light);
+        }
+        
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            color: var(--text-light);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .feature-card {
+            background: rgba(44, 47, 51, 0.8);
+            border: 1px solid rgba(88, 101, 242, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+        
+        .toc {
+            background: rgba(44, 47, 51, 0.8);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        
+        .toc a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            color: var(--accent-color);
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                height: auto;
+            }
+            
+            .content-area {
+                padding: 1rem;
+            }
+        }
+    </style>
+
+    <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+    <link rel="stylesheet" href="/css/theme-switcher.css">
+    <script src="/js/theme-loader.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="/images/opsicos_circle.avif" alt="Opsicos Logo" style="height: 32px; width: auto; margin-right: 8px;">Opsicos
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/docs">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/playground">Bot Playground</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 76px;">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4">
+                <div class="sidebar p-3">
+                    <h5 class="text-center mb-3">
+                        <i class="fas fa-book me-2"></i>Documentation
+                    </h5>
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="#getting-started">
+                            <i class="fas fa-play me-2"></i>Getting Started
+                        </a>
+                        <a class="nav-link" href="#quick-setup">
+                            <i class="fas fa-rocket me-2"></i>Quick Setup
+                        </a>
+                        <a class="nav-link" href="#bot-creation">
+                            <i class="fas fa-plus me-2"></i>Creating Bots
+                        </a>
+                        <a class="nav-link" href="#bot-features">
+                            <i class="fas fa-cogs me-2"></i>Bot Features
+                        </a>
+                        <a class="nav-link" href="#monitoring">
+                            <i class="fas fa-chart-line me-2"></i>Monitoring
+                        </a>
+                        <a class="nav-link" href="#account-limits">
+                            <i class="fas fa-user-check me-2"></i>Account Limits
+                        </a>
+                        <a class="nav-link" href="#troubleshooting">
+                            <i class="fas fa-wrench me-2"></i>Troubleshooting
+                        </a>
+                        <a class="nav-link" href="#best-practices">
+                            <i class="fas fa-star me-2"></i>Best Practices
+                        </a>
+
+                        <a class="nav-link" href="#faq">
+                            <i class="fas fa-question-circle me-2"></i>FAQ
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 col-md-8">
+                <div class="content-area">
+                    <!-- Table of Contents -->
+                    <div class="toc">
+                        <h4><i class="fas fa-list me-2"></i>Table of Contents</h4>
+                        <ul>
+                            <li><a href="#getting-started">1. Getting Started</a></li>
+                            <li><a href="#quick-setup">2. Quick Setup Guide</a></li>
+                            <li><a href="#bot-creation">3. Creating Your First Bot</a></li>
+                            <li><a href="#bot-features">4. Bot Features</a></li>
+                            <li><a href="#monitoring">5. Monitoring & Analytics</a></li>
+                            <li><a href="#account-limits">6. Account Limits & Service Info</a></li>
+                            <li><a href="#troubleshooting">7. Troubleshooting</a></li>
+                            <li><a href="#best-practices">8. Best Practices</a></li>
+                            <li><a href="#faq">9. Frequently Asked Questions</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Getting Started Section -->
+                    <section id="getting-started" class="doc-section">
+                        <h1><i class="fas fa-play me-2"></i>Getting Started with Opsicos</h1>
+                        <p class="lead">Welcome to Opsicos, the easiest no-code Discord bot platform. Create and manage Discord bots without any programming knowledge through our simple, user-friendly dashboard.</p>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-robot me-2 text-primary"></i>Easy Bot Creation</h4>
+                                    <p>Create up to 2 Discord bots per account with our simple step-by-step process.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-magic me-2 text-success"></i>No-Code Platform</h4>
+                                    <p>Create powerful Discord bots without any coding knowledge - just configure and deploy!</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-shield-alt me-2 text-warning"></i>Reliable Service</h4>
+                                    <p>Automatic bot management and monitoring to keep your bots running smoothly.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-chart-line me-2 text-info"></i>Bot Monitoring</h4>
+                                    <p>Track your bot's status and activity through our easy-to-read dashboard.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-4">
+                            <h5><i class="fas fa-info-circle me-2"></i>Prerequisites</h5>
+                            <ul class="mb-0">
+                                <li>Discord Developer Account</li>
+                                <li>Basic understanding of Discord servers</li>
+                                <li>Opsicos account (free registration)</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Quick Setup Section -->
+                    <section id="quick-setup" class="doc-section">
+                        <h1><i class="fas fa-rocket me-2"></i>Quick Setup Guide</h1>
+                        <p>Get your first Discord bot running in under 5 minutes with our streamlined setup process.</p>
+
+                        <h3>Step 1: Create Discord Application</h3>
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-info-circle me-2"></i>Discord Setup</h5>
+                            <ol>
+                                <li>Visit <strong>Discord Developer Portal</strong> and create a new application</li>
+                                <li>Give your application a name (e.g., "My Community Bot")</li>
+                                <li>Go to the <strong>Bot</strong> section and create a bot</li>
+                                <li>Copy the <strong>Bot Token</strong> - you'll need this for Opsicos</li>
+                            </ol>
+                        </div>
+
+                        <h3>Step 2: Set Bot Permissions</h3>
+                        <p>Your bot needs basic permissions to function properly in your Discord server:</p>
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-check-circle me-2"></i>Essential Permissions</h5>
+                            <ul>
+                                <li><strong>Send Messages</strong> - To respond to users</li>
+                                <li><strong>Read Message History</strong> - To understand conversations</li>
+                                <li><strong>Use Slash Commands</strong> - For modern Discord commands</li>
+                                <li><strong>Embed Links</strong> - For rich message formatting</li>
+                            </ul>
+                        </div>
+
+                        <h3>Step 3: Invite Bot to Your Server</h3>
+                        <div class="alert alert-warning">
+                            <strong>Important:</strong> You need "Manage Server" permissions to add bots to your Discord server.
+                        </div>
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-link me-2"></i>Invitation Process</h5>
+                            <ol>
+                                <li>In Discord Developer Portal, go to <strong>OAuth2 > URL Generator</strong></li>
+                                <li>Select <strong>bot</strong> scope and your desired permissions</li>
+                                <li>Copy the generated invitation URL</li>
+                                <li>Open the URL and select your Discord server</li>
+                                <li>Authorize the bot to join your server</li>
+                            </ol>
+                        </div>
+
+                        <h3>Step 4: Register with Opsicos</h3>
+                        <p>Create your Opsicos account and add your first bot:</p>
+                        <div class="text-center mb-3">
+                            <a href="/login" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </a>
+                        </div>
+                    </section>
+
+                    <!-- Bot Creation Section -->
+                    <section id="bot-creation" class="doc-section">
+                        <h1><i class="fas fa-plus me-2"></i>Creating Your First Bot</h1>
+                        <p>Learn how to create and configure Discord bots using the Opsicos platform.</p>
+
+                        <h3>Bot Configuration Made Simple</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Basic Settings</h4>
+                                <ul>
+                                    <li><strong>Bot Name:</strong> Choose a friendly name for your bot</li>
+                                    <li><strong>Bot Token:</strong> Paste your Discord bot token</li>
+                                    <li><strong>Status Message:</strong> What your bot is doing</li>
+                                    <li><strong>Personality:</strong> How your bot should behave</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Features You Can Enable</h4>
+                                <ul>
+                                    <li><strong>Smart Conversations:</strong> Built-in chat responses</li>
+                                    <li><strong>Knowledge Base:</strong> Teach your bot about your community</li>
+                                    <li><strong>Auto-Moderation:</strong> Keep your server safe</li>
+                                    <li><strong>Custom Responses:</strong> Set up automatic replies</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Setting Up Your Bot</h3>
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-rocket me-2"></i>Quick Setup Example</h5>
+                            <p><strong>Bot Name:</strong> "Community Helper"</p>
+                            <p><strong>Status:</strong> "Helping the community"</p>
+                            <p><strong>Personality:</strong> Friendly and helpful</p>
+                            <p><strong>Features Enabled:</strong></p>
+                            <ul class="mb-0">
+                                <li>✅ Smart Conversations</li>
+                                <li>✅ Knowledge Base</li>
+                                <li>❌ Auto-Moderation (optional)</li>
+                                <li>✅ Custom Responses</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-lightbulb me-2"></i>Pro Tip</h5>
+                            <p class="mb-0">Choose a descriptive bot name and status message so your community members understand what your bot does!</p>
+                        </div>
+                    </section>
+
+                    <!-- Bot Features Section -->
+                    <section id="bot-features" class="doc-section">
+                        <h1><i class="fas fa-cogs me-2"></i>Bot Features</h1>
+                        <p>Discover the powerful features available in your Opsicos Discord bots - all configured through our easy-to-use no-code interface.</p>
+
+                        <h3>Available Bot Features</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-comments me-2 text-primary"></i>AI Chat Responses</h4>
+                                    <p>Intelligent conversation capabilities powered by advanced AI models. Your bot can engage in natural conversations with server members.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-shield-alt me-2 text-warning"></i>Auto Moderation</h4>
+                                    <p>Automatic content filtering, spam detection, and server moderation to keep your Discord community safe and clean.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-bell me-2 text-info"></i>Welcome Messages</h4>
+                                    <p>Customizable welcome messages for new members, including role assignment and server introduction.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-gamepad me-2 text-success"></i>Fun Commands</h4>
+                                    <p>Entertainment features like games, memes, jokes, and interactive commands to engage your community.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Easy Configuration Process</h3>
+                        <p>All features are configured through our intuitive dashboard - no coding required!</p>
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-list-ol me-2"></i>Simple Setup Steps</h5>
+                            <ol>
+                                <li><strong>Create Discord Bot</strong> - Set up your bot on Discord</li>
+                                <li><strong>Add to Opsicos</strong> - Paste your bot token in our dashboard</li>
+                                <li><strong>Choose Features</strong> - Select what you want your bot to do</li>
+                                <li><strong>Customize Settings</strong> - Set personality and behavior</li>
+                                <li><strong>Go Live!</strong> - Your bot starts working immediately</li>
+                            </ol>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-magic me-2"></i>No-Code Advantage</h5>
+                            <p class="mb-0">Opsicos handles all the technical complexity behind the scenes. You focus on configuring your bot's personality and features through our user-friendly interface.</p>
+                        </div>
+                    </section>
+
+                    <!-- Monitoring Section -->
+                    <section id="monitoring" class="doc-section">
+                        <h1><i class="fas fa-chart-line me-2"></i>Monitoring & Analytics</h1>
+                        <p>Track your bot's performance, uptime, and user interactions with comprehensive monitoring tools.</p>
+
+                        <h3>Real-time Dashboard</h3>
+                        <p>Monitor all your bots from a centralized dashboard:</p>
+                        <ul>
+                            <li><strong>Bot Status:</strong> Online/Offline status for each bot</li>
+                            <li><strong>Uptime Tracking:</strong> 99.9% uptime monitoring</li>
+                            <li><strong>Message Statistics:</strong> Messages sent/received per hour</li>
+                            <li><strong>Error Logs:</strong> Real-time error tracking and alerts</li>
+                            <li><strong>Activity Tracking:</strong> Monitor bot usage and interactions</li>
+                        </ul>
+
+                        <h3>Automatic Health Monitoring</h3>
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-heartbeat me-2"></i>Always Watching Your Bots</h5>
+                            <p>Our system automatically monitors your bots and keeps them running smoothly:</p>
+                            <ul>
+                                <li>✅ <strong>Connection Status:</strong> Ensures your bot stays connected to Discord</li>
+                                <li>✅ <strong>Response Monitoring:</strong> Checks that your bot is responding properly</li>
+                                <li>✅ <strong>Auto-Restart:</strong> Automatically restarts bots if they encounter issues</li>
+                                <li>✅ <strong>Performance Tracking:</strong> Monitors bot performance and usage</li>
+                            </ul>
+                        </div>
+
+                        <h3>Analytics & Insights</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Usage Metrics</h4>
+                                <ul>
+                                    <li>Daily/Weekly/Monthly active users</li>
+                                    <li>Most used commands</li>
+                                    <li>Peak usage hours</li>
+                                    <li>Server growth tracking</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Performance Metrics</h4>
+                                <ul>
+                                    <li>Average response time</li>
+                                    <li>Message response success rate</li>
+                                    <li>User interaction analysis</li>
+                                    <li>Performance optimization tips</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Account Limits & Service Info Section -->
+                    <section id="account-limits" class="doc-section">
+                        <h1><i class="fas fa-user-check me-2"></i>Account Limits & Service Information</h1>
+                        <p>Important information about account limitations, service reliability, and future plans.</p>
+
+                        <h3>Current Account Limits</h3>
+                        <div class="alert alert-warning">
+                            <h5><i class="fas fa-exclamation-triangle me-2"></i>Bot Limit Per Account</h5>
+                            <p class="mb-0">Each Opsicos account is currently limited to <strong>2 Discord bots maximum</strong>. This helps us maintain service quality and stability for all users.</p>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-info-circle me-2"></i>Current Account Limits</h5>
+                            <ul>
+                                <li>✅ <strong>Maximum Bots:</strong> 2 per account</li>
+                                <li>✅ <strong>Bot Uptime:</strong> Best effort service</li>
+                                <li>✅ <strong>Support:</strong> Community-based help</li>
+                                <li>✅ <strong>Features:</strong> All features included</li>
+                                <li>✅ <strong>Storage:</strong> Unlimited bot configurations</li>
+                            </ul>
+                            <h6><i class="fas fa-ban me-2"></i>Not Allowed:</h6>
+                            <ul class="mb-0">
+                                <li>❌ Creating multiple accounts for more bots</li>
+                                <li>❌ Sharing accounts between users</li>
+                                <li>❌ Using bots for spam or harmful activities</li>
+                            </ul>
+                        </div>
+
+                        <h3>Service Reliability Disclaimer</h3>
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-info-circle me-2"></i>Beta Service Notice</h5>
+                            <p>Opsicos is currently in active development. While we strive for maximum uptime and reliability, we cannot guarantee 100% service availability at this time. We're working hard to improve stability and may introduce paid plans with SLA guarantees in the future.</p>
+                        </div>
+
+                        <h3>Future Plans</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4><i class="fas fa-road me-2"></i>Upcoming Features</h4>
+                                <ul>
+                                    <li>Enhanced bot customization options</li>
+                                    <li>Advanced analytics and reporting</li>
+                                    <li>Custom command builder</li>
+                                    <li>Integration with more platforms</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4><i class="fas fa-dollar-sign me-2"></i>Pricing Plans (Future)</h4>
+                                <ul>
+                                    <li>Free tier: 2 bots (current offering)</li>
+                                    <li>Pro tier: More bots + premium features</li>
+                                    <li>Enterprise: Custom solutions + SLA</li>
+                                    <li>Timeline: To be announced</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Important Terms to Remember</h3>
+                        <div class="alert alert-warning">
+                            <h5><i class="fas fa-exclamation-triangle me-2"></i>Key Rules</h5>
+                            <ol>
+                                <li>One account per person/organization</li>
+                                <li>Maximum 2 bots per account</li>
+                                <li>No alternative accounts for additional bots</li>
+                                <li>Respect Discord's Terms of Service</li>
+                                <li>No malicious or spam activities</li>
+                                <li>Service provided "as-is" without guarantees</li>
+                            </ol>
+                            <h6><i class="fas fa-gavel me-2"></i>Violation Consequences:</h6>
+                            <ul class="mb-0">
+                                <li>Account suspension or termination</li>
+                                <li>Bot removal without notice</li>
+                                <li>Permanent ban from platform</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <h5><i class="fas fa-ban me-2"></i>Alternative Account Policy</h5>
+                            <p class="mb-0">Creating multiple Opsicos accounts to circumvent the 2-bot limit is strictly prohibited and will result in permanent suspension of all associated accounts.</p>
+                        </div>
+                    </section>
+
+                    <!-- Troubleshooting Section -->
+                    <section id="troubleshooting" class="doc-section">
+                        <h1><i class="fas fa-wrench me-2"></i>Troubleshooting</h1>
+                        <p>Common issues and solutions for Discord bot management.</p>
+
+                        <h3>Common Issues</h3>
+
+                        <h4>Bot Won't Start</h4>
+                        <div class="alert alert-warning">
+                            <strong>Symptoms:</strong> Bot shows as "Offline" in dashboard
+                        </div>
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-search me-2"></i>Common Causes & Solutions</h6>
+                            <ul>
+                                <li><strong>Invalid bot token:</strong> Double-check your token in Discord Developer Portal</li>
+                                <li><strong>Bot not in server:</strong> Make sure you invited the bot to your Discord server</li>
+                                <li><strong>Missing permissions:</strong> Re-invite bot with proper permissions</li>
+                                <li><strong>Server issues:</strong> Wait a few minutes and try again</li>
+                            </ul>
+                        </div>
+
+                        <h4>Smart Responses Not Working</h4>
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-checklist me-2"></i>Quick Checklist</h6>
+                            <ul>
+                                <li>✅ Bot has permission to send messages in the channel</li>
+                                <li>✅ Smart conversation feature is enabled in your dashboard</li>
+                                <li>✅ Bot is online and connected</li>
+                                <li>✅ You're not being rate-limited (try again in a few minutes)</li>
+                            </ul>
+                        </div>
+
+                        <h3>Getting Detailed Help</h3>
+                        <p>If you're still having issues, our dashboard provides helpful information:</p>
+                        <div class="alert alert-success">
+                            <h6><i class="fas fa-chart-line me-2"></i>Check Your Dashboard</h6>
+                            <ul class="mb-0">
+                                <li>View bot status and recent activity</li>
+                                <li>Check error messages and notifications</li>
+                                <li>Review bot configuration settings</li>
+                                <li>Access help guides and tutorials</li>
+                            </ul>
+                        </div>
+
+                        <h3>Getting Help</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fab fa-discord me-2"></i>Discord Support</h4>
+                                    <p>Join our Discord server for community support</p>
+                                    <a href="#" class="btn btn-primary">Join Discord</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="feature-card">
+                                    <h4><i class="fas fa-envelope me-2"></i>Email Support</h4>
+                                    <p>Contact our support team</p>
+                                    <a href="mailto:support@opsicos.com" class="btn btn-primary">Send Email</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Best Practices Section -->
+                    <section id="best-practices" class="doc-section">
+                        <h1><i class="fas fa-star me-2"></i>Best Practices</h1>
+                        <p>Follow these guidelines to ensure optimal performance and security for your Discord bots.</p>
+
+                        <h3>Security Best Practices</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4><i class="fas fa-shield-alt me-2 text-warning"></i>Token Security</h4>
+                                <ul>
+                                    <li>Never share bot tokens publicly</li>
+                                    <li>Use environment variables for tokens</li>
+                                    <li>Regenerate tokens if compromised</li>
+                                    <li>Limit bot permissions to minimum required</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4><i class="fas fa-user-shield me-2 text-info"></i>Access Control</h4>
+                                <ul>
+                                    <li>Use role-based command restrictions</li>
+                                    <li>Implement rate limiting per user</li>
+                                    <li>Log all administrative actions</li>
+                                    <li>Regular security audits</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Performance Tips</h3>
+                        <div class="alert alert-success">
+                            <h5><i class="fas fa-rocket me-2"></i>Optimize Your Bot's Performance</h5>
+                            <ul>
+                                <li><strong>Keep it Simple:</strong> Enable only the features you actually need</li>
+                                <li><strong>Monitor Usage:</strong> Check your dashboard regularly for performance insights</li>
+                                <li><strong>Set Appropriate Responses:</strong> Configure reasonable response times and limits</li>
+                                <li><strong>Regular Maintenance:</strong> Review and update your bot's settings periodically</li>
+                            </ul>
+                        </div>
+
+                        <h3>Content Guidelines</h3>
+                        <ul>
+                            <li><strong>Appropriate Responses:</strong> Ensure AI responses follow Discord ToS</li>
+                            <li><strong>Content Filtering:</strong> Implement profanity and spam filters</li>
+                            <li><strong>User Privacy:</strong> Don't store personal information unnecessarily</li>
+                            <li><strong>Moderation:</strong> Include moderation features for public bots</li>
+                        </ul>
+
+                        <h3>Scaling Considerations</h3>
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-chart-line me-2"></i>Growth Planning</h5>
+                            <ul class="mb-0">
+                                <li>Monitor resource usage as your bot grows</li>
+                                <li>Implement database indexing for large datasets</li>
+                                <li>Use CDN for media files and assets</li>
+                                <li>Consider load balancing for high-traffic bots</li>
+                            </ul>
+                        </div>
+                    </section>
+
+
+
+                    <!-- FAQ Section -->
+                    <section id="faq" class="doc-section">
+                        <h1><i class="fas fa-question-circle me-2"></i>Frequently Asked Questions</h1>
+
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item bg-dark border-secondary">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        How many bots can I create with Opsicos?
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body bg-dark text-light">
+                                        Currently, each Opsicos account can create up to 2 Discord bots. This limit helps us maintain service quality and stability. Creating multiple accounts to bypass this limit is against our Terms of Service.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item bg-dark border-secondary">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        What AI models are supported?
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body bg-dark text-light">
+                                        Opsicos provides built-in smart conversation capabilities for your Discord bots. All features are pre-configured and managed by our platform - no technical setup required on your end.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item bg-dark border-secondary">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        Is my bot data secure?
+                                    </button>
+                                </h2>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body bg-dark text-light">
+                                        Yes, we use enterprise-grade security including encrypted data storage and regular security audits. Bot tokens are encrypted and never stored in plain text.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item bg-dark border-secondary">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                        Can I migrate my existing bot to Opsicos?
+                                    </button>
+                                </h2>
+                                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body bg-dark text-light">
+                                        Absolutely! Simply add your existing bot token to Opsicos and configure the settings. Your bot will continue working in all servers where it's already installed, but now with enhanced monitoring and management features.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item bg-dark border-secondary">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                        What happens if my bot goes offline?
+                                    </button>
+                                </h2>
+                                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body bg-dark text-light">
+                                        Our auto-restart system monitors your bots 24/7 and automatically restarts them if they go offline. You'll receive notifications about any downtime, and our system maintains 99.9% uptime.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <p>Still have questions? <a href="mailto:support@opsicos.com" class="text-primary">Contact our support team</a></p>
+                        </div>
+                    </section>
+
+                    <!-- Footer -->
+                    <footer class="text-center mt-5 py-4 border-top border-secondary">
+                        <p class="text-muted">
+                            &copy; 2024 Opsicos. All rights reserved. |
+                            <a href="/privacy" class="text-primary">Privacy Policy</a> |
+                            <a href="/terms" class="text-primary">Terms of Service</a>
+                        </p>
+                        <p class="text-muted">
+                            <small>Last updated: January 11, 2024</small>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                    // Update active nav link
+                    document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.doc-section');
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Search functionality
+        function searchDocs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sections = document.querySelectorAll('.doc-section');
+
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (text.includes(searchTerm) || searchTerm === '') {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Users Management - Opsicos</title>
+  <link rel="canonical" href="https://opsicos.onrender.com/special-users">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-dark: #660000;
+      --secondary: #CCCCCC;
+      --dark: #1a1a1a;
+      --darker: #000000;
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --success: #43B581;
+      --danger: #F04747;
+      --warning: #FAA61A;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+    }
+    
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    .sidebar {
+      width: 250px;
+      background-color: var(--darker);
+      color: var(--text-primary);
+      padding: 1.5rem 0;
+      border-right: 1px solid var(--primary-dark);
+    }
+    
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--primary-dark);
+      margin-bottom: 1.5rem;
+    }
+    
+    .sidebar-header h2 {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+    
+    .sidebar-nav {
+      list-style: none;
+    }
+    
+    .sidebar-nav li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+    
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background-color: var(--surface);
+      color: var(--text-primary);
+      border-left-color: var(--primary);
+    }
+    
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      background-color: var(--background);
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--primary-dark);
+    }
+    
+    .header h1 {
+      color: var(--text-primary);
+      font-size: 2rem;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+    
+    .logout-btn {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .card {
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+      margin-bottom: 2rem;
+      border: 1px solid var(--primary-dark);
+    }
+    
+    .card-header {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 1rem 1.5rem;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    .bot-selector {
+      margin-bottom: 2rem;
+    }
+    
+    .bot-selector label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+    
+    .bot-selector select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      background-color: var(--dark);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+    
+    .search-container {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      background-color: var(--dark);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(139, 0, 0, 0.2);
+    }
+    
+    .autocomplete-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--surface);
+      border: 1px solid var(--primary-dark);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+    }
+    
+    .autocomplete-dropdown.show {
+      display: block;
+    }
+    
+    .autocomplete-item {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      gap: 10px;
+    }
+    
+    .autocomplete-item:hover {
+      background-color: var(--dark);
+    }
+    
+    .autocomplete-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--primary);
+    }
+    
+    .autocomplete-info {
+      flex: 1;
+    }
+    
+    .autocomplete-name {
+      color: var(--text-primary);
+      font-weight: bold;
+    }
+    
+    .autocomplete-id {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    
+    .add-user-form {
+      background-color: var(--dark);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      display: none;
+    }
+    
+    .add-user-form.show {
+      display: block;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--text-primary);
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--primary-dark);
+      border-radius: 4px;
+      background-color: var(--surface);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+    
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    
+    .form-group small {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    
+    .btn {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      margin-right: 0.5rem;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: var(--darker);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #999999;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background-color: #d63031;
+    }
+    
+    .special-users-list {
+      display: grid;
+      gap: 1rem;
+    }
+    
+    .special-user-card {
+      background-color: var(--dark);
+      border: 1px solid var(--primary-dark);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .special-user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+    
+    .special-user-info {
+      flex: 1;
+    }
+    
+    .special-user-name {
+      color: var(--text-primary);
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .special-user-identity {
+      color: var(--primary);
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .special-user-description {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+    
+    .special-user-id {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+    }
+    
+    .success-message {
+      background-color: rgba(67, 181, 129, 0.1);
+      color: var(--success);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--success);
+    }
+    
+    .error-message {
+      background-color: rgba(240, 71, 71, 0.1);
+      color: var(--danger);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border-left: 3px solid var(--danger);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+    
+    .no-users {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+    
+    .selected-user-preview {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: var(--surface);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .selected-user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+    }
+    
+    .selected-user-info {
+      flex: 1;
+    }
+    
+    .selected-user-name {
+      color: var(--text-primary);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    .selected-user-id {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+  </style>
+
+  <!-- Theme Loader -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-loader.js"></script>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>Opsicos</h2>
+        <p>Dashboard</p>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/dashboard">My Bots</a></li>
+        <li><a href="/docs">📚 Documentation</a></li>
+        <li><a href="/knowledge">Knowledge Management</a></li>
+        <li><a href="/stored-knowledge">Stored Knowledge</a></li>
+        <li><a href="/behavior">🎭 Bot Behavior</a></li>
+        <li><a href="/bot-smartness">🧠 Bot's Smartness</a></li>
+        <li><a href="/uptime-status">📊 Bot Uptime Status</a></li>
+        <li><a href="/features">🔧 Features</a></li>
+        <li><a href="/special-users" class="active">👥 Special Users</a></li>
+        <li><a href="/playground">🎮 Playground</a></li>
+        <li><a href="/settings">⚙️ Settings</a></li>
+        <li><a href="/terms">📋 Terms of Service</a></li>
+        <li><a href="/privacy">🔒 Privacy Policy</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1>👥 Special Users Management</h1>
+        <div class="user-info">
+          <img id="userAvatar" src="" alt="User Avatar" class="user-avatar" style="display: none;">
+          <span id="userName">Loading...</span>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          About Special Users
+        </div>
+        <div class="card-body">
+          <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+            Add special users who will receive priority recognition and personalized responses from your bot. 
+            When these users interact with your bot, it will recognize them instantly by name and provide more personalized responses based on their identity and description.
+          </p>
+        </div>
+      </div>
+      
+      <div class="bot-selector">
+        <label for="botSelect">Select Bot</label>
+        <select id="botSelect" onchange="onBotChange()">
+          <option value="">Loading bots...</option>
+        </select>
+        <div id="botStatus" style="margin-top: 10px; padding: 10px; border-radius: 4px; display: none;">
+          <small id="botStatusText"></small>
+        </div>
+      </div>
+      
+      <div id="messageContainer"></div>
+      
+      <div class="card">
+        <div class="card-header">
+          Add Special User
+        </div>
+        <div class="card-body">
+          <div class="search-container">
+            <input 
+              type="text" 
+              id="userSearch" 
+              class="search-input" 
+              placeholder="Enter Discord ID (e.g., 123456789012345678) or username..." 
+              autocomplete="off"
+              oninput="onSearchInput()"
+              onfocus="onSearchFocus()"
+            >
+            <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+            <small style="color: var(--text-secondary); margin-top: 0.5rem; display: block;">
+              💡 <strong>Tip:</strong> For global user search, use Discord ID for instant results. Username search requires manual ID entry.
+            </small>
+          </div>
+          
+          <div style="text-align: center; margin: 10px 0; display: flex; gap: 10px; justify-content: center;">
+            <button class="btn" onclick="addUserManually()" style="width: auto; padding: 0.5rem 1rem;">
+              🆔 Add by Discord ID
+            </button>
+            <button class="btn btn-secondary" onclick="testBotCapabilities()" style="width: auto; padding: 0.5rem 1rem;">
+              🔧 Test Bot Connection
+            </button>
+          </div>
+          
+          <div id="addUserForm" class="add-user-form">
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Add User Details</h3>
+            
+            <div id="selectedUserPreview" class="selected-user-preview"></div>
+            
+            <div class="form-group">
+              <label for="userIdentity">Identity *</label>
+              <input 
+                type="text" 
+                id="userIdentity" 
+                placeholder="e.g., Server Owner, VIP Member, Friend, Developer" 
+                maxlength="50"
+                required
+              >
+              <small>How should the bot recognize this user?</small>
+            </div>
+            
+            <div class="form-group">
+              <label for="userNickname">Nickname (Optional)</label>
+              <input 
+                type="text" 
+                id="userNickname" 
+                placeholder="e.g., Tawsif, Alex, Sarah" 
+                maxlength="30"
+              >
+              <small>What should the bot call this user? (Leave empty to use Discord username)</small>
+            </div>
+            
+            <div class="form-group">
+              <label for="userDescription">Description (Optional)</label>
+              <textarea 
+                id="userDescription" 
+                placeholder="Additional context about this user for the bot..."
+              ></textarea>
+              <small>Provide extra information to help the bot personalize responses.</small>
+            </div>
+            
+            <button class="btn" onclick="addSpecialUser()">Add Special User</button>
+            <button class="btn btn-secondary" onclick="cancelAddUser()">Cancel</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          Current Special Users
+        </div>
+        <div class="card-body">
+          <div id="loadingIndicator" class="loading">
+            <p>Select a bot to view special users...</p>
+          </div>
+          
+          <div id="noUsersMessage" class="no-users" style="display: none;">
+            <h3>No Special Users</h3>
+            <p>You haven't added any special users yet. Search for a Discord user above to get started.</p>
+          </div>
+          
+          <div id="specialUsersList" class="special-users-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+    let currentBots = [];
+    let selectedBot = null;
+    let selectedDiscordUser = null;
+    let searchTimeout = null;
+    let cachedUsers = new Map();
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuth();
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container')) {
+          hideAutocomplete();
+        }
+      });
+    });
+
+    // Check authentication
+    function checkAuth() {
+      fetch('/auth/user', {
+        credentials: 'include'
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Not authenticated');
+        }
+        return response.json();
+      })
+      .then(user => {
+        currentUser = user;
+        document.getElementById('userName').textContent = user.name || user.username || 'User';
+        
+        if (user.avatar) {
+          const userAvatar = document.getElementById('userAvatar');
+          userAvatar.src = user.avatar;
+          userAvatar.style.display = 'block';
+        }
+        
+        loadBots();
+      })
+      .catch(error => {
+        console.error('Authentication error:', error);
+        alert('Please log in to access this page.');
+        window.location.href = '/';
+      });
+    }
+
+    // Load user's bots
+    async function loadBots() {
+      try {
+        const response = await fetch('/bots', {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to load bots');
+        }
+        
+        const bots = await response.json();
+        currentBots = bots;
+        
+        const botSelect = document.getElementById('botSelect');
+        
+        if (bots.length === 0) {
+          botSelect.innerHTML = '<option value="">No bots available</option>';
+          return;
+        }
+        
+        botSelect.innerHTML = '<option value="">Select a bot...</option>' +
+          bots.map(bot => {
+            const status = bot.isActive && bot.status === 'online' ? '🟢' : '🔴';
+            return `<option value="${bot._id}">${status} ${bot.botName}</option>`;
+          }).join('');
+        
+      } catch (error) {
+        console.error('Error loading bots:', error);
+        showMessage('Error loading bots. Please refresh the page.', 'error');
+      }
+    }
+
+    // Handle bot selection change
+    function onBotChange() {
+      const botSelect = document.getElementById('botSelect');
+      const botId = botSelect.value;
+      const botStatus = document.getElementById('botStatus');
+      const botStatusText = document.getElementById('botStatusText');
+      
+      if (!botId) {
+        selectedBot = null;
+        botStatus.style.display = 'none';
+        document.getElementById('loadingIndicator').style.display = 'block';
+        document.getElementById('loadingIndicator').innerHTML = '<p>Select a bot to view special users...</p>';
+        document.getElementById('noUsersMessage').style.display = 'none';
+        document.getElementById('specialUsersList').innerHTML = '';
+        return;
+      }
+      
+      selectedBot = currentBots.find(bot => bot._id === botId);
+      
+      // Show bot status
+      if (selectedBot) {
+        botStatus.style.display = 'block';
+        if (selectedBot.isActive && selectedBot.status === 'online') {
+          botStatus.style.backgroundColor = 'rgba(67, 181, 129, 0.1)';
+          botStatus.style.borderLeft = '3px solid #43B581';
+          botStatusText.textContent = '🌍 Bot is online - Global Discord user search available';
+          botStatusText.style.color = '#43B581';
+        } else {
+          botStatus.style.backgroundColor = 'rgba(240, 71, 71, 0.1)';
+          botStatus.style.borderLeft = '3px solid #F04747';
+          botStatusText.textContent = '🔴 Bot is offline - Only manual user addition available';
+          botStatusText.style.color = '#F04747';
+        }
+      }
+      
+      loadSpecialUsers(botId);
+    }
+
+    // Handle search input
+    function onSearchInput() {
+      const searchInput = document.getElementById('userSearch');
+      const query = searchInput.value.trim();
+      
+      console.log('🔍 [onSearchInput] Called with query:', query);
+      console.log('🔍 [onSearchInput] Query length:', query.length);
+      console.log('🔍 [onSearchInput] Selected bot:', selectedBot ? selectedBot.botName : 'None');
+      
+      clearTimeout(searchTimeout);
+      
+      if (query.length < 2) {
+        console.log('⚠️ [onSearchInput] Query too short, hiding autocomplete');
+        hideAutocomplete();
+        return;
+      }
+      
+      console.log('⏱️ [onSearchInput] Setting timeout to search in 300ms');
+      searchTimeout = setTimeout(() => {
+        searchDiscordUsers(query);
+      }, 300);
+    }
+
+    // Handle search focus
+    function onSearchFocus() {
+      const searchInput = document.getElementById('userSearch');
+      const query = searchInput.value.trim();
+      
+      if (query.length >= 2) {
+        searchDiscordUsers(query);
+      }
+    }
+
+    // Search Discord users globally
+    async function searchDiscordUsers(query) {
+      console.log('🌍 [searchDiscordUsers] Starting global search for:', query);
+      console.log('🔎 [searchDiscordUsers] Selected bot:', selectedBot);
+      
+      if (!selectedBot) {
+        console.error('❌ [searchDiscordUsers] No bot selected!');
+        showMessage('Please select a bot first', 'error');
+        return;
+      }
+      
+      console.log('✅ [searchDiscordUsers] Bot selected:', selectedBot.botName, '(ID:', selectedBot._id, ')');
+      
+      // Check cache first
+      if (cachedUsers.has(query)) {
+        console.log('📦 [searchDiscordUsers] Using cached results for query:', query);
+        displayAutocomplete(cachedUsers.get(query));
+        return;
+      }
+      
+      try {
+        const apiUrl = `/api/discord/search-users?query=${encodeURIComponent(query)}&botId=${selectedBot._id}`;
+        console.log('🌐 [searchDiscordUsers] Fetching from global API:', apiUrl);
+        
+        const response = await fetch(apiUrl, {
+          credentials: 'include'
+        });
+        
+        console.log('📡 [searchDiscordUsers] Response status:', response.status);
+        console.log('📡 [searchDiscordUsers] Response ok:', response.ok);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('❌ [searchDiscordUsers] Search failed with status:', response.status);
+          console.error('❌ [searchDiscordUsers] Error text:', errorText);
+          throw new Error(`Search failed: ${response.status}`);
+        }
+        
+        const users = await response.json();
+        console.log('✅ [searchDiscordUsers] Found users:', users);
+        console.log('✅ [searchDiscordUsers] Number of users:', users.length);
+        
+        // Cache and display results
+        cachedUsers.set(query, users);
+        displayAutocomplete(users);
+        
+      } catch (error) {
+        console.error('❌ [searchDiscordUsers] Error caught:', error);
+        console.error('❌ [searchDiscordUsers] Error message:', error.message);
+        console.error('❌ [searchDiscordUsers] Error stack:', error.stack);
+        
+        // Show manual option if search fails
+        displayAutocomplete([{
+          id: 'manual_' + query,
+          username: `Add "${query}" manually`,
+          avatar: null,
+          isManual: true,
+          source: 'Manual Entry'
+        }]);
+      }
+    }
+
+    // Display autocomplete dropdown
+    function displayAutocomplete(users) {
+      console.log('📋 [displayAutocomplete] Displaying autocomplete with', users.length, 'users');
+      const dropdown = document.getElementById('autocompleteDropdown');
+      
+      if (!dropdown) {
+        console.error('❌ [displayAutocomplete] Dropdown element not found!');
+        return;
+      }
+      
+      console.log('✅ [displayAutocomplete] Dropdown element found');
+      
+      if (users.length === 0) {
+        console.log('⚠️ [displayAutocomplete] No users to display');
+        dropdown.innerHTML = '<div style="padding: 1rem; text-align: center; color: var(--text-secondary);">No users found</div>';
+        dropdown.classList.add('show');
+        return;
+      }
+      
+      dropdown.innerHTML = users.map(user => {
+        if (user.isManual) {
+          return `
+            <div class="autocomplete-item" onclick='selectUser(${JSON.stringify(user)})'>
+              <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">+</div>
+              <div class="autocomplete-info">
+                <div class="autocomplete-name">${escapeHtml(user.username)}</div>
+                <div class="autocomplete-id">Manual Entry</div>
+              </div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="autocomplete-item" onclick='selectUser(${JSON.stringify(user)})'>
+              <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar" class="autocomplete-avatar">
+              <div class="autocomplete-info">
+                <div class="autocomplete-name">${escapeHtml(user.username)}</div>
+                ${user.globalName ? `<div style="color: var(--text-secondary); font-size: 0.8rem;">${escapeHtml(user.globalName)}</div>` : ''}
+                <div class="autocomplete-id">ID: ${user.id}</div>
+                <div style="color: var(--success); font-size: 0.75rem;">✅ ${user.source || 'Global Discord'}</div>
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+      
+      console.log('✅ [displayAutocomplete] Adding "show" class to dropdown');
+      dropdown.classList.add('show');
+      console.log('✅ [displayAutocomplete] Dropdown should now be visible');
+    }
+
+    // Hide autocomplete dropdown
+    function hideAutocomplete() {
+      const dropdown = document.getElementById('autocompleteDropdown');
+      dropdown.classList.remove('show');
+    }
+
+    // Select user from autocomplete
+    function selectUser(user) {
+      if (user.isManual) {
+        // Handle manual entry
+        const actualUsername = user.username.replace('Add "', '').replace('" manually', '');
+        const discordId = prompt(`Enter Discord ID for "${actualUsername}":`);
+        if (!discordId || !/^\d{17,19}$/.test(discordId)) {
+          showMessage('Invalid Discord ID. Must be 17-19 digits.', 'error');
+          return;
+        }
+        
+        selectedDiscordUser = {
+          id: discordId,
+          username: actualUsername,
+          avatar: null
+        };
+        document.getElementById('userSearch').value = actualUsername;
+      } else {
+        selectedDiscordUser = user;
+        document.getElementById('userSearch').value = user.username;
+      }
+      
+      hideAutocomplete();
+      showAddUserForm(selectedDiscordUser);
+    }
+
+    // Show add user form
+    function showAddUserForm(user) {
+      const form = document.getElementById('addUserForm');
+      const preview = document.getElementById('selectedUserPreview');
+      
+      preview.innerHTML = `
+        <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar" class="selected-user-avatar">
+        <div class="selected-user-info">
+          <div class="selected-user-name">${escapeHtml(user.username)}</div>
+          <div class="selected-user-id">ID: ${user.id}</div>
+        </div>
+      `;
+      
+      document.getElementById('userIdentity').value = '';
+      document.getElementById('userNickname').value = '';
+      document.getElementById('userDescription').value = '';
+      
+      form.classList.add('show');
+    }
+
+    // Test bot capabilities
+    async function testBotCapabilities() {
+      if (!selectedBot) {
+        showMessage('Please select a bot first', 'error');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/discord/bot-info/${selectedBot._id}`, {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to get bot info');
+        }
+        
+        const botInfo = await response.json();
+        
+        let message = `Bot Connection Test Results:\n\n`;
+        message += `🤖 Online: ${botInfo.online ? 'Yes' : 'No'}\n`;
+        message += `🌍 Global User Search: ${botInfo.online ? 'Available' : 'Unavailable'}\n`;
+        message += `🆔 Discord ID Lookup: ${botInfo.online ? 'Available' : 'Unavailable'}\n\n`;
+        
+        if (botInfo.online) {
+          message += `Additional Info:\n`;
+          message += `🏰 Connected Guilds: ${botInfo.guilds || 0}\n`;
+          message += `👥 Total Members: ${botInfo.totalMembers || 0}\n\n`;
+          
+          if (botInfo.guildInfo && botInfo.guildInfo.length > 0) {
+            message += `Guild Details:\n`;
+            botInfo.guildInfo.forEach(guild => {
+              message += `• ${guild.name}: ${guild.memberCount} members\n`;
+            });
+          }
+        } else {
+          message += `Note: Bot must be online for global user search functionality.`;
+        }
+        
+        alert(message);
+        
+      } catch (error) {
+        console.error('Error testing bot capabilities:', error);
+        showMessage('Failed to test bot capabilities', 'error');
+      }
+    }
+
+    // Add user manually by Discord ID
+    function addUserManually() {
+      if (!selectedBot) {
+        showMessage('Please select a bot first', 'error');
+        return;
+      }
+      
+      const discordId = prompt('Enter Discord User ID (18-19 digits):');
+      if (!discordId) return;
+      
+      if (!/^\d{17,19}$/.test(discordId)) {
+        showMessage('Invalid Discord ID. Must be 17-19 digits.', 'error');
+        return;
+      }
+      
+      const username = prompt('Enter username (or leave empty for Unknown User):') || 'Unknown User';
+      
+      const user = {
+        id: discordId,
+        username: username,
+        avatar: null
+      };
+      
+      selectUser(user);
+    }
+
+    // Cancel add user
+    function cancelAddUser() {
+      document.getElementById('addUserForm').classList.remove('show');
+      document.getElementById('userSearch').value = '';
+      selectedDiscordUser = null;
+    }
+
+    // Add special user
+    async function addSpecialUser() {
+      if (!selectedBot) {
+        showMessage('Please select a bot first', 'error');
+        return;
+      }
+      
+      if (!selectedDiscordUser) {
+        showMessage('Please select a user first', 'error');
+        return;
+      }
+      
+      const identity = document.getElementById('userIdentity').value.trim();
+      const nickname = document.getElementById('userNickname').value.trim();
+      const description = document.getElementById('userDescription').value.trim();
+      
+      if (!identity) {
+        showMessage('Please provide an identity for this user', 'error');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/bots/${selectedBot._id}/special-users`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: selectedDiscordUser.id,
+            username: selectedDiscordUser.username,
+            nickname: nickname,
+            avatar: selectedDiscordUser.avatar,
+            identity: identity,
+            description: description
+          })
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to add special user');
+        }
+        
+        showMessage(`✅ ${selectedDiscordUser.username} added as special user successfully`, 'success');
+        cancelAddUser();
+        loadSpecialUsers(selectedBot._id);
+        
+      } catch (error) {
+        console.error('Error adding special user:', error);
+        showMessage(`❌ ${error.message}`, 'error');
+      }
+    }
+
+    // Load special users
+    async function loadSpecialUsers(botId) {
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const noUsersMessage = document.getElementById('noUsersMessage');
+      const specialUsersList = document.getElementById('specialUsersList');
+      
+      loadingIndicator.style.display = 'block';
+      loadingIndicator.innerHTML = '<p>Loading special users...</p>';
+      noUsersMessage.style.display = 'none';
+      specialUsersList.innerHTML = '';
+      
+      try {
+        const response = await fetch(`/api/bots/${botId}/special-users`, {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error('Failed to load special users');
+        }
+        
+        const users = await response.json();
+        
+        loadingIndicator.style.display = 'none';
+        
+        if (users.length === 0) {
+          noUsersMessage.style.display = 'block';
+          return;
+        }
+        
+        specialUsersList.innerHTML = users.map(user => `
+          <div class="special-user-card">
+            <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="Avatar" class="special-user-avatar">
+            <div class="special-user-info">
+              <div class="special-user-name">${escapeHtml(user.username)}${user.nickname ? ` (${escapeHtml(user.nickname)})` : ''}</div>
+              <div class="special-user-identity">Identity: ${escapeHtml(user.identity)}</div>
+              ${user.nickname ? `<div style="color: var(--primary); font-size: 0.9rem;">🏷️ Bot calls them: ${escapeHtml(user.nickname)}</div>` : ''}
+              ${user.description ? `<div class="special-user-description">${escapeHtml(user.description)}</div>` : ''}
+              <div class="special-user-id">Discord ID: ${user.userId}</div>
+            </div>
+            <button class="btn btn-danger" onclick="removeSpecialUser('${user.userId}')">Remove</button>
+          </div>
+        `).join('');
+        
+      } catch (error) {
+        console.error('Error loading special users:', error);
+        loadingIndicator.innerHTML = '<p style="color: var(--danger);">Error loading special users. Please try again.</p>';
+      }
+    }
+
+    // Remove special user
+    async function removeSpecialUser(userId) {
+      if (!selectedBot) {
+        showMessage('Please select a bot first', 'error');
+        return;
+      }
+      
+      if (!confirm('Are you sure you want to remove this special user?')) {
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/bots/${selectedBot._id}/special-users/${userId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to remove special user');
+        }
+        
+        showMessage('✅ Special user removed successfully', 'success');
+        loadSpecialUsers(selectedBot._id);
+        
+      } catch (error) {
+        console.error('Error removing special user:', error);
+        showMessage(`❌ ${error.message}`, 'error');
+      }
+    }
+
+    // Show message
+    function showMessage(message, type) {
+      const messageContainer = document.getElementById('messageContainer');
+      const messageClass = type === 'success' ? 'success-message' : 'error-message';
+      
+      messageContainer.innerHTML = `<div class="${messageClass}">${message}</div>`;
+      
+      setTimeout(() => {
+        messageContainer.innerHTML = '';
+      }, 5000);
+    }
+
+    // Escape HTML
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Logout function
+    function logout() {
+      window.location.href = '/auth/logout';
+    }
+  </script>
+  <script src="/js/language-translator.js"></script>
+</body>
+</html>

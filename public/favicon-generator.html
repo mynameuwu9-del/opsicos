@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Generator - Opsicos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #8B0000;
+            text-align: center;
+        }
+        .logo-preview {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .logo-preview img {
+            max-width: 200px;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .size-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .size-item {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-family: monospace;
+        }
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+
+  <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-loader.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Favicon Generator for Opsicos</h1>
+        
+        <div class="logo-preview">
+            <h3>Current Logo:</h3>
+            <img src="/images/opsicos_circle.avif" alt="Opsicos Circle Logo" id="logoPreview">
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <p>To generate all required favicon files from the new <code>opsicos_circle.avif</code> logo:</p>
+            <ol>
+                <li>Right-click on the logo above and save it to your computer</li>
+                <li>Visit <a href="https://realfavicongenerator.net/" target="_blank">RealFaviconGenerator.net</a></li>
+                <li>Upload the saved logo file</li>
+                <li>Configure the settings for each platform</li>
+                <li>Download the generated favicon package</li>
+                <li>Replace the files in the <code>/public/images/</code> directory</li>
+            </ol>
+        </div>
+        
+        <div class="note">
+            <h4>⚠️ Required Favicon Files:</h4>
+            <p>The following files need to be generated and placed in <code>/public/images/</code>:</p>
+        </div>
+        
+        <div class="size-list">
+            <div class="size-item">favicon.ico</div>
+            <div class="size-item">favicon-16x16.png</div>
+            <div class="size-item">favicon-32x32.png</div>
+            <div class="size-item">favicon-96x96.png</div>
+            <div class="size-item">apple-touch-icon-57x57.png</div>
+            <div class="size-item">apple-touch-icon-60x60.png</div>
+            <div class="size-item">apple-touch-icon-72x72.png</div>
+            <div class="size-item">apple-touch-icon-76x76.png</div>
+            <div class="size-item">apple-touch-icon-114x114.png</div>
+            <div class="size-item">apple-touch-icon-120x120.png</div>
+            <div class="size-item">apple-touch-icon-144x144.png</div>
+            <div class="size-item">apple-touch-icon-152x152.png</div>
+            <div class="size-item">apple-touch-icon-180x180.png</div>
+            <div class="size-item">android-chrome-192x192.png</div>
+            <div class="size-item">android-chrome-512x512.png</div>
+            <div class="size-item">mstile-70x70.png</div>
+            <div class="size-item">mstile-144x144.png</div>
+            <div class="size-item">mstile-150x150.png</div>
+            <div class="size-item">mstile-310x150.png</div>
+            <div class="size-item">mstile-310x310.png</div>
+        </div>
+        
+        <div class="note">
+            <h4>✅ Already Configured:</h4>
+            <p>The HTML files have already been updated with the proper favicon links. Once you generate and upload the favicon files, they will automatically work across all devices and platforms.</p>
+        </div>
+    </div>
+</body>
+</html>

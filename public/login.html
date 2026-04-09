@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opsicos - Login</title>
+  <link rel="canonical" href="https://opsicos.onrender.com/login">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/avif" href="/images/opsicos_circle.avif">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-180x180.png">
+
+  <!-- Android Chrome Icons -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/images/android-chrome-512x512.png">
+
+  <!-- Microsoft Tiles -->
+  <meta name="msapplication-TileColor" content="#8B0000">
+  <meta name="msapplication-TileImage" content="/images/mstile-144x144.png">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#8B0000">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #8B0000; /* Deep Red */
+      --primary-dark: #660000; /* Darker Red */
+      --secondary: #CCCCCC; /* Light Gray */
+      --dark: #1a1a1a; /* Very Dark Gray */
+      --darker: #000000; /* Black */
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background-color: var(--background);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+      text-align: center;
+    }
+    
+    .login-header {
+      margin-bottom: 2rem;
+    }
+    
+    .login-header h1 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+    
+    .login-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary);
+      color: var(--text-primary);
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    
+    .login-button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .login-button img {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+    
+    .login-info {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+    
+    .login-footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    
+    .login-footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .login-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <!-- Theme Loader - Load theme immediately AFTER inline styles -->
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <script src="/js/theme-loader.js"></script>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <h1>Opsicos</h1>
+      <p>Login to manage your Discord bots</p>
+    </div>
+    
+    <div id="error-message" class="error-message" style="display: none; color: #F04747; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; padding: 0.75rem; margin-bottom: 1rem;">
+    </div>
+    
+    <a href="/auth/discord" class="login-button">
+      <i class="fab fa-discord" style="font-size: 1.2rem; margin-right: 8px;"></i>
+      Login with Discord
+    </a>
+
+    <div class="login-info">
+      <p>You'll be redirected to Discord to authorize the application.</p>
+      <p>We only request necessary permissions to manage your bots.</p>
+    </div>
+
+    <div class="login-footer">
+      <p>Don't have a Discord account? <a href="https://discord.com/register" target="_blank">Create one</a></p>
+      <p>By logging in, you agree to our <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a> and will be joined our discord server automatically</p>
+    </div>
+  </div>
+  
+  <script>
+    // Check for error messages in URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    
+    if (error) {
+      const errorMessage = document.getElementById('error-message');
+      let message = '';
+      
+      switch (error) {
+        case 'state_mismatch':
+          message = 'Authentication security check failed. Please try logging in again.';
+          break;
+        case 'auth_failed':
+          message = 'Authentication failed. Please try logging in again.';
+          break;
+        case 'banned':
+          const reason = urlParams.get('reason') || 'Your account has been suspended. Please contact support for more information.';
+          message = `🚫 Account Banned: ${decodeURIComponent(reason)}`;
+          document.getElementById('error-message').style.backgroundColor = '#f8d7da';
+          document.getElementById('error-message').style.borderColor = '#f5c6cb';
+          document.getElementById('error-message').style.color = '#721c24';
+          break;
+        case 'security_violation':
+          const securityReason = urlParams.get('reason') || 'Security policy violation detected.';
+          message = `🛡️ Access Denied: ${decodeURIComponent(securityReason)}`;
+          document.getElementById('error-message').style.backgroundColor = '#fff3cd';
+          document.getElementById('error-message').style.borderColor = '#ffeaa7';
+          document.getElementById('error-message').style.color = '#856404';
+          break;
+        default:
+          message = 'An error occurred during authentication. Please try again.';
+      }
+      
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+    }
+    
+    // Only check authentication if there's no error message to show
+    if (!error) {
+      fetch('/auth/status')
+        .then(response => response.json())
+        .then(data => {
+          if (data.isAuthenticated) {
+            window.location.href = '/dashboard';
+          }
+        })
+        .catch(error => {
+          console.error('Error checking authentication status:', error);
+        });
+    }
+  </script>
+</body>
+</html> 

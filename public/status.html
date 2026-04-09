@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Status - Opsicos</title>
+  <link rel="canonical" href="https://opsicos.onrender.com/status">
+  <meta name="description" content="Real-time system status and uptime monitoring for Opsicos API services">
+  <style>
+    :root {
+      --primary: #8B0000;
+      --primary-dark: #660000;
+      --secondary: #CCCCCC;
+      --dark: #1a1a1a;
+      --darker: #000000;
+      --text-primary: #FFFFFF;
+      --text-secondary: #CCCCCC;
+      --background: #000000;
+      --surface: #1a1a1a;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --border: #8B0000;
+      --text: #FFFFFF;
+      --text-light: #CCCCCC;
+      --text-muted: #999999;
+      --bg-card: #1a1a1a;
+      --bg-secondary: #0d0d0d;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+      min-height: 100vh;
+      color: var(--text);
+      position: relative;
+    }
+
+    /* Background animation */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(139, 0, 0, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .navbar {
+      background: rgba(26, 26, 26, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .nav-brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .nav-brand h2 {
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), #ff4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-link {
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background: var(--primary);
+      color: var(--text);
+    }
+
+    .header {
+      text-align: center;
+      margin: 40px 0;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--text), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+
+    .last-updated {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Overall Status Card */
+    .overall-status {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .overall-status::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--success);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .overall-status.degraded::before {
+      background: var(--warning);
+    }
+
+    .overall-status.down::before {
+      background: var(--danger);
+    }
+
+    .overall-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .status-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    .status-icon.operational {
+      background: var(--success);
+    }
+
+    .status-icon.degraded {
+      background: var(--warning);
+    }
+
+    .status-icon.down {
+      background: var(--danger);
+    }
+
+    .uptime-percentage {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--success);
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(139, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(139, 0, 0, 0.3);
+      border-color: var(--primary);
+    }
+
+    .service-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .service-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .service-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .service-status.operational {
+      background: rgba(34, 197, 94, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .service-status.degraded {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .service-status.down {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .service-uptime {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .uptime-label {
+      color: var(--text-muted);
+    }
+
+    .uptime-value {
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    /* Visual Status Graph */
+    .status-graph {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 15px;
+    }
+
+    .graph-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .status-bars {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(3px, 1fr));
+      gap: 1px;
+      height: 40px;
+    }
+
+    .status-bar {
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .status-bar:hover {
+      transform: scaleY(1.2);
+    }
+
+    .status-bar.operational {
+      background: var(--success);
+    }
+
+    .status-bar.degraded {
+      background: var(--warning);
+    }
+
+    .status-bar.outage {
+      background: var(--danger);
+    }
+
+    .tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-5px);
+      background: var(--dark);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      border: 1px solid var(--border);
+    }
+
+    .status-bar:hover .tooltip {
+      opacity: 1;
+    }
+
+    /* Response Time Chart */
+    .response-time-chart {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+      height: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chart-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 20px;
+      display: grid;
+      grid-template-rows: repeat(4, 1fr);
+    }
+
+    .grid-line {
+      border-top: 1px solid rgba(139, 0, 0, 0.1);
+    }
+
+    .chart-line {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 80px;
+      stroke: var(--primary);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .chart-labels {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      padding: 0 5px;
+    }
+
+    /* Incidents Section */
+    .incidents-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .incidents-header {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .incident-item {
+      background: var(--bg-secondary);
+      border-left: 4px solid var(--warning);
+      border-radius: 6px;
+      padding: 15px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .incident-item.resolved {
+      border-left-color: var(--success);
+      opacity: 0.7;
+    }
+
+    .incident-item:hover {
+      transform: translateX(5px);
+    }
+
+    .incident-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .incident-title {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .incident-time {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .incident-description {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .no-incidents {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .no-incidents-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 30px 0;
+      padding: 20px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid rgba(139, 0, 0, 0.2);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid var(--bg-card);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .legend {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <a href="/" class="nav-brand">
+        <img src="/images/opsicos_circle.avif" alt="Opsicos Logo">
+        <h2>Opsicos Status</h2>
+      </a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/dashboard" class="nav-link">Dashboard</a>
+        <a href="/updates" class="nav-link">Updates</a>
+        <a href="/contact" class="nav-link">Support</a>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="header">
+      <h1>System Status</h1>
+      <p>Real-time monitoring of all Opsicos services</p>
+      <div class="last-updated">Last updated: <span id="lastUpdated">Loading...</span></div>
+    </div>
+
+    <!-- Overall Status -->
+    <div class="overall-status" id="overallStatus">
+      <div class="overall-header">
+        <div class="status-indicator">
+          <div class="status-icon operational">✓</div>
+          <span id="overallStatusText">All Systems Operational</span>
+        </div>
+        <div class="uptime-percentage" id="overallUptime">99.98%</div>
+      </div>
+      <div style="color: var(--text-light); font-size: 0.9rem;">
+        Overall uptime for the last 90 days
+      </div>
+    </div>
+
+    <!-- Services Status -->
+    <div class="services-grid">
+      <!-- Dashboard API -->
+      <div class="service-card">
+        <div class="service-header">
+          <div class="service-name">Dashboard API</div>
+          <div class="service-status operational" id="dashboardStatus">
+            <div class="status-dot" style="background: var(--success);"></div>
+            <span>Operational</span>
+          </div>
+        </div>
+        <div class="service-uptime">
+          <span class="uptime-label">90-day uptime</span>
+          <span class="uptime-value" id="dashboardUptime">99.99%</span>
+        </div>
+        <div class="status-graph">
+          <div class="graph-label">Last 90 days</div>
+          <div class="status-bars" id="dashboardBars"></div>
+        </div>
+        <div class="response-time-chart">
+          <div class="chart-grid">
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+          </div>
+          <svg class="chart-line" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <polyline id="dashboardChart" points="0,60 20,55 40,58 60,50 80,52 100,48" />
+          </svg>
+          <div class="chart-labels">
+            <span>90d ago</span>
+            <span>45d ago</span>
+            <span>Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Website API -->
+      <div class="service-card">
+        <div class="service-header">
+          <div class="service-name">Website API</div>
+          <div class="service-status operational" id="websiteStatus">
+            <div class="status-dot" style="background: var(--success);"></div>
+            <span>Operational</span>
+          </div>
+        </div>
+        <div class="service-uptime">
+          <span class="uptime-label">90-day uptime</span>
+          <span class="uptime-value" id="websiteUptime">99.97%</span>
+        </div>
+        <div class="status-graph">
+          <div class="graph-label">Last 90 days</div>
+          <div class="status-bars" id="websiteBars"></div>
+        </div>
+        <div class="response-time-chart">
+          <div class="chart-grid">
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+          </div>
+          <svg class="chart-line" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <polyline id="websiteChart" points="0,50 20,48 40,52 60,45 80,47 100,44" />
+          </svg>
+          <div class="chart-labels">
+            <span>90d ago</span>
+            <span>45d ago</span>
+            <span>Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Platform API -->
+      <div class="service-card">
+        <div class="service-header">
+          <div class="service-name">Platform API</div>
+          <div class="service-status operational" id="platformStatus">
+            <div class="status-dot" style="background: var(--success);"></div>
+            <span>Operational</span>
+          </div>
+        </div>
+        <div class="service-uptime">
+          <span class="uptime-label">90-day uptime</span>
+          <span class="uptime-value" id="platformUptime">99.95%</span>
+        </div>
+        <div class="status-graph">
+          <div class="graph-label">Last 90 days</div>
+          <div class="status-bars" id="platformBars"></div>
+        </div>
+        <div class="response-time-chart">
+          <div class="chart-grid">
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+          </div>
+          <svg class="chart-line" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <polyline id="platformChart" points="0,55 20,50 40,53 60,48 80,51 100,46" />
+          </svg>
+          <div class="chart-labels">
+            <span>90d ago</span>
+            <span>45d ago</span>
+            <span>Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REST API -->
+      <div class="service-card">
+        <div class="service-header">
+          <div class="service-name">REST API</div>
+          <div class="service-status operational" id="restStatus">
+            <div class="status-dot" style="background: var(--success);"></div>
+            <span>Operational</span>
+          </div>
+        </div>
+        <div class="service-uptime">
+          <span class="uptime-label">90-day uptime</span>
+          <span class="uptime-value" id="restUptime">99.98%</span>
+        </div>
+        <div class="status-graph">
+          <div class="graph-label">Last 90 days</div>
+          <div class="status-bars" id="restBars"></div>
+        </div>
+        <div class="response-time-chart">
+          <div class="chart-grid">
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+            <div class="grid-line"></div>
+          </div>
+          <svg class="chart-line" viewBox="0 0 100 80" preserveAspectRatio="none">
+            <polyline id="restChart" points="0,45 20,42 40,46 60,40 80,43 100,38" />
+          </svg>
+          <div class="chart-labels">
+            <span>90d ago</span>
+            <span>45d ago</span>
+            <span>Today</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background: var(--success);"></div>
+        <span>Operational</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background: var(--warning);"></div>
+        <span>Degraded Performance</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background: var(--danger);"></div>
+        <span>Service Outage</span>
+      </div>
+    </div>
+
+    <!-- Recent Incidents -->
+    <div class="incidents-section">
+      <h2 class="incidents-header">Recent Incidents</h2>
+      <div id="incidentsList">
+        <div class="no-incidents">
+          <div class="no-incidents-icon">✓</div>
+          <div>No incidents reported in the last 7 days</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© 2024 Opsicos. All rights reserved.</p>
+      <p>
+        <a href="/">Home</a> • 
+        <a href="/updates">Updates</a> • 
+        <a href="/contact">Contact Support</a> • 
+        <a href="https://discord.gg/DM5h9JWyTZ">Discord</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading" id="loading">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <script>
+    // Generate mock status data
+    function generateStatusData() {
+      const data = [];
+      for (let i = 0; i < 90; i++) {
+        const rand = Math.random();
+        if (rand > 0.98) data.push(2); // 2% outage
+        else if (rand > 0.95) data.push(1); // 3% degraded
+        else data.push(0); // 95% operational
+      }
+      return data;
+    }
+
+    // Calculate uptime percentage
+    function calculateUptime(data) {
+      const operational = data.filter(d => d === 0).length;
+      return ((operational / data.length) * 100).toFixed(2);
+    }
+
+    // Get current status
+    function getCurrentStatus(data) {
+      const lastStatus = data[data.length - 1];
+      if (lastStatus === 0) return { text: 'Operational', class: 'operational', color: 'var(--success)' };
+      if (lastStatus === 1) return { text: 'Degraded', class: 'degraded', color: 'var(--warning)' };
+      return { text: 'Outage', class: 'down', color: 'var(--danger)' };
+    }
+
+    // Create status bars
+    function createStatusBars(containerId, data) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      data.forEach((status, index) => {
+        const bar = document.createElement('div');
+        bar.className = 'status-bar';
+        
+        if (status === 0) bar.classList.add('operational');
+        else if (status === 1) bar.classList.add('degraded');
+        else bar.classList.add('outage');
+        
+        // Add tooltip
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        const date = new Date();
+        date.setDate(date.getDate() - (89 - index));
+        tooltip.textContent = date.toLocaleDateString() + ': ' + 
+          (status === 0 ? 'Operational' : status === 1 ? 'Degraded' : 'Outage');
+        bar.appendChild(tooltip);
+        
+        container.appendChild(bar);
+      });
+    }
+
+    // Update service status
+    function updateServiceStatus(serviceId, data) {
+      const uptime = calculateUptime(data);
+      const status = getCurrentStatus(data);
+      
+      // Update uptime percentage
+      document.getElementById(serviceId + 'Uptime').textContent = uptime + '%';
+      
+      // Update status badge
+      const statusElement = document.getElementById(serviceId + 'Status');
+      statusElement.className = 'service-status ' + status.class;
+      statusElement.innerHTML = `
+        <div class="status-dot" style="background: ${status.color};"></div>
+        <span>${status.text}</span>
+      `;
+      
+      // Create status bars
+      createStatusBars(serviceId + 'Bars', data);
+    }
+
+    // Initialize the page
+    function initializePage() {
+      // Generate mock data for each service
+      const services = ['dashboard', 'website', 'platform', 'rest'];
+      let allData = [];
+      
+      services.forEach(service => {
+        const data = generateStatusData();
+        updateServiceStatus(service, data);
+        allData = allData.concat(data);
+      });
+      
+      // Calculate overall uptime
+      const overallUptime = calculateUptime(allData);
+      document.getElementById('overallUptime').textContent = overallUptime + '%';
+      
+      // Update overall status
+      const hasOutage = allData.some(d => d === 2);
+      const hasDegraded = allData.some(d => d === 1);
+      
+      const overallStatusEl = document.getElementById('overallStatus');
+      const statusTextEl = document.getElementById('overallStatusText');
+      const statusIconEl = overallStatusEl.querySelector('.status-icon');
+      
+      if (hasOutage) {
+        overallStatusEl.className = 'overall-status down';
+        statusIconEl.className = 'status-icon down';
+        statusIconEl.textContent = '!';
+        statusTextEl.textContent = 'System Outage Detected';
+      } else if (hasDegraded) {
+        overallStatusEl.className = 'overall-status degraded';
+        statusIconEl.className = 'status-icon degraded';
+        statusIconEl.textContent = '⚠';
+        statusTextEl.textContent = 'Degraded Performance';
+      } else {
+        overallStatusEl.className = 'overall-status';
+        statusIconEl.className = 'status-icon operational';
+        statusIconEl.textContent = '✓';
+        statusTextEl.textContent = 'All Systems Operational';
+      }
+      
+      // Update last updated time
+      document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+    }
+
+    // Auto-refresh every 5 minutes
+    setInterval(() => {
+      initializePage();
+    }, 300000);
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', initializePage);
+  </script>
+</body>
+</html>

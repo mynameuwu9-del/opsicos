@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opsicos-app</title>
+    <link rel="icon" type="image/avif" href="/images/opsicos_circle.avif">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <style>
+        :root {
+            --primary-red: #8B0000;
+            --dark-red: #660000;
+            --bright-red: #FF0000;
+            --black: #000000;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #2a2a2a;
+            --light-gray: #cccccc;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--black);
+            min-height: 100vh;
+            color: var(--white);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 0, 0, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(139, 0, 0, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: pulse 10s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .download-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .download-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(139, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(139, 0, 0, 0.8), 0 0 70px rgba(139, 0, 0, 0.4); }
+        }
+        
+        .download-header h1 {
+            font-size: 3.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--white) 0%, var(--primary-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+        }
+        
+        .tagline {
+            font-size: 1.4em;
+            color: var(--light-gray);
+            margin-bottom: 30px;
+        }
+        
+        .main-content {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--medium-gray) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+        }
+        .app-preview {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .app-screenshot {
+            width: 250px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .app-screenshot:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .download-section {
+            text-align: center;
+            margin: 50px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            border-radius: 15px;
+            border: 2px solid var(--primary-red);
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--bright-red) 100%);
+            color: var(--white);
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5);
+            border: 2px solid var(--primary-red);
+        }
+        .download-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.7);
+            background: linear-gradient(135deg, var(--bright-red) 0%, var(--primary-red) 100%);
+        }
+        .download-info {
+            color: white;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .app-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+        .feature-card {
+            padding: 25px;
+            background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-red), var(--bright-red));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(139, 0, 0, 0.3);
+            border-color: var(--primary-red);
+        }
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        .feature-card h3 {
+            color: var(--primary-red);
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        .feature-card p {
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+        .requirements {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(102, 0, 0, 0.1) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+            border-left: 4px solid var(--primary-red);
+            border: 2px solid var(--dark-red);
+        }
+        .requirements h3 {
+            color: var(--white);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .requirements ul {
+            list-style: none;
+            padding: 0;
+        }
+        .requirements li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(139, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--light-gray);
+        }
+        .requirements li:last-child {
+            border-bottom: none;
+        }
+        .requirements li:before {
+            content: "✓";
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .qr-section {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+            border-radius: 12px;
+            margin: 40px 0;
+            border: 2px solid var(--dark-red);
+        }
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+        }
+        .installation-guide {
+            background: linear-gradient(135deg, var(--medium-gray) 0%, var(--dark-gray) 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid var(--dark-red);
+        }
+        .installation-guide h3 {
+            color: var(--white);
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        .installation-steps {
+            counter-reset: step;
+            padding: 0;
+        }
+        .installation-steps li {
+            list-style: none;
+            position: relative;
+            padding: 15px 20px 15px 60px;
+            margin-bottom: 20px;
+            background: var(--dark-gray);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            color: var(--light-gray);
+        }
+        .installation-steps li:hover {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(102, 0, 0, 0.1) 100%);
+            transform: translateX(5px);
+            border-color: var(--primary-red);
+        }
+        .installation-steps li:before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.3);
+        }
+        .security-note {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(102, 0, 0, 0.2) 100%);
+            border-radius: 12px;
+            border: 2px solid var(--primary-red);
+        }
+        .security-note h4 {
+            color: var(--primary-red);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .security-note code {
+            background: var(--dark-gray);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            display: block;
+            margin-top: 10px;
+            border: 1px solid var(--primary-red);
+            color: var(--light-gray);
+        }
+        .ad-space {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(102, 0, 0, 0.05) 100%);
+            border: 2px dashed var(--dark-red);
+            padding: 40px;
+            text-align: center;
+            margin: 30px 0;
+            border-radius: 10px;
+            color: var(--light-gray);
+        }
+        @media (max-width: 768px) {
+            .app-screenshot {
+                width: 100%;
+                max-width: 300px;
+            }
+            .download-header h1 {
+                font-size: 2em;
+            }
+            .download-btn {
+                padding: 15px 30px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="download-container">
+        <div class="download-header">
+            <img src="/images/opsicos_circle.avif" alt="Opsicos Logo" class="logo">
+            <h1>OPSICOS MOBILE</h1>
+            <p class="tagline">Control Your Discord Empire From Your Pocket</p>
+        </div>
+        
+        <div class="main-content">
+            <!-- Advertisement Space -->
+            <div class="ad-space">
+                <p>Advertisement Space - Contact admin for placement</p>
+            </div>
+            
+            <div class="app-preview">
+                <img src="/android-app/assets/screenshot-home.png" alt="Home Screen" class="app-screenshot">
+                <img src="/android-app/assets/screenshot-bots.png" alt="Bot Management" class="app-screenshot">
+                <img src="/android-app/assets/screenshot-chat.png" alt="AI Chat" class="app-screenshot">
+            </div>
+            
+            <div class="download-section">
+                <a href="/android-app/downloads/opsicos-latest.apk" 
+                   class="download-btn" 
+                   onclick="trackDownload(event)">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                    </svg>
+                    Download APK (v1.0.0)
+                </a>
+                <p class="download-info">
+                    Size: ~8 MB | Updated: <span id="update-date"></span> | Downloads: <span id="download-count">0</span>
+                </p>
+            </div>
+            
+            <div class="qr-section">
+                <h3>📲 Scan to Download</h3>
+                <div class="qr-code">
+                    <canvas id="qrcode"></canvas>
+                </div>
+                <p style="color: #666; font-size: 14px;">Scan with your phone to download directly</p>
+            </div>
+            
+            <div class="app-features">
+                <div class="feature-card">
+                    <h3>🤖 Complete Bot Control</h3>
+                    <p>Create, configure, start, and stop your Discord bots with a tap. Full control in your pocket.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🧠 35+ AI Models</h3>
+                    <p>Access GPT-4, Claude 3, Gemini, Llama, and dozens more. Test and compare models instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Real-time Analytics</h3>
+                    <p>Monitor bot performance, user engagement, and message statistics with beautiful charts.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💾 Knowledge Base</h3>
+                    <p>Manage your bot's knowledge bases, custom responses, and training data on the go.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ Lightning Fast</h3>
+                    <p>Optimized for speed and efficiency. Works smoothly even on 2GB RAM devices.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔒 Secure & Private</h3>
+                    <p>End-to-end encryption, secure API key storage, and certificate pinning for maximum security.</p>
+                </div>
+            </div>
+            
+            <!-- Advertisement Space -->
+            <div class="ad-space">
+                <p>Advertisement Space - Premium placement available</p>
+            </div>
+            
+            <div class="requirements">
+                <h3>📋 System Requirements</h3>
+                <ul>
+                    <li>Android 8.0 (API 26) or higher</li>
+                    <li>Minimum 2GB RAM (4GB recommended)</li>
+                    <li>50MB available storage space</li>
+                    <li>Active internet connection</li>
+                    <li>Valid Opsicos API key</li>
+                </ul>
+            </div>
+            
+            <div class="installation-guide">
+                <h3>🔧 Installation Guide</h3>
+                <ol class="installation-steps">
+                    <li>Click the download button above to get the APK file</li>
+                    <li>Open your phone's Settings → Security → Enable "Unknown Sources"</li>
+                    <li>Open your Downloads folder and tap on the APK file</li>
+                    <li>Tap "Install" when prompted and wait for installation</li>
+                    <li>Open the app and enter your personal API key</li>
+                    <li>Start managing your bots from anywhere!</li>
+                </ol>
+            </div>
+            
+            <!-- Advertisement Space -->
+            <div class="ad-space">
+                <p>Advertisement Space - Bottom banner available</p>
+            </div>
+            
+            <div class="security-note">
+                <h4>🔒 Security & Trust</h4>
+                <p>This APK is digitally signed and verified for your safety. Always download from our official website only.</p>
+                <code id="apk-hash">SHA-256: Calculating...</code>
+                <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                    We never collect personal data. Your API key is stored locally with encryption.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+        // Set current date
+        document.getElementById('update-date').textContent = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
+        // Generate QR code for download
+        if (typeof QRCode !== 'undefined') {
+            QRCode.toCanvas(document.getElementById('qrcode'), 
+                window.location.origin + '/android-app/downloads/opsicos-latest.apk', 
+                { 
+                    width: 180,
+                    margin: 2,
+                    color: {
+                        dark: '#8B0000',
+                        light: '#FFFFFF'
+                    }
+                }
+            );
+        }
+        
+        // Track downloads
+        async function trackDownload(event) {
+            try {
+                await fetch('/api/mobile/track-download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent 
+                    })
+                });
+                
+                // Update download count
+                const countElem = document.getElementById('download-count');
+                const currentCount = parseInt(countElem.textContent) || 0;
+                countElem.textContent = currentCount + 1;
+            } catch (error) {
+                console.error('Failed to track download:', error);
+            }
+        }
+        
+        // Fetch and display APK hash
+        async function loadAPKHash() {
+            try {
+                const response = await fetch('/android-app/downloads/opsicos-latest.apk.sha256');
+                if (response.ok) {
+                    const hash = await response.text();
+                    document.getElementById('apk-hash').textContent = 'SHA-256: ' + hash.trim();
+                } else {
+                    document.getElementById('apk-hash').textContent = 'SHA-256: APK pending upload';
+                }
+            } catch (error) {
+                document.getElementById('apk-hash').textContent = 'SHA-256: APK pending upload';
+            }
+        }
+        
+        // Load download count
+        async function loadDownloadCount() {
+            try {
+                const response = await fetch('/api/mobile/admin/stats');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('download-count').textContent = data.totalDownloads || 0;
+                }
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+        
+        // Initialize
+        loadAPKHash();
+        loadDownloadCount();
+    </script>
+</body>
+</html>
