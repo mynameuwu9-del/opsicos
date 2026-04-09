@@ -92,7 +92,7 @@ Each bot runs inside a shared Node.js process with enterprise-grade features lik
 │  ┌──────────────────┼──────────────────────────┐                │
 │  │           Service Layer                      │                │
 │  │  ┌────────────────┐  ┌───────────────────┐  │                │
-│  │  │DiscordBotSvc   │  │  A4F AI Service   │  │                │
+│  │  │DiscordBotSvc   │  │  AI Provider Svc  │  │                │
 │  │  │ (User Bots)    │  │  (Model Routing)  │  │                │
 │  │  ├────────────────┤  ├───────────────────┤  │                │
 │  │  │OfficialBotSvc  │  │  Email Service    │  │                │
@@ -121,7 +121,7 @@ Each bot runs inside a shared Node.js process with enterprise-grade features lik
 | **Authentication** | Passport.js + Discord OAuth2 |
 | **Discord** | discord.js v14 |
 | **Real-time** | Socket.io |
-| **AI Gateway** | A4F API + custom provider integrations |
+| **AI Gateway** | OpenAI-compatible APIs + custom provider integrations |
 | **Email** | Nodemailer |
 | **Frontend** | Static HTML/CSS/JS (no framework) |
 
@@ -134,7 +134,7 @@ Each bot runs inside a shared Node.js process with enterprise-grade features lik
 - **Node.js** v18 or higher
 - **MongoDB** (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
 - **Discord Application** ([Developer Portal](https://discord.com/developers/applications))
-- **A4F API Key** ([a4f.co](https://a4f.co)) — or another OpenAI-compatible provider
+- **API Key** (from any OpenAI-compatible provider like OpenRouter, OpenAI, Groq, etc.)
 
 ### 1. Clone the Repository
 
@@ -165,7 +165,7 @@ Open `.env` and fill in the **required** values:
 | `MONGODB_URI` | MongoDB connection string |
 | `SESSION_SECRET` | Random string for signing cookies |
 | `ADMIN_PASSWORD` | Password for the admin panel |
-| `A4F_PRIMARY_API_KEY` | API key for the AI model provider |
+| `PRIMARY_API_KEY` | API key for the primary AI model provider |
 
 > **💡 Tip:** Generate a session secret with:
 > ```bash
@@ -253,7 +253,7 @@ opsicos/
 │   │
 │   ├── services/             # Business logic
 │   │   ├── discordBotService.js    # Core bot lifecycle manager (~2500 lines)
-│   │   ├── a4fService.js           # AI model routing & API gateway
+│   │   ├── aiProviderService.js    # AI model routing & API gateway
 │   │   ├── officialBotService.js   # Platform slash commands & tickets
 │   │   ├── ticketService.js        # Support ticket system
 │   │   ├── emailService.js         # SMTP email sending

@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits, Partials, REST, Routes } = require('discord.js');
 const mongoose = require('mongoose');
-const a4fService = require('./a4fService');
+const aiProviderService = require('./aiProviderService');
 const Bot = require('../models/Bot');
 const Knowledge = require('../models/Knowledge');
 const MessageHistory = require('../models/MessageHistory');
@@ -1388,19 +1388,19 @@ class DiscordBotService {
 
           let response;
 
-          // Use A4F for all models with error handling - using FRESH config + smartness temperature
+          // Use AI Provider for all models with error handling - using FRESH config + smartness temperature
           try {
             console.log(`🐛 [${debugId}] 🤖 Bot ${currentBotConfig._id} using model: ${currentBotConfig.selectedModel}`);
             console.log(`🌡️ [${debugId}] Temperature: ${smartness.temperature}`);
             
-            response = await a4fService.createChatCompletion(
+            response = await aiProviderService.createChatCompletion(
               currentBotConfig.selectedModel,  // 🔥 Using fresh config!
               messages,
               { temperature: smartness.temperature }  // 🔥 Apply smartness temperature!
             );
             console.log(`🐛 [${debugId}] ✅ Got response from AI model`);
           } catch (apiError) {
-            addDebugLog('error', 'response-sending', `A4F API error occurred`, {
+            addDebugLog('error', 'response-sending', `API error occurred`, {
               debugId,
               error: apiError.message
             });

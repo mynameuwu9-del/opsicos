@@ -1,12 +1,12 @@
 const axios = require('axios');
 
-class A4FService {
+class AIProviderService {
   constructor() {
-    // A4F API credentials from environment variables
-    this.primaryApiKey = process.env.A4F_PRIMARY_API_KEY || '';
-    this.backupApiKey = process.env.A4F_BACKUP_API_KEY || '';
+    // Primary API credentials from environment variables
+    this.primaryApiKey = process.env.PRIMARY_API_KEY || '';
+    this.backupApiKey = process.env.BACKUP_API_KEY || '';
     this.currentApiKey = this.primaryApiKey;
-    this.baseUrl = process.env.A4F_BASE_URL || 'https://api.a4f.co/v1';
+    this.baseUrl = process.env.PRIMARY_BASE_URL || 'https://api.openai.com/v1';
 
     // Custom model providers with their own API configs
     this.customProviders = {
@@ -23,7 +23,7 @@ class A4FService {
     };
 
     if (!this.primaryApiKey) {
-      console.warn('⚠️ A4F_PRIMARY_API_KEY not set. AI model requests will fail.');
+      console.warn('⚠️ PRIMARY_API_KEY not set. AI model requests will fail.');
     }
   }
 
@@ -32,7 +32,7 @@ class A4FService {
    */
   switchToBackupKey() {
     if (this.currentApiKey === this.primaryApiKey) {
-      console.log('Switching to backup A4F API key due to rate limits');
+      console.log('Switching to backup API key due to rate limits');
       this.currentApiKey = this.backupApiKey;
     }
   }
@@ -54,7 +54,7 @@ class A4FService {
     try {
       return await apiCall(this.currentApiKey);
     } catch (error) {
-      console.error('A4F API Error:', error.response?.status, error.response?.data);
+      console.error('API Error:', error.response?.status, error.response?.data);
 
       // Check if it's a rate limit error and we're using primary key
       if (error.response?.status === 429 && this.currentApiKey === this.primaryApiKey) {
@@ -75,7 +75,7 @@ class A4FService {
   }
 
   /**
-   * Get available models from A4F API
+   * Get available models from API
    * @returns {Promise<Array>} List of available models
    */
   async getModels() {
@@ -92,7 +92,7 @@ class A4FService {
   }
 
   /**
-   * Send a chat completion request to A4F API or custom provider
+   * Send a chat completion request to API or custom provider
    * @param {string} model - The model ID to use
    * @param {Array} messages - Array of message objects
    * @param {Object} options - Additional options for the API call
@@ -124,7 +124,7 @@ class A4FService {
 
         return response.data;
       } catch (error) {
-        console.error('A4F API Error:', error.message);
+        console.error('API Error:', error.message);
         if (error.response) {
           console.error('Response status:', error.response.status);
           console.error('Response data:', error.response.data);
@@ -381,4 +381,4 @@ class A4FService {
   }
 }
 
-module.exports = new A4FService();
+module.exports = new AIProviderService();

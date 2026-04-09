@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const a4fService = require('../services/a4fService');
+const aiProviderService = require('../services/aiProviderService');
 const discordBotService = require('../services/discordBotService');
 const os = require('os');
 const fs = require('fs');
@@ -116,8 +116,8 @@ router.post('/chat', isAuthenticated, async (req, res) => {
 
     const modelId = model || 'provider-3/gpt-4o-mini';
 
-    // Use A4F for all models
-    const response = await a4fService.createChatCompletion(modelId, messages);
+    // Use AI Provider for all models
+    const response = await aiProviderService.createChatCompletion(modelId, messages);
 
     res.json(response);
   } catch (error) {
@@ -241,7 +241,7 @@ router.post('/playground/chat', isAuthenticated, async (req, res) => {
 
     systemPrompt += '\n\nRespond naturally as this bot character. This is a test environment.';
 
-    // Use the model ID directly (no mapping needed since we're using real A4F model IDs)
+    // Use the model ID directly (no mapping needed since we're using real API model IDs)
     const modelId = model || 'provider-3/gpt-4o-mini';
 
     // Create messages array for AI
@@ -253,9 +253,9 @@ router.post('/playground/chat', isAuthenticated, async (req, res) => {
     console.log(`🎮 Playground chat - Bot: ${bot.botName}, Model: ${model}, User: ${req.user.name}`);
 
     // Get AI response
-    const aiResponse = await a4fService.createChatCompletion(modelId, messages);
+    const aiResponse = await aiProviderService.createChatCompletion(modelId, messages);
 
-    // Extract content from A4F response structure
+    // Extract content from AI Response structure
     let responseContent = 'No response received';
     if (aiResponse && aiResponse.choices && aiResponse.choices.length > 0) {
       responseContent = aiResponse.choices[0].message.content;

@@ -162,7 +162,7 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 - **Never commit secrets** — all credentials must be loaded from environment variables
 - **Never commit `.env` files** — they are in `.gitignore` for a reason
 - **Adding a new AI model?** Update three places:
-  1. `src/services/a4fService.js` — display name maps
+  1. `src/services/aiProviderService.js` — display name maps
   2. `src/models/Bot.js` — `selectedModel` and `displayModelName` enums
   3. Custom provider config (if applicable)
 

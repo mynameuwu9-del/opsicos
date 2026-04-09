@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Bot = require('../models/Bot');
 const discordBotService = require('../services/discordBotService');
 const webhookService = require('../services/webhookService');
-const a4fService = require('../services/a4fService');
+const aiProviderService = require('../services/aiProviderService');
 
 // Debug endpoint to get status of all bots
 router.get('/status', async (req, res) => {
