@@ -38,6 +38,9 @@ stderr.log
 .rate-limits.json
 .bot-sessions.json
 
+# ─── Binaries ────────────────────────────────────────────────
+*.apk
+
 # ─── Misc ────────────────────────────────────────────────────
 cookies.txt
 .vercel

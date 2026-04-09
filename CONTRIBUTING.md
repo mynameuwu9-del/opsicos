@@ -161,11 +161,11 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 - **Never commit secrets** — all credentials must be loaded from environment variables
 - **Never commit `.env` files** — they are in `.gitignore` for a reason
-- **Adding a new AI model?** Update three places:
-  1. `src/services/aiProviderService.js` — display name maps
-  2. `src/models/Bot.js` — `selectedModel` and `displayModelName` enums
-  3. Custom provider config (if applicable)
+- **Run linting before committing**: `npm run lint`
+- **Run tests before committing**: `npm test`
+- **Adding a new AI model?** Update **one file only**:
+  1. `src/config/models.js` — the centralized model registry (Bot schema and API routes auto-derive from this)
 
 ---
 
-Thank you for contributing! 🎉
+Thank you for contributing!

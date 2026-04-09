@@ -1,0 +1,33 @@
+{
+  "env": {
+    "node": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "commonjs"
+  },
+  "rules": {
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-console": "off",
+    "semi": ["error", "always"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "comma-dangle": ["error", "only-multiline"],
+    "no-trailing-spaces": "error",
+    "eol-last": "error",
+    "no-multiple-empty-lines": ["error", { "max": 2 }],
+    "prefer-const": "error",
+    "no-var": "error",
+    "eqeqeq": ["error", "always"],
+    "curly": ["error", "multi-line"]
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "public/",
+    "android-app/",
+    "coverage/"
+  ]
+}

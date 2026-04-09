@@ -5,9 +5,9 @@ const BanList = require('../models/BanList');
 const User = require('../models/User');
 const Bot = require('../models/Bot');
 const MaintenanceMode = require('../models/MaintenanceMode');
-const Ticket = require('../models/Ticket');
 const SecurityService = require('../services/securityService');
 const discordBotService = require('../services/discordBotService');
+const logger = require('../config/logger');
 const axios = require('axios');
 
 // Admin password from environment variables
@@ -15,25 +15,11 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 
 // Session-based admin authentication middleware
 const requireAdminAuth = (req, res, next) => {
-  console.log('Admin auth check - session:', {
-    sessionExists: !!req.session,
-    isAdmin: req.session?.isAdmin,
-    sessionID: req.session?.id
-  });
-  
   if (req.session && req.session.isAdmin === true) {
     return next();
   }
-  
-  console.log('Admin auth failed - unauthorized request to:', req.path);
-  res.status(401).json({ 
-    error: 'Unauthorized. Please login to admin panel.',
-    debug: {
-      hasSession: !!req.session,
-      isAdmin: req.session?.isAdmin,
-      path: req.path
-    }
-  });
+
+  res.status(401).json({ error: 'Unauthorized. Please login to admin panel.' });
 };
 
 // Admin login
@@ -393,233 +379,6 @@ router.get('/stats', requireAdminAuth, async (req, res) => {
   } catch (error) {
     console.error('Error fetching stats:', error);
     res.status(500).json({ error: 'Failed to fetch statistics' });
-  }
-});
-
-// Ticket analytics overview
-router.get('/tickets/analytics', requireAdminAuth, async (req, res) => {
-  try {
-    const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const hourAgo = new Date(now.getTime() - 60 * 60 * 1000);
-    const weekStart = new Date(todayStart);
-    weekStart.setDate(todayStart.getDate() - 6);
-    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-
-    const [totalTickets, openTickets, closedTickets] = await Promise.all([
-      Ticket.countDocuments(),
-      Ticket.countDocuments({ status: 'open' }),
-      Ticket.countDocuments({ status: 'closed' })
-    ]);
-
-    const timeframeMap = {
-      lastHour: hourAgo,
-      today: todayStart,
-      lastWeek: weekStart,
-      lastMonth: monthStart
-    };
-
-    const timeframeStats = {};
-    await Promise.all(
-      Object.entries(timeframeMap).map(async ([key, startDate]) => {
-        const [created, closed] = await Promise.all([
-          Ticket.countDocuments({ createdAt: { $gte: startDate } }),
-          Ticket.countDocuments({ closedAt: { $ne: null, $gte: startDate } })
-        ]);
-
-        timeframeStats[key] = { created, closed };
-      })
-    );
-
-    const categoryBreakdown = await Ticket.aggregate([
-      {
-        $group: {
-          _id: '$category',
-          total: { $sum: 1 },
-          open: {
-            $sum: {
-              $cond: [{ $eq: ['$status', 'open'] }, 1, 0]
-            }
-          },
-          closed: {
-            $sum: {
-              $cond: [{ $eq: ['$status', 'closed'] }, 1, 0]
-            }
-          }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          category: '$_id',
-          total: 1,
-          open: 1,
-          closed: 1
-        }
-      },
-      { $sort: { total: -1 } }
-    ]);
-
-    const dailyActivity = await Ticket.aggregate([
-      {
-        $match: {
-          createdAt: {
-            $gte: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-          }
-        }
-      },
-      {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' },
-            day: { $dayOfMonth: '$createdAt' }
-          },
-          created: { $sum: 1 }
-        }
-      },
-      { $sort: { '_id.year': 1, '_id.month': 1, '_id.day': 1 } }
-    ]);
-
-    res.json({
-      totals: {
-        totalTickets,
-        openTickets,
-        closedTickets
-      },
-      timeframeStats,
-      categoryBreakdown,
-      dailyActivity
-    });
-  } catch (error) {
-    console.error('Error fetching ticket analytics:', error);
-    res.status(500).json({ error: 'Failed to fetch ticket analytics' });
-  }
-});
-
-// Ticket transcripts listing and search
-router.get('/tickets/transcripts', requireAdminAuth, async (req, res) => {
-  try {
-    const {
-      search = '',
-      page = 1,
-      limit = 20,
-      suggestionsOnly = 'false'
-    } = req.query;
-
-    const numericLimit = Math.min(Math.max(parseInt(limit, 10) || 20, 1), 100);
-    const numericPage = Math.max(parseInt(page, 10) || 1, 1);
-    const skip = (numericPage - 1) * numericLimit;
-
-    const query = {};
-    if (search) {
-      const regex = new RegExp(search, 'i');
-      query.$or = [
-        { ticketId: regex },
-        { 'creator.username': regex },
-        { 'creator.displayName': regex }
-      ];
-    }
-
-    const projection = 'ticketId creator status createdAt closedAt transcriptUrl messages';
-
-    const [tickets, total] = await Promise.all([
-      Ticket.find(query)
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(numericLimit)
-        .select(projection)
-        .lean(),
-      Ticket.countDocuments(query)
-    ]);
-
-    const formattedTickets = tickets.map(ticket => {
-      const messagesCount = Array.isArray(ticket.messages) ? ticket.messages.length : 0;
-      const formatted = {
-        ticketId: ticket.ticketId,
-        creator: ticket.creator,
-        status: ticket.status,
-        createdAt: ticket.createdAt,
-        closedAt: ticket.closedAt,
-        transcriptUrl: ticket.transcriptUrl || null,
-        messagesCount
-      };
-      return formatted;
-    });
-
-    const suggestions = search
-      ? Array.from(
-          new Set(
-            tickets.flatMap(ticket => [
-              ticket?.creator?.displayName,
-              ticket?.creator?.username,
-              ticket?.ticketId
-            ])
-          )
-        )
-          .filter(Boolean)
-          .slice(0, 10)
-      : [];
-
-    if (suggestionsOnly === 'true') {
-      return res.json({ suggestions });
-    }
-
-    res.json({
-      tickets: formattedTickets,
-      pagination: {
-        total,
-        page: numericPage,
-        limit: numericLimit,
-        totalPages: Math.ceil(total / numericLimit) || 1
-      },
-      suggestions
-    });
-  } catch (error) {
-    console.error('Error fetching ticket transcripts:', error);
-    res.status(500).json({ error: 'Failed to fetch ticket transcripts' });
-  }
-});
-
-// Ticket transcript detail
-router.get('/tickets/transcripts/:ticketId', requireAdminAuth, async (req, res) => {
-  try {
-    const { ticketId } = req.params;
-    const ticket = await Ticket.findOne({ ticketId }).lean();
-
-    if (!ticket) {
-      return res.status(404).json({ error: 'Ticket not found' });
-    }
-
-    const messages = Array.isArray(ticket.messages)
-      ? ticket.messages
-          .map(message => ({
-            ...message,
-            timestamp: message.timestamp ? new Date(message.timestamp) : null
-          }))
-          .sort((a, b) => {
-            const timeA = a.timestamp ? a.timestamp.getTime() : 0;
-            const timeB = b.timestamp ? b.timestamp.getTime() : 0;
-            return timeA - timeB;
-          })
-      : [];
-
-    res.json({
-      ticket: {
-        ticketId: ticket.ticketId,
-        creator: ticket.creator,
-        status: ticket.status,
-        createdAt: ticket.createdAt,
-        closedAt: ticket.closedAt,
-        closeReason: ticket.closeReason,
-        transcriptUrl: ticket.transcriptUrl || null,
-        messages,
-        messagesCount: messages.length
-      }
-    });
-  } catch (error) {
-    console.error('Error fetching ticket transcript detail:', error);
-    res.status(500).json({ error: 'Failed to fetch ticket transcript detail' });
   }
 });
 
@@ -1054,61 +813,7 @@ router.post('/bots/bulk-action', requireAdminAuth, async (req, res) => {
   }
 });
 
-// Emergency unban route (for testing)
-router.post('/emergency-unban', async (req, res) => {
-  try {
-    const { email, ip } = req.body;
-
-    if (email) {
-      // Unban user
-      await User.findOneAndUpdate({ email }, { banned: false, banReason: null });
-      // Remove from ban list
-      await BanList.deleteMany({ type: 'email', value: email });
-      console.log(`🔓 Emergency unban for email: ${email}`);
-    }
-
-    if (ip) {
-      // Remove IP ban
-      await BanList.deleteMany({ type: 'ip', value: ip });
-      console.log(`🔓 Emergency unban for IP: ${ip}`);
-    }
-
-    res.json({ success: true, message: 'Emergency unban completed' });
-  } catch (error) {
-    console.error('Error in emergency unban:', error);
-    res.status(500).json({ error: 'Failed to unban' });
-  }
-});
-
 // ==== MAINTENANCE MODE ROUTES ====
-
-// Debug route to test maintenance without auth
-router.post('/maintenance/debug-enable', async (req, res) => {
-  try {
-    console.log('DEBUG: Received request body:', req.body);
-    const { message, estimatedEndTime, reason } = req.body;
-    
-    const maintenanceMode = await MaintenanceMode.enable({
-      message: message || 'We are currently performing scheduled maintenance to improve your experience.',
-      estimatedEndTime: estimatedEndTime ? new Date(estimatedEndTime) : null,
-      enabledBy: 'Administrator',
-      reason: reason || 'Scheduled maintenance'
-    });
-    
-    console.log('🚨 DEBUG MAINTENANCE MODE ENABLED by admin');
-    console.log(`📝 Message: ${maintenanceMode.message}`);
-    console.log(`⏰ End time: ${maintenanceMode.estimatedEndTime || 'Not specified'}`);
-    
-    res.json({
-      success: true,
-      message: 'Maintenance mode enabled successfully',
-      maintenanceMode
-    });
-  } catch (error) {
-    console.error('DEBUG Error enabling maintenance mode:', error);
-    res.status(500).json({ error: 'Failed to enable maintenance mode', details: error.message });
-  }
-});
 
 // Get maintenance mode status
 router.get('/maintenance/status', requireAdminAuth, async (req, res) => {

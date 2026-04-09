@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { AI_MODELS } = require('../config/models');
+const logger = require('../config/logger');
 const aiProviderService = require('../services/aiProviderService');
 const discordBotService = require('../services/discordBotService');
 const os = require('os');
-const fs = require('fs');
 const path = require('path');
 
 // Middleware to check if user is authenticated
@@ -38,63 +39,7 @@ router.get('/models', isAuthenticated, async (req, res) => {
   res.set('Pragma', 'no-cache');
   
   try {
-    const models = [
-      // OpenAI Models
-      { id: 'provider-3/gpt-4o-mini', name: 'GPT-4o Mini', company: 'OpenAI', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg' },
-      { id: 'provider-3/gpt-5-nano', name: 'GPT-5 Nano', company: 'OpenAI', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg' },
-      { id: 'provider-1/gpt-oss-20b', name: 'GPT OSS 20B', company: 'OpenAI', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg' },
-      { id: 'provider-3/gpt-4.1-nano', name: 'GPT-4.1 Nano', company: 'OpenAI', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg' },
-
-      // DeepSeek Models
-      { id: 'provider-1/deepseek-r1-distill-qwen-1.5b', name: 'DeepSeek R1 Distill Qwen 1.5B', company: 'DeepSeek', logo: 'https://deepseek.com/favicon.ico' },
-      { id: 'provider-1/deepseek-v3.1', name: 'DeepSeek V3.1', company: 'DeepSeek', logo: 'https://deepseek.com/favicon.ico' },
-      { id: 'provider-1/deepseek-v3.1-turbo', name: 'DeepSeek V3.1 Turbo', company: 'DeepSeek', logo: 'https://deepseek.com/favicon.ico' },
-      { id: 'provider-1/deepseek-tng-r1t2-chimera', name: 'DeepSeek TNG R1T2 Chimera', company: 'DeepSeek', logo: 'https://deepseek.com/favicon.ico' },
-
-      // Google Models
-      { id: 'provider-1/gemma-3-4b-it', name: 'Gemma 3 4B IT', company: 'Google', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg' },
-      { id: 'provider-3/gemini-2.5-flash-lite-preview-09-2025', name: 'Gemini 2.5 Flash Lite Preview', company: 'Google', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg' },
-      { id: 'provider-6/gemma-3-27b-instruct', name: 'Gemma 3 27B Instruct', company: 'Google', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg' },
-      { id: 'provider-1/gemma-2-9b-it', name: 'Gemma 2 9B IT', company: 'Google', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg' },
-
-      // InferenceNet Models
-      { id: 'provider-6/cliptagger-12b', name: 'ClipTagger 12B', company: 'InferenceNet', logo: 'https://avatars.githubusercontent.com/u/132372032?s=200&v=4' },
-
-      // Meta Models
-      { id: 'provider-1/llama-4-scout-17b-16e-instruct', name: 'Llama 4 Scout 17B 16E Instruct', company: 'Meta', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg' },
-      { id: 'provider-1/llama-3.2-1b-instruct-fp-16', name: 'Llama 3.2 1B Instruct FP-16', company: 'Meta', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg' },
-      { id: 'provider-3/llama-4-scout', name: 'Llama 4 Scout', company: 'Meta', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg' },
-      { id: 'provider-1/deephermes-3-llama-3-8b-preview', name: 'DeepHermes 3 Llama 3 8B Preview', company: 'Meta', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg' },
-      { id: 'provider-1/shisa-v2-llama3.3-70b', name: 'Shisa V2 Llama3.3 70B', company: 'Meta', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/meta.svg' },
-
-      // Mistral Models
-      { id: 'provider-6/mistral-nemo-12b-instruct', name: 'Mistral Nemo 12B Instruct', company: 'Mistral', logo: 'https://mistral.ai/images/logo_hubc88c4ece131b91c7cb753f40e9e1cc5_2589_256x0_resize_q97_h2_lanczos_3.webp' },
-      { id: 'provider-1/mistralai-devstral-small-2505', name: 'MistralAI Devstral Small 2505', company: 'Mistral', logo: 'https://mistral.ai/images/logo_hubc88c4ece131b91c7cb753f40e9e1cc5_2589_256x0_resize_q97_h2_lanczos_3.webp' },
-      { id: 'provider-1/chutesai-devstral-small-2505', name: 'ChutesAI Devstral Small 2505', company: 'Mistral', logo: 'https://mistral.ai/images/logo_hubc88c4ece131b91c7cb753f40e9e1cc5_2589_256x0_resize_q97_h2_lanczos_3.webp' },
-      { id: 'provider-1/mistral-small-3.2-24b-instruct-2506', name: 'Mistral Small 3.2 24B Instruct 2506', company: 'Mistral', logo: 'https://mistral.ai/images/logo_hubc88c4ece131b91c7cb753f40e9e1cc5_2589_256x0_resize_q97_h2_lanczos_3.webp' },
-
-      // MoonShot AI Models
-      { id: 'provider-1/kimi-k2-instruct', name: 'Kimi K2 Instruct', company: 'MoonShot AI', logo: 'https://avatars.githubusercontent.com/u/142705063?s=200&v=4' },
-      { id: 'provider-1/kimi-vl-a3b-thinking', name: 'Kimi VL A3B Thinking', company: 'MoonShot AI', logo: 'https://avatars.githubusercontent.com/u/142705063?s=200&v=4' },
-
-      // Qwen Models
-      { id: 'provider-1/qwen3-4b-thinking-2507', name: 'Qwen3 4B Thinking 2507', company: 'Qwen', logo: 'https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/logo.jpeg' },
-      { id: 'provider-6/qwen2.5-7b-instruct', name: 'Qwen2.5 7B Instruct', company: 'Qwen', logo: 'https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/logo.jpeg' },
-      { id: 'provider-1/qwen3-8b', name: 'Qwen3 8B', company: 'Qwen', logo: 'https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/logo.jpeg' },
-      { id: 'provider-3/qwen-2.5-72b', name: 'Qwen 2.5 72B', company: 'Qwen', logo: 'https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen-VL/assets/logo.jpeg' },
-
-      // xAI Models
-      { id: 'provider-5/grok-4-0709', name: 'Grok 4 0709', company: 'xAI', logo: 'https://x.ai/favicon.ico' },
-
-      // Zhipu AI Models
-      { id: 'provider-1/glm-4.6', name: 'GLM 4.6', company: 'Zhipu AI', logo: 'https://open.bigmodel.cn/static/zhipuai.png' },
-      { id: 'glm-4.5v', name: 'GLM 4.5V', company: 'Zhipu AI', logo: 'https://open.bigmodel.cn/static/zhipuai.png' },
-
-      // Anthropic Models (Custom Router)
-      { id: 'claude-3-7-sonnet-20250219', name: 'Claude 3.7 Sonnet', company: 'Anthropic', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/anthropic.svg' }
-    ];
-
-    res.json(models);
+    res.json(AI_MODELS);
   } catch (error) {
     console.error('Error fetching models:', error);
     res.status(500).json({ error: 'Server error' });
@@ -456,196 +401,14 @@ router.get('/docs', (req, res) => {
   `);
 });
 
-/**
- * @route   GET /api/debug/message-locks
- * @desc    Get current message processing locks for debugging
- * @access  Public (for debugging)
- */
-router.get('/debug/message-locks', (req, res) => {
-  const discordBotService = require('../services/discordBotService');
-  const locks = discordBotService.getMessageProcessingLocks();
-  const activeBots = discordBotService.getActiveBots();
-  const diagnostics = discordBotService.getDiagnostics();
-
-  res.json({
-    timestamp: new Date().toISOString(),
-    locks: Array.from(locks.entries()).map(([key, value]) => ({
-      messageKey: key,
-      ...value,
-      age: Date.now() - value.timestamp
-    })),
-    lockCount: locks.size,
-    activeBots: activeBots, // getActiveBots() already returns a properly formatted array
-    activeBotsCount: activeBots.length,
-    diagnostics,
-    serverInfo: {
-      nodeVersion: process.version,
-      platform: process.platform,
-      uptime: process.uptime(),
-      memoryUsage: process.memoryUsage()
-    }
-  });
-});
-
-/**
- * @route   GET /api/debug/bot-lifecycle
- * @desc    Get detailed bot lifecycle and message processing logs
- * @access  Public (for debugging)
- */
-router.get('/debug/bot-lifecycle', (req, res) => {
-  const discordBotService = require('../services/discordBotService');
-  const logs = discordBotService.getDebugLogs();
-
-  res.json({
-    timestamp: new Date().toISOString(),
-    logs: logs.slice(-50), // Last 50 log entries
-    totalLogs: logs.length
-  });
-});
-
-/**
- * @route   POST /api/debug/clear-logs
- * @desc    Clear debug logs
- * @access  Public (for debugging)
- */
-router.post('/debug/clear-logs', (req, res) => {
-  const discordBotService = require('../services/discordBotService');
-  discordBotService.clearDebugLogs();
-
-  res.json({
-    success: true,
-    message: 'Debug logs cleared',
-    timestamp: new Date().toISOString()
-  });
-});
-
-/**
- * @route   POST /api/debug/clear-message-locks
- * @desc    Clear all message processing locks (emergency fix for duplicate responses)
- * @access  Public (for debugging)
- */
-router.post('/debug/clear-message-locks', (req, res) => {
-  const discordBotService = require('../services/discordBotService');
-  const clearedCount = discordBotService.clearMessageProcessingLocks();
-
-  res.json({
-    success: true,
-    message: `Cleared ${clearedCount} message processing locks`,
-    clearedCount,
-    timestamp: new Date().toISOString()
-  });
-});
-
-/**
- * @route   POST /api/debug/clear-message-locks/:botId
- * @desc    Clear message processing locks for a specific bot
- * @access  Public (for debugging)
- */
-router.post('/debug/clear-message-locks/:botId', (req, res) => {
-  const discordBotService = require('../services/discordBotService');
-  const clearedCount = discordBotService.clearMessageProcessingLocksForBot(req.params.botId);
-
-  res.json({
-    success: true,
-    message: `Cleared ${clearedCount} message processing locks for bot ${req.params.botId}`,
-    botId: req.params.botId,
-    clearedCount,
-    timestamp: new Date().toISOString()
-  });
-});
-
-/**
- * @route   POST /api/debug/nuclear-cleanup
- * @desc    Nuclear cleanup - destroy all Discord connections and clear everything (emergency fix for zombie instances)
- * @access  Public (for debugging)
- */
-router.post('/debug/nuclear-cleanup', async (req, res) => {
-  const discordBotService = require('../services/discordBotService');
-
-  try {
-    const result = await discordBotService.nuclearCleanup();
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: `Nuclear cleanup failed: ${error.message}`,
-      error: error.message,
-      timestamp: new Date().toISOString()
-    });
-  }
-});
-
-/**
- * @route   GET /api/debug/dm-logs
- * @desc    Get DM-specific debug logs
- * @access  Public (for debugging)
- */
-router.get('/debug/dm-logs', (req, res) => {
-  const discordBotService = require('../services/discordBotService');
-  const allLogs = discordBotService.getDebugLogs();
-
-  // Filter for DM-related logs
-  const dmLogs = allLogs.filter(log =>
-    log.message.toLowerCase().includes('dm') ||
-    log.message.toLowerCase().includes('direct message') ||
-    log.message.toLowerCase().includes('replytodms') ||
-    log.message.toLowerCase().includes('isdmbased') ||
-    log.source === 'dm-processing'
-  );
-
-  res.json({
-    timestamp: new Date().toISOString(),
-    dmLogs: dmLogs.slice(-30), // Last 30 DM-related logs
-    totalDmLogs: dmLogs.length,
-    allLogsCount: allLogs.length
-  });
-});
-
-/**
- * @route   GET /api/debug/bot-config/:id
- * @desc    Get current bot configuration for DM debugging
- * @access  Public (for debugging)
- */
-router.get('/debug/bot-config/:id', async (req, res) => {
-  try {
-    const Bot = require('../models/Bot');
-    const bot = await Bot.findById(req.params.id).select('-botToken');
-
-    if (!bot) {
-      return res.status(404).json({ error: 'Bot not found' });
-    }
-
-    const activeBots = discordBotService.getActiveBots();
-    const isRunning = activeBots.find(ab => ab.botId === req.params.id);
-
-    res.json({
-      botId: bot._id,
-      botName: bot.botName,
-      replyToDMs: bot.replyToDMs,
-      isActive: bot.isActive,
-      status: bot.status,
-      isRunningInMemory: !!isRunning,
-      selectedModel: bot.selectedModel,
-      displayModelName: bot.displayModelName,
-      personality: bot.personality,
-      tone: bot.tone,
-      messageHistoryLimit: bot.messageHistoryLimit,
-      lastError: bot.lastError,
-      updatedAt: bot.updatedAt,
-      createdAt: bot.createdAt
-    });
-  } catch (error) {
-    console.error('Error fetching bot config for debug:', error);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+// Debug endpoints removed — use application logs for diagnostics
 
 /**
  * @route   GET /api/system-monitor
  * @desc    Get real-time system monitoring data
- * @access  Public (but secret URL)
+ * @access  Private
  */
-router.get('/system-monitor', async (req, res) => {
+router.get('/system-monitor', isAuthenticated, async (req, res) => {
   try {
     // Get memory usage
     const totalMemory = os.totalmem();
